@@ -11,10 +11,19 @@ export default async function build() {
     path.join(DIST_PATH, "index.html")
   );
 
-  await Bun.build({
+  const result = await Bun.build({
     entrypoints: [path.join(SOURCE_PATH, "index.js")],
     outdir: DIST_PATH,
     target: "browser",
+    sourcemap: "inline",
   });
+
+  if (!result.success) {
+    console.error("Build failed");
+    for (const message of result.logs) {
+      // Bun will pretty print the message object
+      console.error(message);
+    }
+  }
 }
 
