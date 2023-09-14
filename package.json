@@ -1,0 +1,11 @@
+{
+  "name": "@ghostery/urlfilter2dnr",
+  "version": "0.0.1",
+  "author": "Ghostery GmbH.",
+  "description": "Converts url filters to declarative net request format",
+  "license": "MPL-2.0",
+  "scripts": {
+    "build": "bun scripts/build.js",
+    "serve": "bun --watch scripts/serve.js"
+  }
+}
