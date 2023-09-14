@@ -1,4 +1,4 @@
-import convertWithAdguard from './adguard-converter.js';
+import convertWithAdguard from './converters/adguard.js';
 
 const input = document.querySelector('#input textarea');
 const submitButton = document.querySelector('#input input[type=submit]');
