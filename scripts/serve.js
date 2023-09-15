@@ -8,18 +8,22 @@ const PORT = 3000;
 
 await build();
 
-const watcher = watch(SOURCE_PATH, async (event, filename) => {
-  console.log(`Detected ${event} in ${filename}`);
-  await build();
-});
+const watcher = watch(
+  SOURCE_PATH,
+  { recursive: true },
+  async (event, filename) => {
+    console.log(`Detected ${event} in ${filename}`);
+    await build();
+  }
+);
 
 Bun.serve({
   port: PORT,
   development: true,
   async fetch(req) {
     let filePath = new URL(req.url).pathname;
-    if (filePath === '/') {
-      filePath += 'index.html';
+    if (filePath === "/") {
+      filePath += "index.html";
     }
     const file = Bun.file(path.join(DIST_PATH, filePath));
     return new Response(file);
