@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ghostery urlfilter2dnr</title>
+  <title>@ghostery/urlfilter2dnr</title>
 </head>
 <body>
-  <h1>Ghostery urlfilter2dnr</h1>
+  <h1>Ghostery's DNR convertion test page</h1>
   <h2>Input</h2>
   <form id="input">
-    <label for="">Choose converter:</label>
-    <ul>
-      <li><input type="radio" />Adguard</li>
-    </ul>
     <textarea></textarea>
+    <br/>
     <input type="submit" value="Convert"></input>
   </form>
   <h2>Output</h2>
-  <pre id="output"></pre>
+  <table>
+    <tr>
+      <th>AdGuard</th>
+      <th>AdBlockPlus</th>
+    </tr>
+    <tr>
+      <td>
+        <textarea disabled cols="40" rows="20" id="output-adguard"></textarea>
+      </td>
+      <td>
+        <textarea disabled cols="40" rows="20" id="output-abp"></textarea>
+      </td>
+    </tr>
+  </table>
   <script type="module" src="./index.js"></script>
 </body>
 </html>
