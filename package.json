@@ -11,5 +11,8 @@
   "dependencies": {
     "@adguard/tsurlfilter": "^2.1.11",
     "@ghostery/abp2dnr": "ghostery/abp2dnr#9e52b185e03d2d24170daaa5de0832e473d4b09f"
+  },
+  "devDependencies": {
+    "@ghostery/trackerdb": "^1.0.36"
   }
 }

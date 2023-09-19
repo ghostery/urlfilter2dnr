@@ -1,22 +1,23 @@
 import * as AdGuardConverter from "@adguard/tsurlfilter/es/declarative-converter";
+import { normalizeFilter } from "./helpers.js";
 
 const converter = new AdGuardConverter.DeclarativeFilterConverter();
 
 class Filter {
-  constructor(content) {
-    this.content = content;
+  constructor(rules) {
+    this.content = rules.map((r => normalizeFilter(r)));
   }
 
   getId() {
     return 1;
   }
 
-  getContent() {
-    return Promise.resolve(this.content);
+  async getContent() {
+    return this.content;
   }
 
-  getRuleByIndex(index) {
-    return Promise.resolve(this.content[index]);
+  async getRuleByIndex(index) {
+    return this.content[index];
   }
 }
 
