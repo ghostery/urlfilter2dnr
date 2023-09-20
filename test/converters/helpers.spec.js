@@ -11,6 +11,14 @@ describe("normalizeFilter", () => {
     ).toEqual(
       "||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch"
     );
+
+    expect(
+      normalizeFilter(
+        "||test$param1$params2$param3"
+      )
+    ).toEqual(
+      "||test$param1,params2,param3"
+    );
   });
 
   it("replaces 3p with third-party", () => {

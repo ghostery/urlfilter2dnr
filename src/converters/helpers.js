@@ -1,6 +1,6 @@
 export function normalizeFilter(filter) {
-  let [front, back = ''] = filter.split("$");
-  let params = back.split('$').join(',').split(',');
+  let [front, ...back] = filter.split("$");
+  let params = back.join(',').split(',');
 
   params.forEach((param, index) => {
     if (param === '3p') {
@@ -17,7 +17,7 @@ export function normalizeFilter(filter) {
     front = front.toLowerCase();
   }
 
-  if (!back) {
+  if (back.length === 0) {
     return front;
   }
 
