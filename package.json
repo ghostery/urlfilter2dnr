@@ -5,14 +5,17 @@
   "description": "Converts url filters to declarative net request format",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "bun scripts/build.js",
-    "serve": "bun --watch scripts/serve.js"
+    "build": "bun ./scripts/build.js",
+    "serve": "bun --watch scripts/serve.js",
+    "test.unit": "bun test test/unit",
+    "test.e2e": "playwright test test/e2e/index.spec.js"
   },
   "dependencies": {
     "@adguard/tsurlfilter": "^2.1.11",
     "@ghostery/abp2dnr": "ghostery/abp2dnr#9e52b185e03d2d24170daaa5de0832e473d4b09f"
   },
   "devDependencies": {
-    "@ghostery/trackerdb": "^1.0.36"
+    "@ghostery/trackerdb": "^1.0.36",
+    "@playwright/test": "^1.38.0"
   }
 }

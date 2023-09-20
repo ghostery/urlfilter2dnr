@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { normalizeFilter } from "../../src/converters/helpers.js";
+import { normalizeFilter } from "../../../src/converters/helpers.js";
 
 describe("normalizeFilter", () => {
   it("format params", () => {

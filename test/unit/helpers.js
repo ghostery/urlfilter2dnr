@@ -1,7 +1,7 @@
 import { expect } from "bun:test";
 
-import convertWithAbp from "../src/converters/abp.js";
-import convertWithAdguard from "../src/converters/adguard.js";
+import convertWithAbp from "../../src/converters/abp.js";
+import convertWithAdguard from "../../src/converters/adguard.js";
 
 export function normalizeDNRRule(rule) {
   if (!rule) {

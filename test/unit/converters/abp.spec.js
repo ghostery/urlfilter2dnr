@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import convertWithAbp from '../../src/converters/abp.js';
+import convertWithAbp from '../../../src/converters/abp.js';
 
 describe('abp converter', () => {
   it('handles 3p rules', async () => {

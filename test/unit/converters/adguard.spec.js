@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import convertWithAdguard from '../../src/converters/adguard.js';
+import convertWithAdguard from '../../../src/converters/adguard.js';
 
 describe('adguard converter', () => {
   it("||t.a3cloud.net/AM-141112/tag.js", async () => {
