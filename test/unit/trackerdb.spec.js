@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import loadTrackerDB from "@ghostery/trackerdb";
 
-import { ROOT_PATH } from "../scripts/helpers/paths.js";
+import { ROOT_PATH } from "../../scripts/helpers/paths.js";
 import { testRule } from "./helpers.js";
 
 const engine = readFileSync(

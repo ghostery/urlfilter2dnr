@@ -7,7 +7,9 @@
   <h1>Ghostery's DNR convertion test page</h1>
   <h2>Input</h2>
   <form id="input">
-    <textarea></textarea>
+    <label>Filters</label>
+    <br/>
+    <textarea cols="60" rows="10"></textarea>
     <br/>
     <input type="submit" value="Convert"></input>
   </form>
@@ -18,11 +20,25 @@
       <th>AdBlockPlus</th>
     </tr>
     <tr>
+      <td colspan="2">Rules</td>
+    </tr>
+    <tr>
       <td>
         <textarea disabled cols="40" rows="20" id="output-adguard"></textarea>
       </td>
       <td>
         <textarea disabled cols="40" rows="20" id="output-abp"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">Errors</td>
+    </tr>
+    <tr>
+      <td>
+        <textarea disabled cols="40" rows="20" id="errors-adguard"></textarea>
+      </td>
+      <td>
+        <textarea disabled cols="40" rows="20" id="errors-abp"></textarea>
       </td>
     </tr>
   </table>

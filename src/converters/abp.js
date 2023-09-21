@@ -1,16 +1,29 @@
 import { convertFilter } from "@ghostery/abp2dnr";
-import { Filter } from 'adblockpluscore/lib/filterClasses';
-import { normalizeFilter } from "./helpers";
+import { Filter } from "adblockpluscore/lib/filterClasses";
+import { normalizeFilter, normalizeRule } from "./helpers";
 
-export default async function convert(rules) {
-  const dnrRules = [];
-  for (const rule of rules) {
-    const normalizedFilter = normalizeFilter(Filter.normalize(rule));
-    const filter = Filter.fromText(normalizedFilter);
-    for (const dnrRule of await convertFilter(filter, () => ({ isSupported: true }))) {
-      dnrRules.push(dnrRule);
+export default async function convert(filters) {
+  const rules = [];
+  const errors = [];
+  for (const filter of filters) {
+    try {
+      const normalizedFilter = normalizeFilter(Filter.normalize(filter));
+      const abpFilter = Filter.fromText(normalizedFilter);
+      const dnrRules = await convertFilter(abpFilter, () => ({
+        isSupported: true,
+      }));
+      if (dnrRules.length > 0) {
+        rules.push(...dnrRules);
+      } else {
+        throw new Error("Unknown problem");
+      }
+    } catch (e) {
+      errors.push(`Error: "${e.message}" in rule: "${filter}"`);
     }
   }
 
-  return dnrRules;
+  return {
+    rules: rules.map(normalizeRule),
+    errors,
+  };
 }

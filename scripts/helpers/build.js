@@ -15,7 +15,8 @@ export default async function build() {
     entrypoints: [path.join(SOURCE_PATH, "index.js")],
     outdir: DIST_PATH,
     target: "browser",
-    sourcemap: "inline",
+    minify: true,
+    sourcemap: "external",
   });
 
   if (!result.success) {
