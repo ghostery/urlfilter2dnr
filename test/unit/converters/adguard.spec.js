@@ -4,8 +4,8 @@ import convertWithAdguard from '../../../src/converters/adguard.js';
 
 describe('adguard converter', () => {
   it("||t.a3cloud.net/AM-141112/tag.js", async () => {
-    const [rule1] = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
-    expect(rule1).toEqual({
+    const { rules } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
+    expect(rules[0]).toEqual({
       action: {
         type: "block"
       },
@@ -20,8 +20,8 @@ describe('adguard converter', () => {
 
   // to be fixed with https://github.com/AdguardTeam/tsurlfilter/pull/109
   it.skip("/baynote(-observer)?([0-9]+)\.js/", async () => {
-    const [rule1] = await convertWithAdguard(['/baynote(-observer)?([0-9]+)\.js/']);
-    expect(rule1).toEqual({
+    const { rules } = await convertWithAdguard(['/baynote(-observer)?([0-9]+)\.js/']);
+    expect(rules[0]).toEqual({
       action: {
         type: "block"
       },
@@ -35,8 +35,8 @@ describe('adguard converter', () => {
   });
 
   it.skip("handles regexp with ?", async () => {
-    const [rule1] = await convertWithAdguard(['/a?/']);
-    expect(rule1).toEqual({
+    const { rules } = await convertWithAdguard(['/a?/']);
+    expect(rules[0]).toEqual({
       action: {
         type: "block"
       },

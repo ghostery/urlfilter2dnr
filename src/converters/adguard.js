@@ -24,6 +24,9 @@ class Filter {
 export default async function convert(rules) {
   const filter = new Filter(rules);
   const result = await converter.convert([filter]);
-  const { declarativeRules } = await result.ruleSets[0].serialize();
-  return declarativeRules;
+  const conversion = await result.ruleSets[0].serialize();
+  return {
+    rules: conversion.declarativeRules,
+    errors: result.errors,
+  };
 }

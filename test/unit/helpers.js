@@ -34,10 +34,10 @@ export function normalizeDNRRule(rule) {
 }
 
 export async function testRule(rule) {
-  const [adguardRule] = await convertWithAdguard([rule]);
-  const [abpRule] = await convertWithAbp([rule]);
+  const { rules: adguardRules } = await convertWithAdguard([rule]);
+  const { rules: abpRules } = await convertWithAbp([rule]);
   try {
-    expect(normalizeDNRRule(adguardRule)).toEqual(normalizeDNRRule(abpRule));
+    expect(normalizeDNRRule(adguardRules[0])).toEqual(normalizeDNRRule(abpRules[0]));
   } catch (e) {
     e.message += `
 Input filter: ${rule}
