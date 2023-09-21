@@ -24,12 +24,12 @@ $submitButton.addEventListener("click", async (ev) => {
   $errorsAbp.innerHTML = errorsAbp.join("\n");
 });
 
-window.addEventListener("message", async (message) => {
-  if (!message.data || message.data.action !== "convert") {
+window.addEventListener("message", async (event) => {
+  if (!event.data || event.data.action !== "convert") {
     return;
   }
 
-  const { converter, filters } = message.data;
+  const { converter, filters } = event.data;
 
   let rules, errors;
 
@@ -43,8 +43,8 @@ window.addEventListener("message", async (message) => {
     errors.push(e);
   }
 
-  message.source.postMessage({
+  event.source.postMessage({
     rules,
     errors,
-  });
+  }, event.origin);
 });
