@@ -17,3 +17,30 @@ submitButton.addEventListener('click', async (ev) => {
   outputAbp.innerHTML = JSON.stringify(convertedRulesAbp, null, 2);
 });
 
+
+window.addEventListener('message', async (message) => {
+  if (!message.data || message.data.action !== 'convert') {
+    return;
+  }
+
+  const { converter, filters } = message.data;
+
+  let rules;
+  const errors = [];
+
+  try {
+    if (converter === 'adguard') {
+      rules = await convertWithAdguard(filters);
+    } else if (converter == 'abp') {
+      rules = await convertWithAbp(filters);
+    }
+  } catch (e) {
+    errors.push(e);
+  }
+
+  message.source.postMessage({
+    rules,
+    errors,
+  });
+});
+
