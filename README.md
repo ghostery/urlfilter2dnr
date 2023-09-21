@@ -42,6 +42,12 @@ bun run test.unit
 bun run test.e2e
 ```
 
+NOTE: to run e2e tests playwright needs to install instumented browser. To do that run:
+
+```sh
+bunx playwright install --with-deps
+```
+
 ## postMessage API
 
 The conversion tool can be used in any page or web-extension when embeded in an iframe.
