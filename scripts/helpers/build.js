@@ -25,6 +25,7 @@ export default async function build() {
       // Bun will pretty print the message object
       console.error(message);
     }
+    throw new Error(result.logs.join('\n'));
   }
 }
 

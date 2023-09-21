@@ -13,7 +13,11 @@ const watcher = watch(
   { recursive: true },
   async (event, filename) => {
     console.log(`Detected ${event} in ${filename}`);
-    await build();
+    try {
+      await build();
+    } catch (e) {
+      // no need to do anything as build logs errors already
+    }
   }
 );
 
