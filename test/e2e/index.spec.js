@@ -62,6 +62,7 @@ test.describe("converts rules with postMessage", () => {
           {
             priority: 1000,
             condition: {
+              isUrlFilterCaseSensitive: false,
               urlFilter: "||example.com",
             },
             action: {

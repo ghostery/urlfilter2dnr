@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { normalizeFilter } from "../../../src/converters/helpers.js";
+import { normalizeFilter, normalizeRule } from "../../../src/converters/helpers.js";
 
 describe("normalizeFilter", () => {
   it("format params", () => {
@@ -44,6 +44,58 @@ describe("normalizeFilter", () => {
       expect(
         normalizeFilter("TEST$match-case")
       ).toEqual("TEST$match-case");
+    });
+  });
+});
+
+describe('normalizeRule', () => {
+  it('does nothing for empty rules', () => {
+    expect(normalizeRule(undefined)).toEqual(undefined);
+  });
+
+  describe('with urlFilter', () => {
+    it('sets isUrlFilterCaseSensitive default value', () => {
+      expect(normalizeRule({
+        condition: {},
+      })).toEqual({
+        condition: {},
+      });
+      expect(normalizeRule({
+        condition: {
+          urlFilter: 'test',
+        },
+      })).toEqual({
+        condition: {
+          urlFilter: 'test',
+          isUrlFilterCaseSensitive: false,
+        },
+      });
+    });
+
+    it("removes trailing *", () => {
+      expect(normalizeRule({
+        condition: {
+          urlFilter: "test*",
+        },
+      })).toEqual({
+        condition: {
+          isUrlFilterCaseSensitive: false,
+          urlFilter: "test",
+        },
+      });
+    })
+  })
+
+
+  it('wraps regex rules in //', () => {
+    expect(normalizeRule({
+      condition: {
+        regexFilter: 'test',
+      },
+    })).toEqual({
+      condition: {
+        regexFilter: '/test/',
+      },
     });
   });
 });

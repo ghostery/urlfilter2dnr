@@ -1,5 +1,5 @@
 import * as AdGuardConverter from "@adguard/tsurlfilter/es/declarative-converter";
-import { normalizeFilter } from "./helpers.js";
+import { normalizeFilter, normalizeRule } from "./helpers.js";
 
 const converter = new AdGuardConverter.DeclarativeFilterConverter();
 
@@ -26,7 +26,7 @@ export default async function convert(rules) {
   const result = await converter.convert([filter]);
   const conversion = await result.ruleSets[0].serialize();
   return {
-    rules: conversion.declarativeRules,
+    rules: conversion.declarativeRules.map(normalizeRule),
     errors: result.errors,
   };
 }

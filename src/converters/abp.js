@@ -1,6 +1,6 @@
 import { convertFilter } from "@ghostery/abp2dnr";
 import { Filter } from "adblockpluscore/lib/filterClasses";
-import { normalizeFilter } from "./helpers";
+import { normalizeFilter, normalizeRule } from "./helpers";
 
 export default async function convert(filters) {
   const rules = [];
@@ -23,7 +23,7 @@ export default async function convert(filters) {
   }
 
   return {
-    rules,
+    rules: rules.map(normalizeRule),
     errors,
   };
 }

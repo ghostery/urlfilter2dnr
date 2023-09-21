@@ -23,3 +23,31 @@ export function normalizeFilter(filter) {
 
   return `${front}$${params.join(',')}`;
 }
+
+export function normalizeRule(rule) {
+  if (!rule) {
+    return;
+  }
+  const newRule = structuredClone(rule);
+
+  if (newRule.condition && newRule.condition.urlFilter) {
+    if (newRule.condition.urlFilter.endsWith("*")) {
+      newRule.condition.urlFilter = newRule.condition.urlFilter.slice(0, -1);
+    }
+    if (newRule.condition.isUrlFilterCaseSensitive === undefined) {
+      newRule.condition.isUrlFilterCaseSensitive = false;
+    }
+  }
+
+  if (
+    newRule.condition &&
+    newRule.condition.regexFilter &&
+    !(
+      newRule.condition.regexFilter.startsWith("/") &&
+      newRule.condition.regexFilter.endsWith("/")
+    )
+  ) {
+    newRule.condition.regexFilter = `/${newRule.condition.regexFilter}/`;
+  }
+  return newRule;
+}
