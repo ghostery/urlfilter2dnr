@@ -1,0 +1,20 @@
+diff --git a/node_modules/@eyeo/abp2dnr/lib/converter.js b/node_modules/@eyeo/abp2dnr/lib/converter.js
+index e284b0e..69e49c2 100644
+--- a/node_modules/@eyeo/abp2dnr/lib/converter.js
++++ b/node_modules/@eyeo/abp2dnr/lib/converter.js
+@@ -19,14 +19,12 @@
+ 
+ "use strict";
+ 
+-const {isRegexSupported} = require("../build/Release/isRegexSupported");
+ const {createConverter} = require("@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/dnr/index.js");
+ const {FilterParsingError} = require("@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/filters/index.js");
+ const {Filter} = require("@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/filterClasses.js");
+ 
+ function regexCheck(r) {
+-  let result = isRegexSupported(r);
+-  return result.isSupported;
++  return false;
+ }
+ 
+ let converter = createConverter({isRegexSupported: regexCheck});

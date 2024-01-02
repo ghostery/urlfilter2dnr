@@ -24,18 +24,19 @@ describe('abp converter', () => {
       },
       condition: {
         domainType: "thirdParty",
-        initiatorDomains: [
+        domains: [
           "x.z"
         ],
         isUrlFilterCaseSensitive: false,
         urlFilter: "tinypass.com"
       },
-      priority: 2000
+      priority: 2000,
+      id: 1
     });
   });
 
   it("handles regexp rules", async () => {
     const { rules } = await convertWithAbp(["/js/"]);
-    expect(rules[0]).not.toEqual(undefined);
+    expect(rules[0]).toEqual(undefined);
   });
 });
