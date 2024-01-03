@@ -37,6 +37,6 @@ describe('abp converter', () => {
 
   it("handles regexp rules", async () => {
     const { rules } = await convertWithAbp(["/js/"]);
-    expect(rules[0]).toEqual(undefined);
+    expect(rules[0]).not.toEqual(undefined);
   });
 });

@@ -8,17 +8,14 @@
     "build": "bun ./scripts/build.js",
     "serve": "bun --watch scripts/serve.js",
     "test.unit": "bun test test/unit",
-    "test.e2e": "playwright test test/e2e/index.spec.js",
-    "postinstall": "patch-package"
+    "test.e2e": "playwright test test/e2e/index.spec.js"
   },
   "dependencies": {
     "@adguard/tsurlfilter": "^2.1.11",
-    "@eyeo/abp2dnr": "^1.0.0",
     "@eyeo/webext-ad-filtering-solution": "^1.2.0"
   },
   "devDependencies": {
     "@ghostery/trackerdb": "^1.0.36",
-    "@playwright/test": "^1.38.0",
-    "patch-package": "^8.0.0"
+    "@playwright/test": "^1.38.0"
   }
 }
