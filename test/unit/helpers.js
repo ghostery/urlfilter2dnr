@@ -9,16 +9,6 @@ function normalize(rule) {
   }
   delete rule.priority;
   delete rule.id;
-  if (rule.condition) {
-    if (rule.condition.excludedDomains) {
-      rule.condition.excludedInitiatorDomains = rule.condition.excludedDomains;
-      delete rule.condition.excludedDomains;
-    }
-    if (rule.condition.domains) {
-      rule.condition.initiatorDomains = rule.condition.domains;
-      delete rule.condition.domains;
-    }
-  }
   return rule;
 }
 

@@ -24,7 +24,7 @@ describe('abp converter', () => {
       },
       condition: {
         domainType: "thirdParty",
-        domains: [
+        initiatorDomains: [
           "x.z"
         ],
         isUrlFilterCaseSensitive: false,
