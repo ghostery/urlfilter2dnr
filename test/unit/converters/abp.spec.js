@@ -30,7 +30,8 @@ describe('abp converter', () => {
         isUrlFilterCaseSensitive: false,
         urlFilter: "tinypass.com"
       },
-      priority: 2000
+      priority: 2000,
+      id: 1
     });
   });
 

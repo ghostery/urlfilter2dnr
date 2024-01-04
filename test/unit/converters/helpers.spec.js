@@ -86,7 +86,6 @@ describe('normalizeRule', () => {
     })
   })
 
-
   it('wraps regex rules in //', () => {
     expect(normalizeRule({
       condition: {
@@ -95,6 +94,30 @@ describe('normalizeRule', () => {
     })).toEqual({
       condition: {
         regexFilter: '/test/',
+      },
+    });
+  });
+
+  it('replaces domains with initiatorDomains', () => {
+    expect(normalizeRule({
+      condition: {
+        domains: ['test'],
+      },
+    })).toEqual({
+      condition: {
+        initiatorDomains: ['test'],
+      },
+    });
+  });
+
+  it('replaces excludedDomains with excludedInitiatorDomains', () => {
+    expect(normalizeRule({
+      condition: {
+        excludedDomains: ['test'],
+      },
+    })).toEqual({
+      condition: {
+        excludedInitiatorDomains: ['test'],
       },
     });
   });

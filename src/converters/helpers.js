@@ -49,5 +49,17 @@ export function normalizeRule(rule) {
   ) {
     newRule.condition.regexFilter = `/${newRule.condition.regexFilter}/`;
   }
+
+  if (newRule.condition && newRule.condition.excludedDomains) {
+    newRule.condition.excludedInitiatorDomains =
+      newRule.condition.excludedDomains;
+    delete newRule.condition.excludedDomains;
+  }
+
+  if (newRule.condition && newRule.condition.domains) {
+    newRule.condition.initiatorDomains = newRule.condition.domains;
+    delete newRule.condition.domains;
+  }
+
   return newRule;
 }
