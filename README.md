@@ -7,7 +7,7 @@ The tool is publicaly available on a github [page](https://ghostery.github.io/ur
 ## Converters
 
 * AdGuard - [@adguard/tsurlfilter](https://github.com/AdguardTeam/tsurlfilter) licenses under [GPLv3](https://github.com/AdguardTeam/tsurlfilter/blob/master/LICENSE)
-* AdBlockPlus - [@adguard/tsurlfilter](https://github.com/kzar/abp2dnr) licenses under [GPLv3](https://github.com/kzar/abp2dnr/blob/main/LICENSE.txt)
+* AdBlockPlus - [@eyeo/abp2dnr](https://gitlab.com/eyeo/adblockplus/abc/abp2dnr) licenses under [GPLv3](https://gitlab.com/eyeo/adblockplus/abc/abp2dnr/-/blob/main/LICENSE.txt?ref_type=heads)
 
 ## Local development
 
