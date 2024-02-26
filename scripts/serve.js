@@ -14,7 +14,7 @@ const watcher = watch(
   async (event, filename) => {
     console.log(`Detected ${event} in ${filename}`);
     try {
-      await build();
+      await build({ debug: true });
     } catch (e) {
       // no need to do anything as build logs errors already
     }
