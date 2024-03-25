@@ -13,7 +13,7 @@ const createFilter = (
   );
 };
 
-export default async function convert(rules, { resourcesPath }) {
+export default async function convert(rules, { resourcesPath } = {}) {
   const filter = createFilter(rules.map(normalizeFilter));
   const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();

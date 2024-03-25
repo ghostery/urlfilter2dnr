@@ -13,9 +13,11 @@ function normalize(rule) {
 }
 
 export async function testRule(rule) {
-  const { rules: adguardRules } = await convertWithAdguard([rule]);
-  const { rules: abpRules } = await convertWithAbp([rule]);
   try {
+    const { rules: adguardRules } = await convertWithAdguard([rule]);
+    const { rules: abpRules } = await convertWithAbp([rule]);
+
+    expect(adguardRules[0]).not.toBe(undefined);
     expect(normalize(adguardRules[0])).toEqual(normalize(abpRules[0]));
   } catch (e) {
     e.message += `

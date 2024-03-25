@@ -30,7 +30,6 @@ export default async function convert(filters) {
         throw new Error("Unknown problem");
       }
     } catch (e) {
-      console.error(e);
       errors.push(`Error: "${e.message}" in rule: "${filter}"`);
     }
   }
