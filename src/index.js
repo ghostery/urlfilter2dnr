@@ -8,12 +8,16 @@ const $outputAbp = document.querySelector("#output-abp");
 const $errorsAdguard = document.querySelector("#errors-adguard");
 const $errorsAbp = document.querySelector("#errors-abp");
 
+const ADGUARD_CONVERTER_OPTIONS = {
+  resourcesPath: "/web_accessible_resources",
+};
+
 $submitButton.addEventListener("click", async (ev) => {
   ev.preventDefault();
-  const rules = $input.value.split("\n");
+  const rules = $input.value.split("\n").filter(Boolean);
 
   const { rules: convertedRulesAdguard, errors: errorsAdguard } =
-    await convertWithAdguard(rules);
+    await convertWithAdguard(rules, ADGUARD_CONVERTER_OPTIONS);
   const { rules: convertedRulesAbp, errors: errorsAbp } = await convertWithAbp(
     rules
   );
@@ -35,7 +39,10 @@ window.addEventListener("message", async (event) => {
 
   try {
     if (converter === "adguard") {
-      ({ rules, errors } = await convertWithAdguard(filters));
+      ({ rules, errors } = await convertWithAdguard(
+        filters,
+        ADGUARD_CONVERTER_OPTIONS
+      ));
     } else if (converter == "abp") {
       ({ rules, errors } = await convertWithAbp(filters));
     }
@@ -43,8 +50,11 @@ window.addEventListener("message", async (event) => {
     errors.push(e);
   }
 
-  event.source.postMessage({
-    rules,
-    errors,
-  }, event.origin);
+  event.source.postMessage(
+    {
+      rules,
+      errors,
+    },
+    event.origin
+  );
 });

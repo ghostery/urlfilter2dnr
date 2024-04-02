@@ -11,8 +11,8 @@
     "test.e2e": "playwright test test/e2e/index.spec.js"
   },
   "dependencies": {
-    "@adguard/tsurlfilter": "^2.1.11",
-    "@eyeo/webext-ad-filtering-solution": "^1.2.0"
+    "@adguard/tsurlfilter": "2.2.15",
+    "@eyeo/webext-ad-filtering-solution": "1.5.0"
   },
   "devDependencies": {
     "@ghostery/trackerdb": "^1.0.36",

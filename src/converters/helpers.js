@@ -1,10 +1,16 @@
-export function normalizeFilter(filter) {
+export const DEFAULT_PARAM_MAPPING = {
+  '3p': 'third-party',
+};
+
+export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
   let [front, ...back] = filter.split("$");
   let params = back.join(',').split(',');
 
   params.forEach((param, index) => {
-    if (param === '3p') {
-      params[index] = 'third-party';
+    const [key, value] = param.split('=');
+    const alias = mapping[key];
+    if (alias) {
+      params[index] = value ? `${alias}=${value}` : alias;
     }
   });
   // remove duplicates
