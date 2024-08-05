@@ -1,3 +1,53 @@
+import * as path from 'node:path'
+import * as redirects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' }
+
+function generateResourcesMapping() {
+  const resourcesMapping = new Map();
+
+  function getPreferredResource(aliases) {
+    for (let i = 0; i < aliases.length; i++) {
+      if (!allowedResourceExtensions.includes(aliases[i].split('.').pop())) {
+        continue;
+      }
+
+      // Skip manually created uBO aliases by AdGuard
+      if (aliases[i].startsWith('ubo-')) {
+        continue;
+      }
+
+      return aliases[i];
+    }
+
+    return null;
+  }
+
+  for (const redirect of redirects) {
+    // Skip, in case of AdGuard-only resource
+    if (redirect.aliases === undefined) {
+      continue;
+    }
+
+    const preferredResourceName = getPreferredResource(redirect.aliases);
+
+    // Skip, in case of safe redirect resource name that's safe to use wasn't found
+    if (preferredResourceName === null) {
+      continue;
+    }
+
+    // Register to mapping
+    resourcesMapping.set(redirect.title, preferredResourceName);
+    for (const alias of redirect.aliases) {
+      if (alias !== preferredResourceName) {
+        resourcesMapping.set(alias, preferredResourceName);
+      }
+    }
+  }
+
+  return resourcesMapping;
+}
+
+export const RESOURCES_MAPPING = generateResourcesMapping();
+
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
 };
@@ -65,6 +115,16 @@ export function normalizeRule(rule) {
   if (newRule.condition && newRule.condition.domains) {
     newRule.condition.initiatorDomains = newRule.condition.domains;
     delete newRule.condition.domains;
+  }
+
+  if (newRule.action && newRule.action.type === 'redirect') {
+    const filename = path.basename(newRule.action.redirect.extensionPath);
+    const preferredFilename = RESOURCES_MAPPING.get(filename)
+
+    if (preferredFilename !== undefined) {
+      newRule.action.redirect.extensionPath =
+        path.dirname(newRule.action.redirect.extensionPath) + '/' + preferredFilename;
+    }
   }
 
   return newRule;
