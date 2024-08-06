@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { normalizeFilter, normalizeRule } from "../../../src/converters/helpers.js";
+import { generateResourcesMapping, normalizeFilter, normalizeRule } from "../../../src/converters/helpers.js";
 
 describe("normalizeFilter", () => {
   it("format params", () => {
@@ -120,5 +120,15 @@ describe('normalizeRule', () => {
         excludedInitiatorDomains: ['test'],
       },
     });
+  });
+});
+
+describe('generateResourcesMapping', () => {
+  const mapping = generateResourcesMapping();
+
+  it('filters resources without file extension', () => {
+    for (const destination of mapping.values()) {
+      expect(destination.match(/\w+\.\w+|empty/)).not.toBe(null);
+    }
   });
 });
