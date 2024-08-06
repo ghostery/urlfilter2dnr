@@ -121,6 +121,31 @@ describe('normalizeRule', () => {
       },
     });
   });
+
+  it('replaces extensionPath respecting existing dirname', () => {
+    expect(normalizeRule({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/rule_resources/redirects/alias',
+        },
+      },
+    }, {
+      resourcesMapping: new Map([
+        [
+          'alias',
+          'test.js',
+        ],
+      ]),
+    })).toEqual({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/rule_resources/redirects/test.js',
+        },
+      },
+    });
+  });
 });
 
 describe('generateResourcesMapping', () => {
