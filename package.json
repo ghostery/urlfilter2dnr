@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@adguard/scriptlets": "^1.11.16",
-    "@adguard/tsurlfilter": "2.2.15",
+    "@adguard/tsurlfilter": "2.2.23",
     "@eyeo/webext-ad-filtering-solution": "1.5.0"
   },
   "devDependencies": {

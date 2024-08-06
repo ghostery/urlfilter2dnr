@@ -1,8 +1,19 @@
 import * as path from 'node:path'
-import * as redirects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' }
+import redirects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' }
 
-function generateResourcesMapping() {
+export function generateResourcesMapping() {
   const resourcesMapping = new Map();
+  const allowedResourceExtensions = [
+    'html',
+    'js',
+    'css',
+    'mp4',
+    'mp3',
+    'xml',
+    'txt',
+    'json',
+    'empty',
+  ];
 
   function getPreferredResource(aliases) {
     for (let i = 0; i < aliases.length; i++) {
@@ -46,10 +57,10 @@ function generateResourcesMapping() {
   return resourcesMapping;
 }
 
-export const RESOURCES_MAPPING = generateResourcesMapping();
-
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
+  'xhr': 'xmlhttprequest',
+  'frame': 'subdocument'
 };
 
 export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
@@ -80,7 +91,9 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule) {
+export const DEFAULT_RESOURCE_MAPPING = generateResourcesMapping();
+
+export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCE_MAPPING } = {}) {
   if (!rule) {
     return;
   }
@@ -119,7 +132,7 @@ export function normalizeRule(rule) {
 
   if (newRule.action && newRule.action.type === 'redirect') {
     const filename = path.basename(newRule.action.redirect.extensionPath);
-    const preferredFilename = RESOURCES_MAPPING.get(filename)
+    const preferredFilename = resourcesMapping.get(filename);
 
     if (preferredFilename !== undefined) {
       newRule.action.redirect.extensionPath =
