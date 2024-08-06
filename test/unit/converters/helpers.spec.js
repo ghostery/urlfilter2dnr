@@ -149,9 +149,9 @@ describe('normalizeRule', () => {
 });
 
 describe('generateResourcesMapping', () => {
-  const mapping = generateResourcesMapping();
-
   it('filters resources without file extension', () => {
+    const mapping = generateResourcesMapping();
+
     for (const destination of mapping.values()) {
       expect(destination.match(/\w+\.\w+|empty/)).not.toBe(null);
     }
