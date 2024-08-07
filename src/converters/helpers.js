@@ -16,21 +16,11 @@ export function generateResourcesMapping() {
   ];
 
   function getPreferredResource(aliases) {
-    for (let i = 0; i < aliases.length; i++) {
-      if (!allowedResourceExtensions.includes(aliases[i].split('.').pop())) {
-        continue;
-      }
-
-      // Skip manually created uBO aliases by AdGuard
-      if (aliases[i].startsWith('ubo-')) {
-        continue;
-      }
-
-      return aliases[i];
-    }
-
-    return null;
-  }
+// ignore non-supported files and manually created uBO aliases by AdGuard
+return aliases.find(alias => {
+  const extension = alias.split('.').pop();
+  return allowedResourceExtensions.includes(extension) && !alias.startsWith('ubo-');
+});
 
   for (const redirect of redirects) {
     // Skip, in case of AdGuard-only resource
