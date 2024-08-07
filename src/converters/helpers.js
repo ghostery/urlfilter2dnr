@@ -5,7 +5,7 @@ function getPathBasename(path) {
   if (lastIndex === -1) {
     return path;
   }
-  return path.slice(lastIndex);
+  return path.slice(lastIndex + 1);
 }
 
 function getPathDirname(path) {
@@ -32,6 +32,8 @@ const allowedResourceExtensions = [
   'xml',
   'txt',
   'json',
+  'png',
+  'gif',
   'empty',
 ];
 
@@ -39,8 +41,30 @@ function getPreferredResource(aliases) {
   // ignore non-supported files and manually created uBO aliases by AdGuard
   return aliases.find(alias => {
     const extension = alias.split('.').pop();
-    return allowedResourceExtensions.includes(extension) && !alias.startsWith('ubo-');
+    return extension !== undefined &&
+      allowedResourceExtensions.includes(extension) &&
+      !alias.startsWith('ubo-') &&
+      !alias.includes('-transparent');
   });
+}
+
+function getFileExtensionByContentType(contentType) {
+  if (contentType.includes(';')) {
+    contentType = contentType.slice(0, contentType.indexOf(';'));
+  }
+  switch (contentType) {
+    case 'text/html':
+      return '.html';
+    case 'text/css':
+      return '.css';
+    case 'text/plain':
+    case 'application/javascript':
+      return '.js';
+    case 'application/json':
+      return '.json';
+  }
+
+  return '';
 }
 
 export function generateResourcesMapping() {
@@ -61,6 +85,7 @@ export function generateResourcesMapping() {
 
     // Register to mapping
     resourcesMapping.set(redirect.title, preferredResourceName);
+    resourcesMapping.set(redirect.title + getFileExtensionByContentType(redirect.contentType), preferredResourceName);
     for (const alias of redirect.aliases) {
       if (alias !== preferredResourceName) {
         resourcesMapping.set(alias, preferredResourceName);
