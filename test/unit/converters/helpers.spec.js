@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { normalizeFilter, normalizeRule } from "../../../src/converters/helpers.js";
+import { generateResourcesMapping, normalizeFilter, normalizeRule } from "../../../src/converters/helpers.js";
 
 describe("normalizeFilter", () => {
   it("format params", () => {
@@ -120,5 +120,40 @@ describe('normalizeRule', () => {
         excludedInitiatorDomains: ['test'],
       },
     });
+  });
+
+  it('replaces extensionPath respecting existing dirname', () => {
+    expect(normalizeRule({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/rule_resources/redirects/alias',
+        },
+      },
+    }, {
+      resourcesMapping: new Map([
+        [
+          'alias',
+          'test.js',
+        ],
+      ]),
+    })).toEqual({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/rule_resources/redirects/test.js',
+        },
+      },
+    });
+  });
+});
+
+describe('generateResourcesMapping', () => {
+  it('filters resources without file extension', () => {
+    const mapping = generateResourcesMapping();
+
+    for (const destination of mapping.values()) {
+      expect(destination.match(/\w+\.\w+|empty/)).not.toBe(null);
+    }
   });
 });

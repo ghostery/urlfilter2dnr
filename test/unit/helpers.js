@@ -7,6 +7,9 @@ function normalize(rule) {
   if (!rule) {
     return undefined;
   }
+  if (rule.condition?.resourceTypes !== undefined) {
+    rule.condition.resourceTypes = rule.condition.resourceTypes.sort();
+  }
   delete rule.priority;
   delete rule.id;
   return rule;

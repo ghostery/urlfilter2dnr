@@ -1,5 +1,57 @@
+import * as path from 'node:path'
+import redirects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' }
+
+export function generateResourcesMapping() {
+  const resourcesMapping = new Map();
+  const allowedResourceExtensions = [
+    'html',
+    'js',
+    'css',
+    'mp4',
+    'mp3',
+    'xml',
+    'txt',
+    'json',
+    'empty',
+  ];
+
+  function getPreferredResource(aliases) {
+    // ignore non-supported files and manually created uBO aliases by AdGuard
+    return aliases.find(alias => {
+      const extension = alias.split('.').pop();
+      return allowedResourceExtensions.includes(extension) && !alias.startsWith('ubo-');
+    });
+  }
+
+  for (const redirect of redirects) {
+    // Skip, in case of AdGuard-only resource
+    if (redirect.aliases === undefined) {
+      continue;
+    }
+
+    const preferredResourceName = getPreferredResource(redirect.aliases);
+
+    // Skip, in case of safe redirect resource name that's safe to use wasn't found
+    if (preferredResourceName === undefined) {
+      continue;
+    }
+
+    // Register to mapping
+    resourcesMapping.set(redirect.title, preferredResourceName);
+    for (const alias of redirect.aliases) {
+      if (alias !== preferredResourceName) {
+        resourcesMapping.set(alias, preferredResourceName);
+      }
+    }
+  }
+
+  return resourcesMapping;
+}
+
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
+  'xhr': 'xmlhttprequest',
+  'frame': 'subdocument'
 };
 
 export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
@@ -30,7 +82,9 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule) {
+export const DEFAULT_RESOURCE_MAPPING = generateResourcesMapping();
+
+export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCE_MAPPING } = {}) {
   if (!rule) {
     return;
   }
@@ -65,6 +119,16 @@ export function normalizeRule(rule) {
   if (newRule.condition && newRule.condition.domains) {
     newRule.condition.initiatorDomains = newRule.condition.domains;
     delete newRule.condition.domains;
+  }
+
+  if (newRule.action && newRule.action.type === 'redirect') {
+    const filename = path.basename(newRule.action.redirect.extensionPath);
+    const preferredFilename = resourcesMapping.get(filename);
+
+    if (preferredFilename !== undefined) {
+      newRule.action.redirect.extensionPath =
+        path.dirname(newRule.action.redirect.extensionPath) + '/' + preferredFilename;
+    }
   }
 
   return newRule;
