@@ -13,14 +13,7 @@ function getPathDirname(path) {
   if (lastIndex === -1) {
     return '.';
   }
-  const lastOfLastIndex = path.lastIndexOf('/', lastIndex - 1);
-  if (lastOfLastIndex === -1) {
-    return path.slice(0, lastIndex);
-  }
-  if (lastOfLastIndex + 1 >= lastIndex) {
-    return '/';
-  }
-  return path.slice(lastOfLastIndex + 1, lastIndex);
+  return path.slice(0, lastIndex);
 }
 
 const allowedResourceExtensions = [
