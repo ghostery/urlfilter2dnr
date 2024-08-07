@@ -1,5 +1,35 @@
-import * as path from 'node:path'
 import redirects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' }
+
+function getPathBasename(path) {
+  const lastIndex = path.lastIndexOf('/');
+  if (lastIndex === -1) {
+    return path;
+  }
+  return path.slice(lastIndex);
+}
+
+function getPathDirname(path) {
+  const lastIndex = path.lastIndexOf('/');
+  if (lastIndex === -1) {
+    return '.';
+  }
+  const lastOfLastIndex = path.lastIndexOf('/', lastIndex - 1);
+  if (lastOfLastIndex === -1) {
+    return path.slice(0, lastIndex);
+  }
+  if (lastOfLastIndex + 1 >= lastIndex) {
+    return '/';
+  }
+  return path.slice(lastOfLastIndex + 1, lastIndex);
+}
+
+function getPreferredResource(aliases) {
+  // ignore non-supported files and manually created uBO aliases by AdGuard
+  return aliases.find(alias => {
+    const extension = alias.split('.').pop();
+    return allowedResourceExtensions.includes(extension) && !alias.startsWith('ubo-');
+  });
+}
 
 export function generateResourcesMapping() {
   const resourcesMapping = new Map();
@@ -14,14 +44,6 @@ export function generateResourcesMapping() {
     'json',
     'empty',
   ];
-
-  function getPreferredResource(aliases) {
-    // ignore non-supported files and manually created uBO aliases by AdGuard
-    return aliases.find(alias => {
-      const extension = alias.split('.').pop();
-      return allowedResourceExtensions.includes(extension) && !alias.startsWith('ubo-');
-    });
-  }
 
   for (const redirect of redirects) {
     // Skip, in case of AdGuard-only resource
@@ -122,12 +144,12 @@ export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCE_MAPPIN
   }
 
   if (newRule.action && newRule.action.type === 'redirect') {
-    const filename = path.basename(newRule.action.redirect.extensionPath);
+    const filename = getPathBasename(newRule.action.redirect.extensionPath);
     const preferredFilename = resourcesMapping.get(filename);
 
     if (preferredFilename !== undefined) {
       newRule.action.redirect.extensionPath =
-        path.dirname(newRule.action.redirect.extensionPath) + '/' + preferredFilename;
+        getPathDirname(newRule.action.redirect.extensionPath) + '/' + preferredFilename;
     }
   }
 
