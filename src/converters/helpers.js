@@ -23,6 +23,18 @@ function getPathDirname(path) {
   return path.slice(lastOfLastIndex + 1, lastIndex);
 }
 
+const allowedResourceExtensions = [
+  'html',
+  'js',
+  'css',
+  'mp4',
+  'mp3',
+  'xml',
+  'txt',
+  'json',
+  'empty',
+];
+
 function getPreferredResource(aliases) {
   // ignore non-supported files and manually created uBO aliases by AdGuard
   return aliases.find(alias => {
@@ -33,17 +45,6 @@ function getPreferredResource(aliases) {
 
 export function generateResourcesMapping() {
   const resourcesMapping = new Map();
-  const allowedResourceExtensions = [
-    'html',
-    'js',
-    'css',
-    'mp4',
-    'mp3',
-    'xml',
-    'txt',
-    'json',
-    'empty',
-  ];
 
   for (const redirect of redirects) {
     // Skip, in case of AdGuard-only resource
