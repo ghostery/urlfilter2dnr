@@ -9,7 +9,7 @@ const $errorsAdguard = document.querySelector("#errors-adguard");
 const $errorsAbp = document.querySelector("#errors-abp");
 
 const ADGUARD_CONVERTER_OPTIONS = {
-  resourcesPath: "/web_accessible_resources",
+  resourcesPath: "/rule_resources/redirects",
 };
 
 $submitButton.addEventListener("click", async (ev) => {
