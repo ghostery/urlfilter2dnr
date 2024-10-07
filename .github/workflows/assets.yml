@@ -1,0 +1,44 @@
+name: Assets
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 20 * * *'
+
+jobs:
+  assets:
+    name: Update local assets
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'ghostery'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Fetch latest assets
+        id: fetch
+        working-directory: ./scripts
+        run: |
+          bun run update.js
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.ADBLOCKERBOT_APP_ID }}
+          private_key: ${{ secrets.ADBLOCKERBOT_PRIVATE_KEY }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          committer: Ghostery Adblocker Bot <ghostery-adblocker-bot@users.noreply.github.com>
+          author: Ghostery Adblocker Bot <ghostery-adblocker-bot@users.noreply.github.com>
+          commit-message: "Update redirect resources mappings"
+          title: "Update local assets"
+          body: "Automated update of local redirect resources mappings."
+          branch: update-assets
+          labels: "PR: Internal :house:"
+
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pr_number }}"
