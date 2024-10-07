@@ -1,4 +1,4 @@
-import redirects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' }
+import definition from '../mappings.json' with { type: 'json' }
 
 function getPathBasename(path) {
   const lastIndex = path.lastIndexOf('/');
@@ -16,77 +16,14 @@ function getPathDirname(path) {
   return path.slice(0, lastIndex);
 }
 
-const allowedResourceExtensions = [
-  'html',
-  'js',
-  'css',
-  'mp4',
-  'mp3',
-  'xml',
-  'txt',
-  'json',
-  'png',
-  'gif',
-  'empty',
-];
-
-function getPreferredResource(aliases) {
-  // ignore non-supported files and manually created uBO aliases by AdGuard
-  return aliases.find(alias => {
-    const extension = alias.split('.').pop();
-    return extension !== undefined &&
-      allowedResourceExtensions.includes(extension) &&
-      !alias.startsWith('ubo-') &&
-      !alias.includes('-transparent');
-  });
-}
-
-function getFileExtensionByContentType(contentType) {
-  if (contentType.includes(';')) {
-    contentType = contentType.slice(0, contentType.indexOf(';'));
-  }
-  switch (contentType) {
-    case 'text/html':
-      return '.html';
-    case 'text/css':
-      return '.css';
-    case 'text/plain':
-    case 'application/javascript':
-      return '.js';
-    case 'application/json':
-      return '.json';
-  }
-
-  return '';
-}
-
 export function generateResourcesMapping() {
-  const resourcesMapping = new Map();
-
-  for (const redirect of redirects) {
-    // Skip, in case of AdGuard-only resource
-    if (redirect.aliases === undefined) {
-      continue;
-    }
-
-    const preferredResourceName = getPreferredResource(redirect.aliases);
-
-    // Skip, in case of safe redirect resource name that's safe to use wasn't found
-    if (preferredResourceName === undefined) {
-      continue;
-    }
-
-    // Register to mapping
-    resourcesMapping.set(redirect.title, preferredResourceName);
-    resourcesMapping.set(redirect.title + getFileExtensionByContentType(redirect.contentType), preferredResourceName);
-    for (const alias of redirect.aliases) {
-      if (alias !== preferredResourceName) {
-        resourcesMapping.set(alias, preferredResourceName);
-      }
+  const mappings = new Map();
+  for (const names of definition) {
+    for (const name of names.slice(1)) {
+      mappings.set(name, names[0]);
     }
   }
-
-  return resourcesMapping;
+  return mappings;
 }
 
 export const DEFAULT_PARAM_MAPPING = {

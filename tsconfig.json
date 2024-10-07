@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    // https://bun.sh/docs/runtime/modules#path-re-mapping
-    "paths": {
-      "@adguard/scriptlets/dist/redirects.json": ["./node_modules/@adguard/scriptlets/dist/redirects.json"]
-    }
-  }
-}
