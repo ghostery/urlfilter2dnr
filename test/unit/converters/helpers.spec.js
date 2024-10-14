@@ -46,6 +46,17 @@ describe("normalizeFilter", () => {
       ).toEqual("TEST$match-case");
     });
   });
+
+  describe("with redirect param", () => {
+    it("replaces values with slashes", () => {
+      expect(
+        normalizeFilter("test$redirect=scorecardresearch.com/beacon.js")
+      ).toEqual("test$redirect=scorecardresearch_beacon.js");
+      expect(
+        normalizeFilter("test$redirect-rule=scorecardresearch.com/beacon.js")
+      ).toEqual("test$redirect-rule=scorecardresearch_beacon.js");
+    });
+  });
 });
 
 describe('normalizeRule', () => {

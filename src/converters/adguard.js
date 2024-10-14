@@ -19,7 +19,7 @@ export default async function convert(rules, { resourcesPath } = {}) {
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
   return {
-    rules: declarativeRules.map(normalizeRule),
+    rules: declarativeRules.map(rule => normalizeRule(rule)),
     errors: conversionResult.errors,
     limitations: conversionResult.limitations,
   };
