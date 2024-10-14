@@ -28,7 +28,7 @@ async function downloadResource(resourceName) {
 
 function extractRedirects(data) {
   const resources = JSON.parse(data);
-  const mappings = resources.redirects.map(redirect => redirect.names);
+  const mappings = resources.redirects.map(redirect => [redirect.name, ...(redirect.aliases ?? [])]);
   return JSON.stringify(mappings);
 }
 
