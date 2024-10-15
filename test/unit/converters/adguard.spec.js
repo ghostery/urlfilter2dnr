@@ -19,22 +19,22 @@ describe('adguard converter', () => {
   });
 
   // to be fixed with https://github.com/AdguardTeam/tsurlfilter/pull/109
-  it.skip("/baynote(-observer)?([0-9]+)\.js/", async () => {
-    const { rules } = await convertWithAdguard(['/baynote(-observer)?([0-9]+)\.js/']);
+  it("/baynote(-observer)?([0-9]+)\.js/", async () => {
+    const { rules } = await convertWithAdguard([String.raw`/baynote(-observer)?([0-9]+)\.js/`]);
     expect(rules[0]).toEqual({
       action: {
         type: "block"
       },
       condition: {
         isUrlFilterCaseSensitive: false,
-        regexFilter: "/baynote(-observer)?([0-9]+)\.js/"
+        regexFilter: String.raw`baynote(-observer)?([0-9]+)\.js`
       },
       id: 1,
       priority: 1
     });
   });
 
-  it.skip("handles regexp with ?", async () => {
+  it("handles regexp with ?", async () => {
     const { rules } = await convertWithAdguard(['/a?/']);
     expect(rules[0]).toEqual({
       action: {
@@ -42,10 +42,28 @@ describe('adguard converter', () => {
       },
       condition: {
         isUrlFilterCaseSensitive: false,
-        regexFilter: "/a?/"
+        regexFilter: "a?"
       },
       id: 1,
       priority: 1
+    });
+  });
+
+  it("handles regexp escaping", async () => {
+    const { rules } = await convertWithAdguard([String.raw`/\\d/$doc`]);
+    expect(rules[0]).toEqual({
+      action: {
+        type: "block"
+      },
+      condition: {
+        isUrlFilterCaseSensitive: false,
+        regexFilter: String.raw`\\d`,
+        resourceTypes: [
+          "main_frame"
+        ]
+      },
+      id: 1,
+      priority: 101
     });
   });
 });

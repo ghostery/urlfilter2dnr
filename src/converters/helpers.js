@@ -143,12 +143,10 @@ export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCE_MAPPIN
   if (
     newRule.condition &&
     newRule.condition.regexFilter &&
-    !(
-      newRule.condition.regexFilter.startsWith("/") &&
-      newRule.condition.regexFilter.endsWith("/")
-    )
+    newRule.condition.regexFilter.startsWith("/") &&
+    newRule.condition.regexFilter.endsWith("/")
   ) {
-    newRule.condition.regexFilter = `/${newRule.condition.regexFilter}/`;
+    newRule.condition.regexFilter = newRule.condition.regexFilter.slice(1,-1)
   }
 
   if (newRule.condition && newRule.condition.excludedDomains) {
