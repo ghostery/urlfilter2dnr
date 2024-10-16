@@ -97,14 +97,14 @@ describe('normalizeRule', () => {
     })
   })
 
-  it('wraps regex rules in //', () => {
+  it('does not wraps regex rules in //', () => {
     expect(normalizeRule({
       condition: {
         regexFilter: 'test',
       },
     })).toEqual({
       condition: {
-        regexFilter: '/test/',
+        regexFilter: 'test',
       },
     });
   });
