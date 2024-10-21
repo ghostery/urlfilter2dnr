@@ -1,30 +1,30 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
 let messages = [];
 
 async function setup(page) {
-  await page.goto("/");
-  page.exposeFunction("logMessage", (msg) => messages.push(msg));
+  await page.goto('/');
+  page.exposeFunction('logMessage', (msg) => messages.push(msg));
   await page.evaluate(() =>
-    window.addEventListener("message", (msg) => {
+    window.addEventListener('message', (msg) => {
       window.logMessage(msg.data);
-    })
+    }),
   );
 }
 
-test.describe("converts rules with postMessage", () => {
+test.describe('converts rules with postMessage', () => {
   test.beforeEach(() => {
     messages = [];
   });
 
-  test("with adguard converter", async ({ page }) => {
+  test('with adguard converter', async ({ page }) => {
     await setup(page);
     await page.evaluate(() =>
       window.postMessage({
-        action: "convert",
-        converter: "adguard",
-        filters: ["||example.com"],
-      })
+        action: 'convert',
+        converter: 'adguard',
+        filters: ['||example.com'],
+      }),
     );
     await expect(() => {
       expect(messages.at(-1)).toEqual({
@@ -33,10 +33,10 @@ test.describe("converts rules with postMessage", () => {
           {
             id: 1,
             action: {
-              type: "block",
+              type: 'block',
             },
             condition: {
-              urlFilter: "||example.com",
+              urlFilter: '||example.com',
               isUrlFilterCaseSensitive: false,
             },
             priority: 1,
@@ -46,14 +46,14 @@ test.describe("converts rules with postMessage", () => {
     }).toPass();
   });
 
-  test("with abp converter", async ({ page }) => {
+  test('with abp converter', async ({ page }) => {
     await setup(page);
     await page.evaluate(() =>
       window.postMessage({
-        action: "convert",
-        converter: "abp",
-        filters: ["||example.com"],
-      })
+        action: 'convert',
+        converter: 'abp',
+        filters: ['||example.com'],
+      }),
     );
     await expect(() => {
       expect(messages.at(-1)).toEqual({
@@ -64,10 +64,10 @@ test.describe("converts rules with postMessage", () => {
             priority: 1000,
             condition: {
               isUrlFilterCaseSensitive: false,
-              urlFilter: "||example.com",
+              urlFilter: '||example.com',
             },
             action: {
-              type: "block",
+              type: 'block',
             },
           },
         ],
