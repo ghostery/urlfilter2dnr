@@ -1,4 +1,4 @@
-import mappings from '../mappings.json' with { type: 'json' };
+import mappings from '../mappings.json';
 
 function getPathBasename(path) {
   const lastIndex = path.lastIndexOf('/');

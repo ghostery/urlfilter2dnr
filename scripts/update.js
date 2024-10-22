@@ -2,7 +2,7 @@ import { writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import adguardDialects from '@adguard/scriptlets/dist/redirects.json' with { type: 'json' };
+import adguardDialects from '@adguard/scriptlets/dist/redirects.json';
 
 const CWD = dirname(fileURLToPath(import.meta.url));
 
