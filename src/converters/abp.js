@@ -1,6 +1,9 @@
-import { FilterParsingError, normalize } from "@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/filters/index.js";
-import { createConverter } from "@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/dnr/index.js";
-import { normalizeFilter, normalizeRule, DEFAULT_PARAM_MAPPING } from "./helpers";
+import {
+  FilterParsingError,
+  normalize,
+} from '@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/filters/index.js';
+import { createConverter } from '@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/dnr/index.js';
+import { normalizeFilter, normalizeRule, DEFAULT_PARAM_MAPPING } from './helpers';
 
 const PARAM_MAPPING = {
   ...DEFAULT_PARAM_MAPPING,
@@ -27,7 +30,7 @@ export default async function convert(filters) {
           rules.push(rule);
         }
       } else {
-        throw new Error("Unknown problem");
+        throw new Error('Unknown problem');
       }
     } catch (e) {
       errors.push(`Error: "${e.message}" in rule: "${filter}"`);

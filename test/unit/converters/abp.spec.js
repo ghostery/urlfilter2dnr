@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, it, expect } from 'bun:test';
 
 import convertWithAbp from '../../../src/converters/abp.js';
 
@@ -16,27 +16,25 @@ describe('abp converter', () => {
     expect(rules[0]).not.toEqual(undefined);
   });
 
-  it("||tinypass.com^$3p,domain=~foreignpolicy.com", async () => {
+  it('||tinypass.com^$3p,domain=~foreignpolicy.com', async () => {
     const { rules } = await convertWithAbp(['tinypass.com$3p,domain=x.z']);
     expect(rules[0]).toEqual({
       action: {
-        type: "block"
+        type: 'block',
       },
       condition: {
-        domainType: "thirdParty",
-        initiatorDomains: [
-          "x.z"
-        ],
+        domainType: 'thirdParty',
+        initiatorDomains: ['x.z'],
         isUrlFilterCaseSensitive: false,
-        urlFilter: "tinypass.com"
+        urlFilter: 'tinypass.com',
       },
       priority: 2000,
-      id: 1
+      id: 1,
     });
   });
 
-  it("handles regexp rules", async () => {
-    const { rules } = await convertWithAbp(["/js/"]);
+  it('handles regexp rules', async () => {
+    const { rules } = await convertWithAbp(['/js/']);
     expect(rules[0]).not.toEqual(undefined);
   });
 });

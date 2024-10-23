@@ -1,69 +1,67 @@
-import { describe, it, expect } from "bun:test";
+import { describe, it, expect } from 'bun:test';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
 
 describe('adguard converter', () => {
-  it("||t.a3cloud.net/AM-141112/tag.js", async () => {
+  it('||t.a3cloud.net/AM-141112/tag.js', async () => {
     const { rules } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
     expect(rules[0]).toEqual({
       action: {
-        type: "block"
+        type: 'block',
       },
       id: 1,
       priority: 1,
       condition: {
         isUrlFilterCaseSensitive: false,
-        urlFilter: "||t.a3cloud.net/am-141112/tag.js"
-      }
+        urlFilter: '||t.a3cloud.net/am-141112/tag.js',
+      },
     });
   });
 
   // to be fixed with https://github.com/AdguardTeam/tsurlfilter/pull/109
-  it("/baynote(-observer)?([0-9]+)\.js/", async () => {
+  it('/baynote(-observer)?([0-9]+).js/', async () => {
     const { rules } = await convertWithAdguard([String.raw`/baynote(-observer)?([0-9]+)\.js/`]);
     expect(rules[0]).toEqual({
       action: {
-        type: "block"
+        type: 'block',
       },
       condition: {
         isUrlFilterCaseSensitive: false,
-        regexFilter: String.raw`baynote(-observer)?([0-9]+)\.js`
+        regexFilter: String.raw`baynote(-observer)?([0-9]+)\.js`,
       },
       id: 1,
-      priority: 1
+      priority: 1,
     });
   });
 
-  it("handles regexp with ?", async () => {
+  it('handles regexp with ?', async () => {
     const { rules } = await convertWithAdguard(['/a?/']);
     expect(rules[0]).toEqual({
       action: {
-        type: "block"
+        type: 'block',
       },
       condition: {
         isUrlFilterCaseSensitive: false,
-        regexFilter: "a?"
+        regexFilter: 'a?',
       },
       id: 1,
-      priority: 1
+      priority: 1,
     });
   });
 
-  it("handles regexp escaping", async () => {
+  it('handles regexp escaping', async () => {
     const { rules } = await convertWithAdguard([String.raw`/\\d/$doc`]);
     expect(rules[0]).toEqual({
       action: {
-        type: "block"
+        type: 'block',
       },
       condition: {
         isUrlFilterCaseSensitive: false,
         regexFilter: String.raw`\\d`,
-        resourceTypes: [
-          "main_frame"
-        ]
+        resourceTypes: ['main_frame'],
       },
       id: 1,
-      priority: 101
+      priority: 101,
     });
   });
 });

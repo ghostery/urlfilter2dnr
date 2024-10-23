@@ -1,13 +1,13 @@
-import { writeFileSync } from "node:fs";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { writeFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import adguardDialects from "@adguard/scriptlets/dist/redirects.json" with { type: "json" };
+import adguardDialects from '@adguard/scriptlets/dist/redirects.json';
 
 const CWD = dirname(fileURLToPath(import.meta.url));
 
 async function downloadResource(resourceName) {
-  console.log("Downloading resources...");
+  console.log('Downloading resources...');
 
   const { revisions } = await fetch(
     `https://cdn.ghostery.com/adblocker/resources/${resourceName}/metadata.json`,
@@ -24,22 +24,17 @@ async function downloadResource(resourceName) {
     `https://cdn.ghostery.com/adblocker/resources/${resourceName}/${latestRevision}/list.txt`,
   ).then((result) => {
     if (!result.ok) {
-      throw new Error(
-        `Failed to fetch ${resourceName}: ${result.status}: ${result.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${resourceName}: ${result.status}: ${result.statusText}`);
     }
     return result.text();
   });
 }
 
 function extractRedirects(data) {
-  console.log("Extracting resources...");
+  console.log('Extracting resources...');
 
   const resources = JSON.parse(data);
-  const mappings = resources.redirects.map((redirect) => [
-    redirect.name,
-    redirect.aliases ?? [],
-  ]);
+  const mappings = resources.redirects.map((redirect) => [redirect.name, redirect.aliases ?? []]);
 
   // Integrate adguard mappings
   for (const dialect of adguardDialects) {
@@ -77,7 +72,7 @@ function extractRedirects(data) {
 }
 
 writeFileSync(
-  join(CWD, "..", "src", "mappings.json"),
-  extractRedirects(await downloadResource("ublock-resources-json")),
-  "utf-8",
+  join(CWD, '..', 'src', 'mappings.json'),
+  extractRedirects(await downloadResource('ublock-resources-json')),
+  'utf-8',
 );

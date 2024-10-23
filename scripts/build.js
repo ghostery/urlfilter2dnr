@@ -1,4 +1,4 @@
-import build from "./helpers/build.js";
+import build from './helpers/build.js';
 
 const startAt = Date.now();
 
