@@ -4,12 +4,13 @@
   "author": "Ghostery GmbH.",
   "description": "Converts urlfilters to DNR format",
   "license": "GPL-3.0",
+  "type": "module",
   "scripts": {
     "build": "bun ./scripts/build.js",
     "serve": "bun --watch scripts/serve.js",
     "test.unit": "bun test test/unit",
     "test.e2e": "playwright test test/e2e/index.spec.js",
-    "lint": "eslint src/ scripts/ test/ *.{js,mjs}"
+    "lint": "eslint"
   },
   "dependencies": {
     "@adguard/scriptlets": "^1.12.1",
