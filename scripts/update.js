@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -71,8 +71,13 @@ function extractRedirects(data) {
   return JSON.stringify(mappings, null, 2);
 }
 
-writeFileSync(
-  join(CWD, '..', 'src', 'mappings.json'),
-  extractRedirects(await downloadResource('ublock-resources-json')),
-  'utf-8',
-);
+const mappingsPath = join(CWD, '..', 'src', 'mappings.json');
+const oldMappings = readFileSync(mappingsPath, { encoding: 'utf-8' });
+const newMappings = extractRedirects(await downloadResource('ublock-resources-json'));
+
+if (oldMappings === newMappings) {
+  console.error('No changes - exiting');
+  process.exit(1);
+}
+
+writeFileSync(mappingsPath, newMappings, 'utf-8');
