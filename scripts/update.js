@@ -34,7 +34,7 @@ function extractRedirects(data) {
   console.log('Extracting resources...');
 
   /**
-   * @type {Array<{ dialects: { adg: string; ubo: string; }; hints: string[]; }>}
+   * @type {Array<{ dialects: { adg?: string; ubo: string; }; hints: string[]; }>}
    */
   const mappings = [];
 
