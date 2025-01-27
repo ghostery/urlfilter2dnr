@@ -16,8 +16,6 @@ function normalizeRedirect(name, dialect) {
     throw new Error(`The redirect resource dialect of "${dialect}" is not supported!`);
   }
 
-  console.log(name, dialect);
-
   /**
    * @type {string[]}
    */
