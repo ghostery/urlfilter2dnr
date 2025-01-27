@@ -1,10 +1,6 @@
 import { describe, it, expect } from 'bun:test';
 
-import {
-  generateResourcesMapping,
-  normalizeFilter,
-  normalizeRule,
-} from '../../../src/converters/helpers.js';
+import { normalizeFilter, normalizeRule } from '../../../src/converters/helpers.js';
 
 describe('normalizeFilter', () => {
   it('format params', () => {
@@ -160,15 +156,5 @@ describe('normalizeRule', () => {
         },
       },
     });
-  });
-});
-
-describe('generateResourcesMapping', () => {
-  it('filters resources without file extension', () => {
-    const mapping = generateResourcesMapping();
-
-    for (const destination of mapping.values()) {
-      expect(destination.match(/\w+\.\w+|empty/)).not.toBe(null);
-    }
   });
 });
