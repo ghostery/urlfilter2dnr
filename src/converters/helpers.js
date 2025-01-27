@@ -76,7 +76,7 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
   const indexOfRedirectRule = params.findIndex((p) => p.startsWith('redirect-rule='));
   if (indexOfRedirectRule !== -1) {
     params[indexOfRedirect] =
-      'redirect=' + normalizeRedirect(params[indexOfRedirect].slice(14), 'adg');
+      'redirect-rule=' + normalizeRedirect(params[indexOfRedirect].slice(14), 'adg');
   }
 
   if (back.length === 0) {
