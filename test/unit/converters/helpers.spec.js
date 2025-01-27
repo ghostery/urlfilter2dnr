@@ -34,17 +34,6 @@ describe('normalizeFilter', () => {
       expect(normalizeFilter('TEST$match-case')).toEqual('TEST$match-case');
     });
   });
-
-  describe('with redirect param', () => {
-    it('replaces values with slashes', () => {
-      expect(normalizeFilter('test$redirect=scorecardresearch.com/beacon.js')).toEqual(
-        'test$redirect=scorecardresearch_beacon.js',
-      );
-      expect(normalizeFilter('test$redirect-rule=scorecardresearch.com/beacon.js')).toEqual(
-        'test$redirect-rule=scorecardresearch_beacon.js',
-      );
-    });
-  });
 });
 
 describe('normalizeRule', () => {
@@ -133,26 +122,26 @@ describe('normalizeRule', () => {
     });
   });
 
-  it('replaces extensionPath respecting existing dirname', () => {
+  it('respects extensionPath', () => {
     expect(
       normalizeRule(
         {
           action: {
             type: 'redirect',
             redirect: {
-              extensionPath: '/rule_resources/redirects/alias',
+              extensionPath: '/a/alias',
             },
           },
         },
         {
-          resourcesMapping: new Map([['alias', 'test.js']]),
+          resourcesPath: '/rule_resources/redirects',
         },
       ),
     ).toEqual({
       action: {
         type: 'redirect',
         redirect: {
-          extensionPath: '/rule_resources/redirects/test.js',
+          extensionPath: '/rule_resources/redirects/alias',
         },
       },
     });

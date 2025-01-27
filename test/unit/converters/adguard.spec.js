@@ -64,4 +64,67 @@ describe('adguard converter', () => {
       priority: 101,
     });
   });
+
+  it('handles $redirect', async () => {
+    const resourcesPath = '/a';
+    const {
+      rules: [ruleWithAbpAlias],
+    } = await convertWithAdguard(['||foo.com^$redirect=abp-resource:blank-mp3'], {
+      resourcesPath,
+    });
+    expect(ruleWithAbpAlias).toEqual({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/a/noop-0.1s.mp3',
+        },
+      },
+      condition: {
+        isUrlFilterCaseSensitive: false,
+        urlFilter: '||foo.com^',
+      },
+      id: 1,
+      priority: 1001,
+    });
+
+    const {
+      rules: [ruleWithAdgAlias],
+    } = await convertWithAdguard(['||foo.com^$redirect=noopmp3-0.1s'], {
+      resourcesPath,
+    });
+    expect(ruleWithAdgAlias).toEqual({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/a/noop-0.1s.mp3',
+        },
+      },
+      condition: {
+        isUrlFilterCaseSensitive: false,
+        urlFilter: '||foo.com^',
+      },
+      id: 1,
+      priority: 1001,
+    });
+
+    const {
+      rules: [ruleWithUboName],
+    } = await convertWithAdguard(['||foo.com^$redirect=noop-0.1s.mp3'], {
+      resourcesPath,
+    });
+    expect(ruleWithUboName).toEqual({
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/a/noop-0.1s.mp3',
+        },
+      },
+      condition: {
+        isUrlFilterCaseSensitive: false,
+        urlFilter: '||foo.com^',
+      },
+      id: 1,
+      priority: 1001,
+    });
+  });
 });
