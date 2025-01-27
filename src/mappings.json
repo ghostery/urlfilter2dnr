@@ -1,299 +1,442 @@
 [
-  [
-    "1x1.gif",
-    [
-      "1x1-transparent.gif",
+  {
+    "dialects": {
+      "adg": "1x1-transparent.gif",
+      "ubo": "1x1.gif"
+    },
+    "hints": [
       "1x1.gif",
+      "1x1-transparent.gif",
       "1x1-transparent-gif"
     ]
-  ],
-  [
-    "2x2.png",
-    [
-      "2x2-transparent.png",
+  },
+  {
+    "dialects": {
+      "adg": "2x2-transparent.png",
+      "ubo": "2x2.png"
+    },
+    "hints": [
       "2x2.png",
+      "2x2-transparent.png",
       "2x2-transparent-png"
     ]
-  ],
-  [
-    "3x2.png",
-    [
-      "3x2-transparent.png",
+  },
+  {
+    "dialects": {
+      "adg": "3x2-transparent.png",
+      "ubo": "3x2.png"
+    },
+    "hints": [
       "3x2.png",
+      "3x2-transparent.png",
       "3x2-transparent-png"
     ]
-  ],
-  [
-    "32x32.png",
-    [
-      "32x32-transparent.png",
+  },
+  {
+    "dialects": {
+      "adg": "32x32-transparent.png",
+      "ubo": "32x32.png"
+    },
+    "hints": [
       "32x32.png",
+      "32x32-transparent.png",
       "32x32-transparent-png"
     ]
-  ],
-  [
-    "amazon_ads.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "amazon_ads.js"
+    },
+    "hints": [
+      "amazon_ads.js",
       "amazon-adsystem.com/aax2/amzn_ads.js"
     ]
-  ],
-  [
-    "amazon_apstag.js",
-    []
-  ],
-  [
-    "ampproject_v0.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "amazon-apstag",
+      "ubo": "amazon_apstag.js"
+    },
+    "hints": [
+      "amazon_apstag.js",
+      "amazon-apstag",
+      "ubo-amazon_apstag.js"
+    ]
+  },
+  {
+    "dialects": {
+      "ubo": "ampproject_v0.js"
+    },
+    "hints": [
+      "ampproject_v0.js",
       "ampproject.org/v0.js"
     ]
-  ],
-  [
-    "chartbeat.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "chartbeat.js"
+    },
+    "hints": [
+      "chartbeat.js",
       "static.chartbeat.com/chartbeat.js"
     ]
-  ],
-  [
-    "click2load.html",
-    []
-  ],
-  [
-    "doubleclick_instream_ad_status.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "click2load.html",
+      "ubo": "click2load.html"
+    },
+    "hints": [
+      "click2load.html",
+      "ubo-click2load.html"
+    ]
+  },
+  {
+    "dialects": {
+      "ubo": "doubleclick_instream_ad_status.js"
+    },
+    "hints": [
+      "doubleclick_instream_ad_status.js",
       "doubleclick.net/instream/ad_status.js"
     ]
-  ],
-  [
-    "empty",
-    []
-  ],
-  [
-    "fingerprint2.js",
-    []
-  ],
-  [
-    "fingerprint3.js",
-    []
-  ],
-  [
-    "google-analytics_analytics.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "fingerprintjs2",
+      "ubo": "fingerprint2.js"
+    },
+    "hints": [
+      "fingerprint2.js",
+      "fingerprintjs2",
+      "ubo-fingerprint2.js"
+    ]
+  },
+  {
+    "dialects": {
+      "adg": "fingerprintjs3",
+      "ubo": "fingerprint3.js"
+    },
+    "hints": [
+      "fingerprint3.js",
+      "fingerprintjs3",
+      "ubo-fingerprint3.js"
+    ]
+  },
+  {
+    "dialects": {
+      "adg": "google-analytics",
+      "ubo": "google-analytics_analytics.js"
+    },
+    "hints": [
+      "google-analytics_analytics.js",
       "google-analytics.com/analytics.js",
       "googletagmanager_gtm.js",
       "googletagmanager.com/gtm.js",
       "google-analytics",
       "ubo-google-analytics_analytics.js",
-      "google-analytics_analytics.js",
       "googletagmanager-gtm",
       "ubo-googletagmanager_gtm.js"
     ]
-  ],
-  [
-    "google-analytics_cx_api.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "google-analytics_cx_api.js"
+    },
+    "hints": [
+      "google-analytics_cx_api.js",
       "google-analytics.com/cx/api.js"
     ]
-  ],
-  [
-    "google-analytics_ga.js",
-    [
-      "google-analytics.com/ga.js"
+  },
+  {
+    "dialects": {
+      "adg": "google-analytics-ga",
+      "ubo": "google-analytics_ga.js"
+    },
+    "hints": [
+      "google-analytics_ga.js",
+      "google-analytics.com/ga.js",
+      "google-analytics-ga",
+      "ubo-google-analytics_ga.js"
     ]
-  ],
-  [
-    "google-analytics_inpage_linkid.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "google-analytics_inpage_linkid.js"
+    },
+    "hints": [
+      "google-analytics_inpage_linkid.js",
       "google-analytics.com/inpage_linkid.js"
     ]
-  ],
-  [
-    "google-ima.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "google-ima3",
+      "ubo": "google-ima.js"
+    },
+    "hints": [
+      "google-ima.js",
       "google-ima3",
-      "ubo-google-ima.js",
-      "google-ima.js"
+      "ubo-google-ima.js"
     ]
-  ],
-  [
-    "googlesyndication_adsbygoogle.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "googlesyndication-adsbygoogle",
+      "ubo": "googlesyndication_adsbygoogle.js"
+    },
+    "hints": [
+      "googlesyndication_adsbygoogle.js",
       "googlesyndication.com/adsbygoogle.js",
       "googlesyndication-adsbygoogle",
-      "ubo-googlesyndication_adsbygoogle.js",
-      "googlesyndication_adsbygoogle.js"
+      "ubo-googlesyndication_adsbygoogle.js"
     ]
-  ],
-  [
-    "googletagservices_gpt.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "googletagservices-gpt",
+      "ubo": "googletagservices_gpt.js"
+    },
+    "hints": [
+      "googletagservices_gpt.js",
       "googletagservices.com/gpt.js",
       "googletagservices-gpt",
-      "ubo-googletagservices_gpt.js",
-      "googletagservices_gpt.js"
+      "ubo-googletagservices_gpt.js"
     ]
-  ],
-  [
-    "hd-main.js",
-    []
-  ],
-  [
-    "nobab.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "prevent-bab",
+      "ubo": "nobab.js"
+    },
+    "hints": [
+      "nobab.js",
       "bab-defuser.js",
       "prevent-bab.js",
       "prevent-bab",
-      "nobab.js",
       "ubo-nobab.js",
       "ubo-bab-defuser.js",
       "ubo-nobab",
       "ubo-bab-defuser"
     ]
-  ],
-  [
-    "nobab2.js",
-    []
-  ],
-  [
-    "noeval.js",
-    []
-  ],
-  [
-    "noeval-silent.js",
-    [
-      "silent-noeval.js",
-      "noeval",
+  },
+  {
+    "dialects": {
+      "adg": "prevent-bab2",
+      "ubo": "nobab2.js"
+    },
+    "hints": [
+      "nobab2.js",
+      "prevent-bab2"
+    ]
+  },
+  {
+    "dialects": {
+      "adg": "noeval",
+      "ubo": "noeval.js"
+    },
+    "hints": [
       "noeval.js",
+      "noeval",
+      "silent-noeval.js",
       "ubo-noeval.js",
       "ubo-silent-noeval.js",
       "ubo-noeval",
       "ubo-silent-noeval"
     ]
-  ],
-  [
-    "nofab.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "noeval-silent.js"
+    },
+    "hints": [
+      "noeval-silent.js",
+      "silent-noeval.js"
+    ]
+  },
+  {
+    "dialects": {
+      "adg": "prevent-fab-3.2.0",
+      "ubo": "nofab.js"
+    },
+    "hints": [
+      "nofab.js",
       "fuckadblock.js-3.2.0",
       "prevent-fab-3.2.0",
-      "nofab.js",
       "ubo-nofab.js",
       "ubo-fuckadblock.js-3.2.0",
       "ubo-nofab"
     ]
-  ],
-  [
-    "noop-0.1s.mp3",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "noop-0.1s.mp3"
+    },
+    "hints": [
+      "noop-0.1s.mp3",
       "noopmp3-0.1s",
-      "abp-resource:blank-mp3",
-      "blank-mp3"
+      "abp-resource:blank-mp3"
     ]
-  ],
-  [
-    "noop-0.5s.mp3",
-    []
-  ],
-  [
-    "noop-1s.mp4",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "noopmp4-1s",
+      "ubo": "noop-1s.mp4"
+    },
+    "hints": [
+      "noop-1s.mp4",
       "noopmp4-1s",
       "abp-resource:blank-mp4",
-      "noop-1s.mp4",
       "blank-mp4"
     ]
-  ],
-  [
-    "noop.css",
-    []
-  ],
-  [
-    "noop.html",
-    [
-      "noopframe",
+  },
+  {
+    "dialects": {
+      "adg": "noopcss",
+      "ubo": "noop.css"
+    },
+    "hints": [
+      "noop.css",
+      "noopcss",
+      "blank-css"
+    ]
+  },
+  {
+    "dialects": {
+      "adg": "noopframe",
+      "ubo": "noop.html"
+    },
+    "hints": [
       "noop.html",
+      "noopframe",
       "blank-html"
     ]
-  ],
-  [
-    "noop.js",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "noopjs",
+      "ubo": "noop.js"
+    },
+    "hints": [
+      "noop.js",
       "noopjs",
       "abp-resource:blank-js",
-      "noop.js",
       "blank-js"
     ]
-  ],
-  [
-    "noop.json",
-    [
-      "noopjson",
-      "noop.json"
+  },
+  {
+    "dialects": {
+      "adg": "noopjson",
+      "ubo": "noop.json"
+    },
+    "hints": [
+      "noop.json",
+      "noopjson"
     ]
-  ],
-  [
-    "noop.txt",
-    [
-      "nooptext",
+  },
+  {
+    "dialects": {
+      "adg": "nooptext",
+      "ubo": "noop.txt"
+    },
+    "hints": [
       "noop.txt",
+      "nooptext",
       "blank-text"
     ]
-  ],
-  [
-    "noop-vast2.xml",
-    [
-      "noopvast-2.0",
-      "noop-vast2.xml"
+  },
+  {
+    "dialects": {
+      "adg": "noopvast-2.0",
+      "ubo": "noop-vast2.xml"
+    },
+    "hints": [
+      "noop-vast2.xml",
+      "noopvast-2.0"
     ]
-  ],
-  [
-    "noop-vast3.xml",
-    [
-      "noopvast-3.0",
-      "noop-vast3.xml"
+  },
+  {
+    "dialects": {
+      "adg": "noopvast-3.0",
+      "ubo": "noop-vast3.xml"
+    },
+    "hints": [
+      "noop-vast3.xml",
+      "noopvast-3.0"
     ]
-  ],
-  [
-    "noop-vast4.xml",
-    [
-      "noopvast-4.0",
-      "noop-vast4.xml"
+  },
+  {
+    "dialects": {
+      "adg": "noopvast-4.0",
+      "ubo": "noop-vast4.xml"
+    },
+    "hints": [
+      "noop-vast4.xml",
+      "noopvast-4.0"
     ]
-  ],
-  [
-    "noop-vmap1.xml",
-    [
+  },
+  {
+    "dialects": {
+      "adg": "noopvmap-1.0",
+      "ubo": "noop-vmap1.xml"
+    },
+    "hints": [
+      "noop-vmap1.xml",
       "noop-vmap1.0.xml",
-      "noopvmap-1.0",
-      "noop-vmap1.xml"
+      "noopvmap-1.0"
     ]
-  ],
-  [
-    "outbrain-widget.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "outbrain-widget.js"
+    },
+    "hints": [
+      "outbrain-widget.js",
       "widgets.outbrain.com/outbrain.js"
     ]
-  ],
-  [
-    "popads.js",
-    [
+  },
+  {
+    "dialects": {
+      "ubo": "popads.js"
+    },
+    "hints": [
+      "popads.js",
       "popads.net.js",
-      "prevent-popads-net.js",
-      "prevent-popads-net",
-      "ubo-popads.net.js",
-      "ubo-popads.net"
+      "prevent-popads-net.js"
     ]
-  ],
-  [
-    "popads-dummy.js",
-    []
-  ],
-  [
-    "prebid-ads.js",
-    []
-  ],
-  [
-    "scorecardresearch_beacon.js",
-    [
-      "scorecardresearch.com/beacon.js"
+  },
+  {
+    "dialects": {
+      "adg": "set-popads-dummy",
+      "ubo": "popads-dummy.js"
+    },
+    "hints": [
+      "popads-dummy.js",
+      "set-popads-dummy",
+      "ubo-popads-dummy.js",
+      "ubo-popads-dummy"
     ]
-  ]
+  },
+  {
+    "dialects": {
+      "adg": "prebid-ads",
+      "ubo": "prebid-ads.js"
+    },
+    "hints": [
+      "prebid-ads.js",
+      "prebid-ads",
+      "ubo-prebid-ads.js"
+    ]
+  },
+  {
+    "dialects": {
+      "adg": "scorecardresearch-beacon",
+      "ubo": "scorecardresearch_beacon.js"
+    },
+    "hints": [
+      "scorecardresearch_beacon.js",
+      "scorecardresearch.com/beacon.js",
+      "scorecardresearch-beacon",
+      "ubo-scorecardresearch_beacon.js"
+    ]
+  }
 ]

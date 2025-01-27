@@ -9,11 +9,11 @@ const createFilter = (rules, filterId = 0) => {
 
 export default async function convert(rules, { resourcesPath } = {}) {
   const filter = createFilter(rules.map(normalizeFilter));
-  const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
+  const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath: '/a' });
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
   return {
-    rules: declarativeRules.map((rule) => normalizeRule(rule)),
+    rules: declarativeRules.map((rule) => normalizeRule(rule, { resourcesPath })),
     errors: conversionResult.errors,
     limitations: conversionResult.limitations,
   };

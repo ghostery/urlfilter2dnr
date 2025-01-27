@@ -33,39 +33,52 @@ async function downloadResource(resourceName) {
 function extractRedirects(data) {
   console.log('Extracting resources...');
 
-  const resources = JSON.parse(data);
-  const mappings = resources.redirects.map((redirect) => [redirect.name, redirect.aliases ?? []]);
+  /**
+   * @type {Array<{ dialects: { adg: string; ubo: string; }; hints: string[]; }>}
+   */
+  const mappings = [];
 
-  // Integrate adguard mappings
-  for (const dialect of adguardDialects) {
-    // Skip adguard exclusives
-    if (dialect.aliases === undefined) {
-      continue;
+  /**
+   * @type {{ redirects: Array<{ name: string; aliases: string[]; body: string; contentType: string; }> }}
+   */
+  const { redirects } = JSON.parse(data);
+  for (const redirect of redirects) {
+    /**
+     * @type {Set<string>}
+     */
+    const hints = new Set();
+    hints.add(redirect.name);
+    for (const alias of redirect.aliases) {
+      hints.add(alias);
     }
 
-    // Find an entry with adguard dialect
-    const entry = mappings.find(([, aliases]) => {
-      if (aliases.includes(dialect.title)) {
-        return true;
-      }
-
-      for (const alias of dialect.aliases) {
-        if (aliases.includes(alias)) {
-          return true;
+    // Register AdGuard dialects
+    /**
+     * @type {{ title: string; aliases: string[]; isBlocking: boolean; contentType: string; content: string; }}
+     */
+    const adguardDialect = adguardDialects.find((dialect) =>
+      [dialect.title, ...(dialect.aliases ?? [])].includes(redirect.name),
+    );
+    if (adguardDialect !== undefined) {
+      hints.add(adguardDialect.title);
+      if (adguardDialect.aliases !== undefined) {
+        for (const alias of adguardDialect.aliases) {
+          hints.add(alias);
         }
       }
+    }
 
-      return false;
-    });
-    if (entry === undefined) {
+    if (hints.size === 1) {
       continue;
     }
 
-    for (const alias of [dialect.title, ...dialect.aliases]) {
-      if (entry[1].includes(alias) === false) {
-        entry[1].push(alias);
-      }
-    }
+    mappings.push({
+      dialects: {
+        adg: adguardDialect?.title,
+        ubo: redirect.name,
+      },
+      hints: Array.from(hints),
+    });
   }
 
   return JSON.stringify(mappings, null, 2);

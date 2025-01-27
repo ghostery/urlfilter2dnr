@@ -1,34 +1,54 @@
 import mappings from '../mappings.json';
 
-function getPathBasename(path) {
-  const lastIndex = path.lastIndexOf('/');
-  if (lastIndex === -1) {
-    return path;
-  }
-  return path.slice(lastIndex + 1);
-}
-
-export function generateResourcesMapping() {
-  const resourcesMapping = new Map();
-  for (const [name, aliases] of mappings) {
-    for (const alias of aliases) {
-      resourcesMapping.set(alias, name);
-    }
-  }
-  return resourcesMapping;
-}
-
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
 };
-export const DEFAULT_RESOURCES_MAPPING = generateResourcesMapping();
 
-export function normalizeFilter(
-  filter,
-  { mapping = DEFAULT_PARAM_MAPPING, resourcesMapping = DEFAULT_RESOURCES_MAPPING } = {},
-) {
+/**
+ * Normalizes redirect resource name into preferred format (if not found, will use 'ubo')
+ * @param {string} name
+ * @param {'ubo' | 'adg'} dialect
+ */
+function normalizeRedirect(name, dialect) {
+  if (dialect !== 'ubo' && dialect !== 'adg') {
+    throw new Error(`The redirect resource dialect of "${dialect}" is not supported!`);
+  }
+
+  console.log(name, dialect);
+
+  /**
+   * @type {string[]}
+   */
+  const candidates = [name];
+
+  if (name.indexOf('.') !== -1) {
+    candidates.push(name.slice(0, name.lastIndexOf('.')));
+  }
+
+  const mapping = mappings.find((mapping) => {
+    for (const candidate of candidates) {
+      const found =
+        mapping.hints.includes(candidate) ||
+        mapping.hints.find((hint) => hint.includes(candidate)) !== undefined;
+
+      if (found) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+
+  if (mapping === undefined) {
+    return name;
+  }
+
+  return mapping.dialects[dialect] ?? mapping.dialects.ubo;
+}
+
+export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
   let [front, ...back] = filter.split('$');
   let params = back.join(',').split(',');
 
@@ -49,24 +69,16 @@ export function normalizeFilter(
     front = front.toLowerCase();
   }
 
-  // adguard converter doesn't work with $redirect with slash value
-  // replace possible $redirect params including a slash
-  const indexOfRedirect = params.findIndex((p) => p.startsWith('redirect=') && p.includes('/'));
+  const indexOfRedirect = params.findIndex((p) => p.startsWith('redirect='));
   if (indexOfRedirect !== -1) {
-    const name = resourcesMapping.get(params[indexOfRedirect].slice(9));
-    if (name !== undefined) {
-      params[indexOfRedirect] = 'redirect=' + name;
-    }
+    params[indexOfRedirect] =
+      'redirect=' + normalizeRedirect(params[indexOfRedirect].slice(9), 'adg');
   }
 
-  const indexOfRedirectRule = params.findIndex(
-    (p) => p.startsWith('redirect-rule=') && p.includes('/'),
-  );
+  const indexOfRedirectRule = params.findIndex((p) => p.startsWith('redirect-rule='));
   if (indexOfRedirectRule !== -1) {
-    const name = resourcesMapping.get(params[indexOfRedirectRule].slice(14));
-    if (name !== undefined) {
-      params[indexOfRedirectRule] = 'redirect-rule=' + name;
-    }
+    params[indexOfRedirect] =
+      'redirect=' + normalizeRedirect(params[indexOfRedirect].slice(14), 'adg');
   }
 
   if (back.length === 0) {
@@ -76,7 +88,7 @@ export function normalizeFilter(
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCES_MAPPING } = {}) {
+export function normalizeRule(rule, { resourcesPath } = {}) {
   if (!rule) {
     return;
   }
@@ -111,16 +123,7 @@ export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCES_MAPPI
   }
 
   if (newRule.action && newRule.action.type === 'redirect') {
-    const filename = getPathBasename(newRule.action.redirect.extensionPath);
-    const preferredFilename =
-      resourcesMapping.get(filename) ??
-      // try searching without an extension
-      // adguard converter attaches an file extension at the end
-      resourcesMapping.get(filename.slice(0, filename.lastIndexOf('.')));
-    if (preferredFilename !== undefined) {
-      newRule.action.redirect.extensionPath =
-        newRule.action.redirect.extensionPath.slice(0, -filename.length) + preferredFilename;
-    }
+    newRule.action.redirect.extensionPath = `${resourcesPath}/${normalizeRedirect(newRule.action.redirect.extensionPath.slice(3 /* '/a/'.length */), 'ubo')}`;
   }
 
   return newRule;
