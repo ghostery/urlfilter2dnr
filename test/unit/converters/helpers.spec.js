@@ -1,10 +1,6 @@
 import { describe, it, expect } from 'bun:test';
 
-import {
-  generateResourcesMapping,
-  normalizeFilter,
-  normalizeRule,
-} from '../../../src/converters/helpers.js';
+import { normalizeFilter, normalizeRule } from '../../../src/converters/helpers.js';
 
 describe('normalizeFilter', () => {
   it('format params', () => {
@@ -41,11 +37,11 @@ describe('normalizeFilter', () => {
 
   describe('with redirect param', () => {
     it('replaces values with slashes', () => {
-      expect(normalizeFilter('test$redirect=scorecardresearch.com/beacon.js')).toEqual(
-        'test$redirect=scorecardresearch_beacon.js',
+      expect(normalizeFilter('test$redirect=scorecardresearch_beacon.js')).toEqual(
+        'test$redirect=scorecardresearch-beacon',
       );
-      expect(normalizeFilter('test$redirect-rule=scorecardresearch.com/beacon.js')).toEqual(
-        'test$redirect-rule=scorecardresearch_beacon.js',
+      expect(normalizeFilter('test$redirect-rule=3x2.png')).toEqual(
+        'test$redirect-rule=3x2-transparent.png',
       );
     });
   });
@@ -135,40 +131,5 @@ describe('normalizeRule', () => {
         excludedInitiatorDomains: ['test'],
       },
     });
-  });
-
-  it('replaces extensionPath respecting existing dirname', () => {
-    expect(
-      normalizeRule(
-        {
-          action: {
-            type: 'redirect',
-            redirect: {
-              extensionPath: '/rule_resources/redirects/alias',
-            },
-          },
-        },
-        {
-          resourcesMapping: new Map([['alias', 'test.js']]),
-        },
-      ),
-    ).toEqual({
-      action: {
-        type: 'redirect',
-        redirect: {
-          extensionPath: '/rule_resources/redirects/test.js',
-        },
-      },
-    });
-  });
-});
-
-describe('generateResourcesMapping', () => {
-  it('filters resources without file extension', () => {
-    const mapping = generateResourcesMapping();
-
-    for (const destination of mapping.values()) {
-      expect(destination.match(/\w+\.\w+|empty/)).not.toBe(null);
-    }
   });
 });

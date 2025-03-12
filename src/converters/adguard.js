@@ -7,13 +7,13 @@ const createFilter = (rules, filterId = 0) => {
   return new Filter(filterId, { getContent: async () => rules });
 };
 
-export default async function convert(rules, { resourcesPath } = {}) {
+export default async function convert(rules, { resourcesPath = '/prefix' } = {}) {
   const filter = createFilter(rules.map(normalizeFilter));
   const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
   return {
-    rules: declarativeRules.map((rule) => normalizeRule(rule)),
+    rules: declarativeRules.map((rule) => normalizeRule(rule, { resourcesPath })),
     errors: conversionResult.errors,
     limitations: conversionResult.limitations,
   };

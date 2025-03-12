@@ -1,10 +1,64 @@
+import resourceMapping from '../mappings.json';
+
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
 };
 
+/**
+ * Translates resource name
+ * @param {string} name The source resource name
+ * @param {'ubo' | 'adg'} dialect The destination dialect
+ * @returns Translated dialect or passes given name in case of not found
+ */
+function convertName(name, dialect) {
+  return resourceMapping[name]?.[dialect] ?? name;
+}
+
+/**
+ * Replaces `$redirect` and `$redirect-rule` option value with preferred dialect
+ * @param {string} line line The filter line
+ * @param {'ubo' | 'adg'} dialect The destination dialect
+ * @returns A filter line after resource translation
+ */
+function convertRedirectFilterOptions(line, dialect) {
+  const normalizeFilterProperty = (line, property) => {
+    const redirectStartsAt = line.indexOf(`${property}=`);
+    if (redirectStartsAt === -1) {
+      return line;
+    }
+
+    let redirectEndsAt = line.indexOf(',', redirectStartsAt);
+    if (redirectEndsAt === -1) {
+      redirectEndsAt = line.length;
+    }
+
+    return `${line.slice(0, redirectStartsAt)}${property}=${convertName(
+      line.slice(
+        redirectStartsAt + property.length + 1 /* `${property}=`.length */,
+        redirectEndsAt,
+      ),
+      dialect,
+    )}${line.slice(redirectEndsAt)}`;
+  };
+
+  if (
+    // This covers both redirect= and redirect-rule=:
+    !line.includes('redirect')
+  ) {
+    return line;
+  }
+
+  line = normalizeFilterProperty(line, 'redirect');
+  line = normalizeFilterProperty(line, 'redirect-rule');
+
+  return line;
+}
+
 export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
+  filter = convertRedirectFilterOptions(filter, 'adg');
+
   let [front, ...back] = filter.split('$');
   let params = back.join(',').split(',');
 
@@ -32,7 +86,7 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule) {
+export function normalizeRule(rule, { resourcesPath = '' } = {}) {
   if (!rule) {
     return;
   }
@@ -64,6 +118,13 @@ export function normalizeRule(rule) {
   if (newRule.condition && newRule.condition.domains) {
     newRule.condition.initiatorDomains = newRule.condition.domains;
     delete newRule.condition.domains;
+  }
+
+  if (newRule.action && newRule.action.type === 'redirect') {
+    const resourceName = newRule.action.redirect.extensionPath.slice(
+      resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
+    );
+    rule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
   }
 
   return newRule;
