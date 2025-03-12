@@ -22,6 +22,7 @@ export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
+  from: 'domain',
 };
 export const DEFAULT_RESOURCES_MAPPING = generateResourcesMapping();
 
