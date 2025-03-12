@@ -1,34 +1,10 @@
-import mappings from '../mappings.json';
-
-function getPathBasename(path) {
-  const lastIndex = path.lastIndexOf('/');
-  if (lastIndex === -1) {
-    return path;
-  }
-  return path.slice(lastIndex + 1);
-}
-
-export function generateResourcesMapping() {
-  const resourcesMapping = new Map();
-  for (const [name, aliases] of mappings) {
-    for (const alias of aliases) {
-      resourcesMapping.set(alias, name);
-    }
-  }
-  return resourcesMapping;
-}
-
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
 };
-export const DEFAULT_RESOURCES_MAPPING = generateResourcesMapping();
 
-export function normalizeFilter(
-  filter,
-  { mapping = DEFAULT_PARAM_MAPPING, resourcesMapping = DEFAULT_RESOURCES_MAPPING } = {},
-) {
+export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
   let [front, ...back] = filter.split('$');
   let params = back.join(',').split(',');
 
@@ -49,26 +25,6 @@ export function normalizeFilter(
     front = front.toLowerCase();
   }
 
-  // adguard converter doesn't work with $redirect with slash value
-  // replace possible $redirect params including a slash
-  const indexOfRedirect = params.findIndex((p) => p.startsWith('redirect=') && p.includes('/'));
-  if (indexOfRedirect !== -1) {
-    const name = resourcesMapping.get(params[indexOfRedirect].slice(9));
-    if (name !== undefined) {
-      params[indexOfRedirect] = 'redirect=' + name;
-    }
-  }
-
-  const indexOfRedirectRule = params.findIndex(
-    (p) => p.startsWith('redirect-rule=') && p.includes('/'),
-  );
-  if (indexOfRedirectRule !== -1) {
-    const name = resourcesMapping.get(params[indexOfRedirectRule].slice(14));
-    if (name !== undefined) {
-      params[indexOfRedirectRule] = 'redirect-rule=' + name;
-    }
-  }
-
   if (back.length === 0) {
     return front;
   }
@@ -76,7 +32,7 @@ export function normalizeFilter(
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCES_MAPPING } = {}) {
+export function normalizeRule(rule) {
   if (!rule) {
     return;
   }
@@ -108,19 +64,6 @@ export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCES_MAPPI
   if (newRule.condition && newRule.condition.domains) {
     newRule.condition.initiatorDomains = newRule.condition.domains;
     delete newRule.condition.domains;
-  }
-
-  if (newRule.action && newRule.action.type === 'redirect') {
-    const filename = getPathBasename(newRule.action.redirect.extensionPath);
-    const preferredFilename =
-      resourcesMapping.get(filename) ??
-      // try searching without an extension
-      // adguard converter attaches an file extension at the end
-      resourcesMapping.get(filename.slice(0, filename.lastIndexOf('.')));
-    if (preferredFilename !== undefined) {
-      newRule.action.redirect.extensionPath =
-        newRule.action.redirect.extensionPath.slice(0, -filename.length) + preferredFilename;
-    }
   }
 
   return newRule;
