@@ -1,34 +1,64 @@
-import mappings from '../mappings.json';
-
-function getPathBasename(path) {
-  const lastIndex = path.lastIndexOf('/');
-  if (lastIndex === -1) {
-    return path;
-  }
-  return path.slice(lastIndex + 1);
-}
-
-export function generateResourcesMapping() {
-  const resourcesMapping = new Map();
-  for (const [name, aliases] of mappings) {
-    for (const alias of aliases) {
-      resourcesMapping.set(alias, name);
-    }
-  }
-  return resourcesMapping;
-}
+import resourceMapping from '../mappings.json';
 
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
 };
-export const DEFAULT_RESOURCES_MAPPING = generateResourcesMapping();
 
-export function normalizeFilter(
-  filter,
-  { mapping = DEFAULT_PARAM_MAPPING, resourcesMapping = DEFAULT_RESOURCES_MAPPING } = {},
-) {
+/**
+ * Translates resource name
+ * @param {string} name The source resource name
+ * @param {'ubo' | 'adg'} dialect The destination dialect
+ * @returns Translated dialect or passes given name in case of not found
+ */
+function convertName(name, dialect) {
+  return resourceMapping[name]?.[dialect] ?? name;
+}
+
+/**
+ * Replaces `$redirect` and `$redirect-rule` option value with preferred dialect
+ * @param {string} line line The filter line
+ * @param {'ubo' | 'adg'} dialect The destination dialect
+ * @returns A filter line after resource translation
+ */
+function convertRedirectFilterOptions(line, dialect) {
+  const normalizeFilterProperty = (line, property) => {
+    const redirectStartsAt = line.indexOf(`${property}=`);
+    if (redirectStartsAt === -1) {
+      return line;
+    }
+
+    let redirectEndsAt = line.indexOf(',', redirectStartsAt);
+    if (redirectEndsAt === -1) {
+      redirectEndsAt = line.length;
+    }
+
+    return `${line.slice(0, redirectStartsAt)}${property}=${convertName(
+      line.slice(
+        redirectStartsAt + property.length + 1 /* `${property}=`.length */,
+        redirectEndsAt,
+      ),
+      dialect,
+    )}${line.slice(redirectEndsAt)}`;
+  };
+
+  if (
+    // This covers both redirect= and redirect-rule=:
+    !line.includes('redirect')
+  ) {
+    return line;
+  }
+
+  line = normalizeFilterProperty(line, 'redirect');
+  line = normalizeFilterProperty(line, 'redirect-rule');
+
+  return line;
+}
+
+export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
+  filter = convertRedirectFilterOptions(filter, 'adg');
+
   let [front, ...back] = filter.split('$');
   let params = back.join(',').split(',');
 
@@ -49,26 +79,6 @@ export function normalizeFilter(
     front = front.toLowerCase();
   }
 
-  // adguard converter doesn't work with $redirect with slash value
-  // replace possible $redirect params including a slash
-  const indexOfRedirect = params.findIndex((p) => p.startsWith('redirect=') && p.includes('/'));
-  if (indexOfRedirect !== -1) {
-    const name = resourcesMapping.get(params[indexOfRedirect].slice(9));
-    if (name !== undefined) {
-      params[indexOfRedirect] = 'redirect=' + name;
-    }
-  }
-
-  const indexOfRedirectRule = params.findIndex(
-    (p) => p.startsWith('redirect-rule=') && p.includes('/'),
-  );
-  if (indexOfRedirectRule !== -1) {
-    const name = resourcesMapping.get(params[indexOfRedirectRule].slice(14));
-    if (name !== undefined) {
-      params[indexOfRedirectRule] = 'redirect-rule=' + name;
-    }
-  }
-
   if (back.length === 0) {
     return front;
   }
@@ -76,7 +86,7 @@ export function normalizeFilter(
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCES_MAPPING } = {}) {
+export function normalizeRule(rule, { resourcesPath = '' } = {}) {
   if (!rule) {
     return;
   }
@@ -111,16 +121,10 @@ export function normalizeRule(rule, { resourcesMapping = DEFAULT_RESOURCES_MAPPI
   }
 
   if (newRule.action && newRule.action.type === 'redirect') {
-    const filename = getPathBasename(newRule.action.redirect.extensionPath);
-    const preferredFilename =
-      resourcesMapping.get(filename) ??
-      // try searching without an extension
-      // adguard converter attaches an file extension at the end
-      resourcesMapping.get(filename.slice(0, filename.lastIndexOf('.')));
-    if (preferredFilename !== undefined) {
-      newRule.action.redirect.extensionPath =
-        newRule.action.redirect.extensionPath.slice(0, -filename.length) + preferredFilename;
-    }
+    const resourceName = newRule.action.redirect.extensionPath.slice(
+      resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
+    );
+    rule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
   }
 
   return newRule;

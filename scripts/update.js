@@ -1,8 +1,14 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parse } from 'yaml';
 
-import adguardDialects from '@adguard/scriptlets/dist/redirects.json';
+// Read AdGuard dialects from yml as they emit the `file` property after the conversion.
+const adGuardRedirects = parse(
+  readFileSync(resolve(require.resolve('@adguard/scriptlets'), '..', '..', 'redirects.yml'), {
+    encoding: 'utf-8',
+  }),
+);
 
 const CWD = dirname(fileURLToPath(import.meta.url));
 
@@ -30,54 +36,60 @@ async function downloadResource(resourceName) {
   });
 }
 
-function extractRedirects(data) {
+function generateMapping(data) {
   console.log('Extracting resources...');
 
   const resources = JSON.parse(data);
-  const mappings = resources.redirects.map((redirect) => [redirect.name, redirect.aliases ?? []]);
+  const mappings = {};
 
-  // Integrate adguard mappings
-  for (const dialect of adguardDialects) {
-    // Skip adguard exclusives
-    if (dialect.aliases === undefined) {
+  for (const redirect of resources.redirects) {
+    for (const alias of [redirect.name, ...redirect.aliases]) {
+      mappings[alias] = { ubo: redirect.name };
+    }
+  }
+
+  for (const redirect of adGuardRedirects) {
+    // The conversion doesn't take any role in this case:
+    // If there's no alias, it's AdGuard exclusive and will do nothing.
+    if (redirect.aliases === undefined || redirect.aliases.length === 0) {
       continue;
     }
 
-    // Find an entry with adguard dialect
-    const entry = mappings.find(([, aliases]) => {
-      if (aliases.includes(dialect.title)) {
-        return true;
-      }
+    const aliases = [
+      redirect.title,
+      ...redirect.aliases,
+      // AdGuard converter emits `[].file` property in the output.
+      redirect.file,
+    ];
 
-      for (const alias of dialect.aliases) {
-        if (aliases.includes(alias)) {
-          return true;
-        }
+    // Try to find a registered uBlock Origin dialect.
+    // Not all of the AdGuard dialects are aliased from uBlock Origin: e.g. `[].file`.
+    // This loop is commonly expected to complete in first loop.
+    /**
+     * @type {string | undefined}
+     */
+    let ubo;
+    for (const alias of aliases) {
+      const name = mappings?.[alias]?.ubo;
+      if (name !== undefined) {
+        ubo = name;
+        break;
       }
-
-      return false;
-    });
-    if (entry === undefined) {
-      continue;
     }
 
-    for (const alias of [dialect.title, ...dialect.aliases]) {
-      if (entry[1].includes(alias) === false) {
-        entry[1].push(alias);
-      }
+    for (const alias of aliases) {
+      mappings[alias] = {
+        adg: redirect.title,
+        ubo,
+      };
     }
   }
 
   return JSON.stringify(mappings, null, 2);
 }
 
-const mappingsPath = join(CWD, '..', 'src', 'mappings.json');
-const oldMappings = readFileSync(mappingsPath, { encoding: 'utf-8' });
-const newMappings = extractRedirects(await downloadResource('ublock-resources-json'));
-
-if (oldMappings === newMappings) {
-  console.error('No changes - exiting');
-  process.exit(1);
-}
-
-writeFileSync(mappingsPath, newMappings, 'utf-8');
+writeFileSync(
+  join(CWD, '..', 'src', 'mappings.json'),
+  generateMapping(await downloadResource('ublock-resources-json')),
+  'utf-8',
+);
