@@ -34,6 +34,29 @@ describe('adguard converter', () => {
     });
   });
 
+  // https://github.com/ghostery/broken-page-reports/blob/5627595ed0f86c64171f38860013978ff0329907/filters/fixes.txt#L1306-L1311
+  it('*$image,redirect-rule=1x1.gif,from=web.de', async () => {
+    const { rules } = await convertWithAdguard(['*$image,redirect-rule=1x1.gif,from=web.de'], {
+      resourcesPath: '/test',
+    });
+    expect(rules[0]).toEqual({
+      id: 1,
+      action: {
+        type: 'redirect',
+        redirect: {
+          extensionPath: '/test/1x1.gif',
+        },
+      },
+      condition: {
+        initiatorDomains: ['web.de'],
+        resourceTypes: ['image'],
+        isUrlFilterCaseSensitive: false,
+        urlFilter: '',
+      },
+      priority: 1301,
+    });
+  });
+
   it('handles regexp with ?', async () => {
     const { rules } = await convertWithAdguard(['/a?/']);
     expect(rules[0]).toEqual({
