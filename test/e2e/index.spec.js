@@ -23,7 +23,7 @@ test.describe('converts rules with postMessage', () => {
       window.postMessage({
         action: 'convert',
         converter: 'adguard',
-        filters: ['||example.com'],
+        filters: ['||example.com', '||example.com^$redirect=noopjs'],
       }),
     );
     await expect(() => {
@@ -40,6 +40,20 @@ test.describe('converts rules with postMessage', () => {
               isUrlFilterCaseSensitive: false,
             },
             priority: 1,
+          },
+          {
+            id: 2,
+            action: {
+              type: 'redirect',
+              redirect: {
+                extensionPath: '/rule_resources/redirects/noop.js',
+              },
+            },
+            condition: {
+              urlFilter: '||example.com^',
+              isUrlFilterCaseSensitive: false,
+            },
+            priority: 1001,
           },
         ],
       });

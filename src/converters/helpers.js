@@ -124,7 +124,7 @@ export function normalizeRule(rule, { resourcesPath = '' } = {}) {
     const resourceName = newRule.action.redirect.extensionPath.slice(
       resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
     );
-    rule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
+    newRule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
   }
 
   return newRule;

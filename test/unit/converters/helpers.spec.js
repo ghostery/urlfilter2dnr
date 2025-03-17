@@ -44,6 +44,41 @@ describe('normalizeFilter', () => {
         'test$redirect-rule=3x2-transparent.png',
       );
     });
+
+    it('replaces resulting extension path', () => {
+      expect(
+        normalizeRule(
+          {
+            'id': 1,
+            'action': {
+              'type': 'redirect',
+              'redirect': {
+                'extensionPath': '/rule_resources/redirects/nooptext.js',
+              },
+            },
+            'condition': {
+              'urlFilter': '||foo.com/files^',
+              'isUrlFilterCaseSensitive': false,
+            },
+            'priority': 1001,
+          },
+          { resourcesPath: '/rule_resources/redirects' },
+        ),
+      ).toEqual({
+        'id': 1,
+        'action': {
+          'type': 'redirect',
+          'redirect': {
+            'extensionPath': '/rule_resources/redirects/empty',
+          },
+        },
+        'condition': {
+          'urlFilter': '||foo.com/files^',
+          'isUrlFilterCaseSensitive': false,
+        },
+        'priority': 1001,
+      });
+    });
   });
 });
 
