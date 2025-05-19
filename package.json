@@ -17,6 +17,7 @@
     "@adguard/scriptlets": "^1.12.1",
     "@adguard/tsurlfilter": "2.2.23",
     "@eyeo/webext-ad-filtering-solution": "1.5.0",
+    "@remusao/small": "^2.1.0",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
