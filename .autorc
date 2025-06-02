@@ -1,0 +1,45 @@
+{
+  "plugins": [
+    "npm",
+    "conventional-commits"
+  ],
+  "name": "Ghostery Adblocker Bot",
+  "email": "ghostery-adblocker-bot@users.noreply.github.com",
+  "labels": [
+    {
+      "name": "major",
+      "changelogTitle": "💥 Breaking Change",
+      "description": "Increment the major version when merged",
+      "overwrite": true,
+      "releaseType": "major"
+    },
+    {
+      "name": "minor",
+      "changelogTitle": "🚀 Enhancement",
+      "description": "Increment the minor version when merged",
+      "overwrite": true,
+      "releaseType": "minor"
+    },
+    {
+      "name": "patch",
+      "changelogTitle": "🐛 Bug Fix",
+      "description": "Increment the patch version when merged",
+      "overwrite": true,
+      "releaseType": "patch"
+    },
+    {
+      "name": "skip-release",
+      "description": "Preserve the current version when merged",
+      "overwrite": true,
+      "releaseType": "skip"
+    },
+    {
+      "name": "PR: Dependencies :nut_and_bolt:",
+      "description": "Changes only update dependencies",
+      "changelogTitle": ":nut_and_bolt: Dependencies",
+      "releaseType": "none",
+      "overwrite": true,
+      "color": "#5dbdcc"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-{
+export default {
   "1x1.gif": {
     "adg": "1x1-transparent.gif",
     "ubo": "1x1.gif"
@@ -306,6 +306,57 @@
   },
   "scorecardresearch.com/beacon.js": {
     "ubo": "scorecardresearch_beacon.js"
+  },
+  "MIME_TYPE_STUB.flv": {
+    "ubo": "MIME_TYPE_STUB.flv"
+  },
+  "MIME_TYPE_STUB.gif": {
+    "ubo": "MIME_TYPE_STUB.gif"
+  },
+  "MIME_TYPE_STUB.html": {
+    "ubo": "MIME_TYPE_STUB.html"
+  },
+  "MIME_TYPE_STUB.ico": {
+    "ubo": "MIME_TYPE_STUB.ico"
+  },
+  "MIME_TYPE_STUB.jpg": {
+    "ubo": "MIME_TYPE_STUB.jpg"
+  },
+  "MIME_TYPE_STUB.js": {
+    "ubo": "MIME_TYPE_STUB.js"
+  },
+  "MIME_TYPE_STUB.json": {
+    "ubo": "MIME_TYPE_STUB.json"
+  },
+  "MIME_TYPE_STUB.mp3": {
+    "ubo": "MIME_TYPE_STUB.mp3"
+  },
+  "MIME_TYPE_STUB.mp4": {
+    "ubo": "MIME_TYPE_STUB.mp4"
+  },
+  "MIME_TYPE_STUB.pdf": {
+    "ubo": "MIME_TYPE_STUB.pdf"
+  },
+  "MIME_TYPE_STUB.png": {
+    "ubo": "MIME_TYPE_STUB.png"
+  },
+  "MIME_TYPE_STUB.svg": {
+    "ubo": "MIME_TYPE_STUB.svg"
+  },
+  "MIME_TYPE_STUB.txt": {
+    "ubo": "MIME_TYPE_STUB.txt"
+  },
+  "MIME_TYPE_STUB.wav": {
+    "ubo": "MIME_TYPE_STUB.wav"
+  },
+  "MIME_TYPE_STUB.webm": {
+    "ubo": "MIME_TYPE_STUB.webm"
+  },
+  "MIME_TYPE_STUB.webp": {
+    "ubo": "MIME_TYPE_STUB.webp"
+  },
+  "MIME_TYPE_STUB.wmv": {
+    "ubo": "MIME_TYPE_STUB.wmv"
   },
   "1x1-transparent-gif": {
     "adg": "1x1-transparent.gif",

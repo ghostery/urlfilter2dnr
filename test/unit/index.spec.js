@@ -1,6 +1,6 @@
-import { describe, it } from 'bun:test';
+import { describe, it } from 'node:test';
 
-import { testRule } from './helpers';
+import { testRule } from './helpers.js';
 
 describe('converters', () => {
   it('generate same rules', async () => {

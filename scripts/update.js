@@ -1,16 +1,22 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { join, dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, resolve } from 'node:path';
 import { parse } from 'yaml';
+import { fileURLToPath } from 'node:url';
 
 // Read AdGuard dialects from yml as they emit the `file` property after the conversion.
-const adGuardRedirects = parse(
-  readFileSync(resolve(require.resolve('@adguard/scriptlets'), '..', '..', 'redirects.yml'), {
-    encoding: 'utf-8',
-  }),
-);
-
-const CWD = dirname(fileURLToPath(import.meta.url));
+let adGuardRedirects;
+try {
+  const scriptletsPath = fileURLToPath(await import.meta.resolve('@adguard/scriptlets'));
+  console.log('scriptletsPath', scriptletsPath);
+  adGuardRedirects = parse(
+    readFileSync(resolve(scriptletsPath, '..', '..', 'redirects.yml'), {
+      encoding: 'utf-8',
+    }),
+  );
+} catch (error) {
+  console.error('Failed to load AdGuard redirects:', error);
+  process.exit(1);
+}
 
 async function downloadResource(resourceName) {
   console.log('Downloading resources...');
@@ -85,11 +91,11 @@ function generateMapping(data) {
     }
   }
 
-  return JSON.stringify(mappings, null, 2);
+  return `export default ${JSON.stringify(mappings, null, 2)}`;
 }
 
 writeFileSync(
-  join(CWD, '..', 'src', 'mappings.json'),
+  join(import.meta.dirname, '..', 'src', 'mappings.ts'),
   generateMapping(await downloadResource('ublock-resources-json')),
   'utf-8',
 );

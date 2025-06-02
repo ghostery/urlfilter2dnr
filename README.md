@@ -11,7 +11,7 @@ The tool is publicaly available on a github [page](https://ghostery.github.io/ur
 
 ## Local development
 
-Install `bunjs` with a tool like `asdf` or `rtx`, eg.:
+Install `nodejs` with a tool like `asdf`, `rtx` or `mise`, eg.:
 
 ```sh
 rtx install
@@ -20,32 +20,32 @@ rtx install
 Install node modules
 
 ```sh
-bun install --frozen-lockfile
+npm ci
 ```
 
 Build static page:
 
 ```sh
-bun run build
+npm run build
 ```
 
 Start development server:
 
 ```sh
-bun run serve
+npm run serve
 ```
 
 Running tests:
 
 ```sh
-bun run test.unit
-bun run test.e2e
+npm run test.unit
+npm run test.e2e
 ```
 
 NOTE: to run e2e tests playwright needs to install instumented browser. To do that run:
 
 ```sh
-bunx playwright install --with-deps
+npx playwright install --with-deps
 ```
 
 ## postMessage API

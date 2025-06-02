@@ -1,33 +1,74 @@
 {
   "name": "@ghostery/urlfilter2dnr",
-  "version": "0.0.1",
-  "author": "Ghostery GmbH.",
+  "version": "0.1.0",
+  "author": "Ghostery GmbH",
   "description": "Converts urlfilters to DNR format",
   "license": "GPL-3.0",
   "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghostery/urlfilter2dnr.git"
+  },
   "scripts": {
-    "build": "bun ./scripts/build.js",
-    "update-mappings": "bun ./scripts/update.js",
-    "serve": "bun --watch scripts/serve.js",
-    "test.unit": "bun test test/unit",
+    "build": "npm run bundle && tshy",
+    "bundle": "node --experimental-specifier-resolution=node ./scripts/build.js",
+    "update-mappings": "node --experimental-specifier-resolution=node ./scripts/update.js",
+    "serve": "node --experimental-specifier-resolution=node --watch scripts/serve.js",
+    "test.unit": "mocha 'test/unit/**/*.spec.{ts,js}'",
     "test.e2e": "playwright test test/e2e/index.spec.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "release": "auto shipit -v",
+    "prerelease": "npm run build"
   },
   "dependencies": {
     "@adguard/scriptlets": "^1.12.1",
-    "@adguard/tsurlfilter": "2.2.23",
-    "@eyeo/webext-ad-filtering-solution": "1.5.0",
-    "yaml": "^2.7.0"
+    "@adguard/tsurlfilter": "^3.3.4",
+    "@eyeo/webext-ad-filtering-solution": "^1.23.1"
   },
   "devDependencies": {
+    "@cliqz/adblocker": "^1.34.0",
     "@eslint/js": "^9.13.0",
-    "@ghostery/trackerdb": "^1.0.208",
+    "@ghostery/trackerdb": "^1.0.564",
     "@playwright/test": "^1.45.3",
-    "@types/bun": "^1.1.11",
+    "@types/mocha": "^10.0.10",
+    "auto": "^11.0.0",
+    "esbuild": "^0.25.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
-    "prettier": "^3.3.3"
+    "mocha": "^11.5.0",
+    "prettier": "^3.3.3",
+    "tshy": "^3.0.2",
+    "tsx": "^4.19.4",
+    "yaml": "^2.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
   }
 }

@@ -1,10 +1,25 @@
 import { watch } from 'node:fs';
 import path from 'node:path';
+import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
 
 import build from './helpers/build.js';
-import { SOURCE_PATH, DIST_PATH } from './helpers/paths.js';
+import { SOURCE_PATH, PAGE_PATH } from './helpers/paths.js';
 
 const PORT = 3000;
+
+// MIME type mapping
+const MIME_TYPES = {
+  '.html': 'text/html',
+  '.js': 'application/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+};
 
 await build();
 
@@ -18,28 +33,33 @@ const watcher = watch(SOURCE_PATH, { recursive: true }, async (event, filename) 
   }
 });
 
-Bun.serve({
-  port: PORT,
-  development: true,
-  async fetch(req) {
-    let filePath = new URL(req.url).pathname;
-    if (filePath === '/') {
-      filePath += 'index.html';
-    }
-    const file = Bun.file(path.join(DIST_PATH, filePath));
-    return new Response(file);
-  },
-  error() {
-    return new Response(null, { status: 404 });
-  },
+const server = createServer(async (req, res) => {
+  let filePath = new URL(req.url, `http://${req.headers.host}`).pathname;
+  if (filePath === '/') {
+    filePath += 'index.html';
+  }
+  try {
+    const fullPath = path.join(PAGE_PATH, filePath);
+    const content = await readFile(fullPath);
+    const ext = path.extname(filePath);
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    res.writeHead(200, { 'Content-Type': contentType });
+    res.end(content);
+  } catch {
+    res.writeHead(404);
+    res.end();
+  }
 });
 
-console.log(`Starting dev server at port: ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Starting dev server at port: ${PORT}`);
+});
 
 process.on('SIGINT', () => {
-  // close watcher when Ctrl-C is pressed
+  // close watcher and server when Ctrl-C is pressed
   console.log('Closing server...');
   watcher.close();
-
-  process.exit(0);
+  server.close(() => {
+    process.exit(0);
+  });
 });
