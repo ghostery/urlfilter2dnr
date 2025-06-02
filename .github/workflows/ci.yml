@@ -51,4 +51,4 @@ jobs:
             echo "Skipping release due to skip-release commit message"
             exit 0
           fi
-          npm run release 
+          npm run release

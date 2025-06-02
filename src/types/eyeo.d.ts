@@ -5,4 +5,4 @@ declare module '@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/filters/i
 
 declare module '@eyeo/webext-ad-filtering-solution/adblockpluscore/lib/dnr/index.js' {
   export function createConverter(options: { isRegexSupported: () => boolean }): (filter: string) => any[] | FilterParsingError;
-} 
+}
