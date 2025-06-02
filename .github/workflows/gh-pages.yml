@@ -1,6 +1,13 @@
 name: GitHub Pages
 
 on:
+  workflow_dispatch:
+    inputs:
+      enable:
+        description: 'Enable GitHub Pages deployment'
+        required: true
+        type: boolean
+        default: false
   push:
     branches:
       - main
@@ -8,6 +15,7 @@ on:
 
 jobs:
   deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.enable || github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
