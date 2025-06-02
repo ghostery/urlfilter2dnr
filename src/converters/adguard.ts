@@ -4,7 +4,7 @@ import { normalizeFilter, normalizeRule } from './helpers.js';
 
 const converter = new DeclarativeFilterConverter();
 
-const createFilter = (rules, filterId = 0) => {
+const createFilter = (rules: string[], filterId = 0) => {
   return new Filter(
     filterId,
     {
@@ -14,8 +14,8 @@ const createFilter = (rules, filterId = 0) => {
   );
 };
 
-export default async function convert(rules, { resourcesPath = '/prefix' } = {}) {
-  const filter = createFilter(rules.map(normalizeFilter));
+export default async function convert(rules: string[], { resourcesPath = '/prefix' }: { resourcesPath?: string } = {}) {
+  const filter = createFilter(rules.map((rule) => normalizeFilter(rule) ?? ''));
   const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 

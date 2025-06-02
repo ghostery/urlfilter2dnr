@@ -5,7 +5,7 @@ export const convert = async (rules: string[], converter: 'adguard' | 'abp', opt
   if (converter === 'adguard') {
     return convertWithAdguard(rules, options);
   }
-  return convertWithAbp(rules, options);
+  return convertWithAbp(rules);
 };
 
 export { convertWithAdguard, convertWithAbp };

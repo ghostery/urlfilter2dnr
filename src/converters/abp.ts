@@ -11,7 +11,7 @@ const PARAM_MAPPING = {
   'redirect-rule': 'rewrite',
 };
 
-export default async function convert(filters) {
+export default async function convert(filters: string[]) {
   const converter = createConverter({ isRegexSupported: () => true });
   const rules = [];
   const errors = [];
@@ -19,8 +19,12 @@ export default async function convert(filters) {
   for (const filter of filters) {
     try {
       const normalizedFilter = normalizeFilter(normalize(filter), { mapping: PARAM_MAPPING });
+      
+      if (!normalizedFilter) {
+        throw new Error('Failed to normalize filter');
+      }
 
-      const dnrRules = converter(normalizedFilter);
+      const dnrRules = await converter(normalizedFilter);
       if (dnrRules instanceof FilterParsingError) {
         throw dnrRules;
       }
@@ -32,13 +36,13 @@ export default async function convert(filters) {
       } else {
         throw new Error('Unknown problem');
       }
-    } catch (e) {
+    } catch (e: any) {
       errors.push(`Error: "${e.message}" in rule: "${filter}"`);
     }
   }
 
   return {
-    rules: rules.map(normalizeRule),
+    rules: rules.map((rule) => normalizeRule(rule)),
     errors,
   };
 }

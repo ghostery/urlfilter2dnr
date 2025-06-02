@@ -91,11 +91,11 @@ function generateMapping(data) {
     }
   }
 
-  return JSON.stringify(mappings, null, 2);
+  return `export default ${JSON.stringify(mappings, null, 2)}`;
 }
 
 writeFileSync(
-  join(import.meta.dirname, '..', 'src', 'mappings.json'),
+  join(import.meta.dirname, '..', 'src', 'mappings.ts'),
   generateMapping(await downloadResource('ublock-resources-json')),
   'utf-8',
 );

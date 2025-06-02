@@ -29,11 +29,11 @@
     "url": "https://github.com/ghostery/urlfilter2dnr.git"
   },
   "scripts": {
-    "build": "tshy && npm run bundle",
+    "build": "npm run bundle && tshy",
     "bundle": "node --experimental-specifier-resolution=node ./scripts/build.js",
     "update-mappings": "node --experimental-specifier-resolution=node ./scripts/update.js",
     "serve": "node --experimental-specifier-resolution=node --watch scripts/serve.js",
-    "test.unit": "node --test --experimental-specifier-resolution=node test/unit/**/*.spec.js",
+    "test.unit": "mocha 'test/unit/**/*.spec.{ts,js}'",
     "test.e2e": "playwright test test/e2e/index.spec.js",
     "lint": "eslint",
     "release": "auto shipit -v",
@@ -42,20 +42,24 @@
   "dependencies": {
     "@adguard/scriptlets": "^1.12.1",
     "@adguard/tsurlfilter": "^3.3.4",
-    "@eyeo/webext-ad-filtering-solution": "1.5.0"
+    "@eyeo/webext-ad-filtering-solution": "^1.23.1"
   },
   "devDependencies": {
+    "@cliqz/adblocker": "^1.34.0",
     "@eslint/js": "^9.13.0",
     "@ghostery/trackerdb": "^1.0.564",
     "@playwright/test": "^1.45.3",
+    "@types/mocha": "^10.0.10",
     "auto": "^11.0.0",
     "esbuild": "^0.25.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
+    "mocha": "^11.5.0",
     "prettier": "^3.3.3",
     "tshy": "^3.0.2",
+    "tsx": "^4.19.4",
     "yaml": "^2.8.0"
   },
   "publishConfig": {
@@ -64,7 +68,7 @@
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.tsx"
+      ".": "./src/index.ts"
     }
   }
 }

@@ -1,4 +1,4 @@
-import { describe, it } from 'node:test';
+import { describe, it } from 'mocha';
 import assert from 'node:assert';
 
 import { testRule } from './helpers.js';

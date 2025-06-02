@@ -2,3 +2,4 @@ node_modules
 dist
 test-results
 .tshy/
+.tshy-build

@@ -1,4 +1,13 @@
-import resourceMapping from '../mappings.json' with { type: 'json' };
+import resourceMapping from '../mappings.js';
+
+type ResourceMapping = {
+  [key: string]: {
+    adg?: string;
+    ubo?: string;
+  };
+};
+
+const typedResourceMapping = resourceMapping as ResourceMapping;
 
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
@@ -12,8 +21,8 @@ export const DEFAULT_PARAM_MAPPING = {
  * @param {'ubo' | 'adg'} dialect The destination dialect
  * @returns Translated dialect or passes given name in case of not found
  */
-function convertName(name, dialect) {
-  return resourceMapping[name]?.[dialect] ?? name;
+function convertName(name: string, dialect: 'ubo' | 'adg') {
+  return typedResourceMapping[name]?.[dialect] ?? name;
 }
 
 /**
@@ -22,8 +31,8 @@ function convertName(name, dialect) {
  * @param {'ubo' | 'adg'} dialect The destination dialect
  * @returns A filter line after resource translation
  */
-function convertRedirectFilterOptions(line, dialect) {
-  const normalizeFilterProperty = (line, property) => {
+function convertRedirectFilterOptions(line: string, dialect: 'ubo' | 'adg') {
+  const normalizeFilterProperty = (line: string, property: string) => {
     const redirectStartsAt = line.indexOf(`${property}=`);
     if (redirectStartsAt === -1) {
       return line;
@@ -56,7 +65,7 @@ function convertRedirectFilterOptions(line, dialect) {
   return line;
 }
 
-export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}) {
+export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPING }: { mapping?: Record<string, string> } = {}) {
   filter = convertRedirectFilterOptions(filter, 'adg');
 
   let [front, ...back] = filter.split('$');
@@ -64,7 +73,7 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
 
   params.forEach((param, index) => {
     const [key, value] = param.split('=');
-    const alias = mapping[key];
+    const alias = mapping[key as keyof typeof mapping];
     if (alias) {
       params[index] = value ? `${alias}=${value}` : alias;
     }
@@ -76,7 +85,7 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
 
   // by default easylist syntax is case-insensitve
   if (!params.find((p) => p === 'match-case')) {
-    front = front.toLowerCase();
+    front = front?.toLowerCase();
   }
 
   if (back.length === 0) {
@@ -86,7 +95,7 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule, { resourcesPath = '', id } = {}) {
+export function normalizeRule(rule: any, { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {}) {
   if (!rule) {
     return;
   }

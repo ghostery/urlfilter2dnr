@@ -1,9 +1,9 @@
-import { describe, it } from 'node:test';
+import { describe, it } from 'mocha';
 import assert from 'node:assert';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
 
-global.chrome = {
+globalThis.chrome = {
   runtime: {
     lastError: null,
   },

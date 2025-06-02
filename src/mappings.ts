@@ -1,4 +1,4 @@
-{
+export default {
   "1x1.gif": {
     "adg": "1x1-transparent.gif",
     "ubo": "1x1.gif"
