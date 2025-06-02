@@ -1,52 +1,59 @@
-import { describe, it, expect } from 'bun:test';
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 import { normalizeFilter, normalizeRule } from '../../../src/converters/helpers.js';
 
 describe('normalizeFilter', () => {
   it('format params', () => {
-    expect(
+    assert.strictEqual(
       normalizeFilter('||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch'),
-    ).toEqual('||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch');
+      '||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch',
+    );
 
-    expect(normalizeFilter('||test$param1$params2$param3')).toEqual(
+    assert.strictEqual(
+      normalizeFilter('||test$param1$params2$param3'),
       '||test$param1,params2,param3',
     );
   });
 
   it('replaces 3p with third-party', () => {
-    expect(normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com')).toEqual(
+    assert.strictEqual(
+      normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com'),
       '||tinypass.com^$third-party,domain=~foreignpolicy.com',
     );
   });
 
   it('removes duplicate params', () => {
-    expect(normalizeFilter('||tealiumiq.com^$3p$third-party')).toEqual(
+    assert.strictEqual(
+      normalizeFilter('||tealiumiq.com^$3p$third-party'),
       '||tealiumiq.com^$third-party',
     );
   });
 
   describe('with case-sesitive filters', () => {
     it('is casesensitive by default', () => {
-      expect(normalizeFilter('TEST')).toEqual('test');
+      assert.strictEqual(normalizeFilter('TEST'), 'test');
     });
 
     it('keeps the case with match-case param', () => {
-      expect(normalizeFilter('TEST$match-case')).toEqual('TEST$match-case');
+      assert.strictEqual(normalizeFilter('TEST$match-case'), 'TEST$match-case');
     });
   });
 
   describe('with redirect param', () => {
     it('replaces values with slashes', () => {
-      expect(normalizeFilter('test$redirect=scorecardresearch_beacon.js')).toEqual(
+      assert.strictEqual(
+        normalizeFilter('test$redirect=scorecardresearch_beacon.js'),
         'test$redirect=scorecardresearch-beacon',
       );
-      expect(normalizeFilter('test$redirect-rule=3x2.png')).toEqual(
+      assert.strictEqual(
+        normalizeFilter('test$redirect-rule=3x2.png'),
         'test$redirect-rule=3x2-transparent.png',
       );
     });
 
     it('replaces resulting extension path', () => {
-      expect(
+      assert.deepStrictEqual(
         normalizeRule(
           {
             'id': 1,
@@ -58,113 +65,120 @@ describe('normalizeFilter', () => {
             },
             'condition': {
               'urlFilter': '||foo.com/files^',
-              'isUrlFilterCaseSensitive': false,
             },
             'priority': 1001,
           },
           { resourcesPath: '/rule_resources/redirects' },
         ),
-      ).toEqual({
-        'id': 1,
-        'action': {
-          'type': 'redirect',
-          'redirect': {
-            'extensionPath': '/rule_resources/redirects/empty',
+        {
+          'id': 1,
+          'action': {
+            'type': 'redirect',
+            'redirect': {
+              'extensionPath': '/rule_resources/redirects/empty',
+            },
           },
+          'condition': {
+            'urlFilter': '||foo.com/files^',
+          },
+          'priority': 1001,
         },
-        'condition': {
-          'urlFilter': '||foo.com/files^',
-          'isUrlFilterCaseSensitive': false,
-        },
-        'priority': 1001,
-      });
+      );
     });
   });
 });
 
 describe('normalizeRule', () => {
   it('does nothing for empty rules', () => {
-    expect(normalizeRule(undefined)).toEqual(undefined);
+    assert.strictEqual(normalizeRule(undefined), undefined);
   });
 
   describe('with urlFilter', () => {
     it('sets isUrlFilterCaseSensitive default value', () => {
-      expect(
+      assert.deepStrictEqual(
         normalizeRule({
-          condition: {},
+          condition: {
+            isUrlFilterCaseSensitive: false,
+          },
         }),
-      ).toEqual({
-        condition: {},
-      });
-      expect(
+        {
+          condition: {},
+        },
+      );
+      assert.deepStrictEqual(
         normalizeRule({
           condition: {
             urlFilter: 'test',
+            isUrlFilterCaseSensitive: true,
           },
         }),
-      ).toEqual({
-        condition: {
-          urlFilter: 'test',
-          isUrlFilterCaseSensitive: false,
+        {
+          condition: {
+            urlFilter: 'test',
+            isUrlFilterCaseSensitive: true,
+          },
         },
-      });
+      );
     });
 
     it('removes trailing *', () => {
-      expect(
+      assert.deepStrictEqual(
         normalizeRule({
           condition: {
             urlFilter: 'test*',
           },
         }),
-      ).toEqual({
-        condition: {
-          isUrlFilterCaseSensitive: false,
-          urlFilter: 'test',
+        {
+          condition: {
+            urlFilter: 'test',
+          },
         },
-      });
+      );
     });
   });
 
   it('does not wraps regex rules in //', () => {
-    expect(
+    assert.deepStrictEqual(
       normalizeRule({
         condition: {
           regexFilter: 'test',
         },
       }),
-    ).toEqual({
-      condition: {
-        regexFilter: 'test',
+      {
+        condition: {
+          regexFilter: 'test',
+        },
       },
-    });
+    );
   });
 
   it('replaces domains with initiatorDomains', () => {
-    expect(
+    assert.deepStrictEqual(
       normalizeRule({
         condition: {
           domains: ['test'],
         },
       }),
-    ).toEqual({
-      condition: {
-        initiatorDomains: ['test'],
+      {
+        condition: {
+          initiatorDomains: ['test'],
+        },
       },
-    });
+    );
   });
 
   it('replaces excludedDomains with excludedInitiatorDomains', () => {
-    expect(
+    assert.deepStrictEqual(
       normalizeRule({
         condition: {
           excludedDomains: ['test'],
         },
       }),
-    ).toEqual({
-      condition: {
-        excludedInitiatorDomains: ['test'],
+      {
+        condition: {
+          excludedInitiatorDomains: ['test'],
+        },
       },
-    });
+    );
   });
 });

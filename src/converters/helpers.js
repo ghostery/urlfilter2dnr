@@ -1,4 +1,4 @@
-import resourceMapping from '../mappings.json';
+import resourceMapping from '../mappings.json' with { type: 'json' };
 
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
@@ -86,19 +86,24 @@ export function normalizeFilter(filter, { mapping = DEFAULT_PARAM_MAPPING } = {}
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule, { resourcesPath = '' } = {}) {
+export function normalizeRule(rule, { resourcesPath = '', id } = {}) {
   if (!rule) {
     return;
   }
   const newRule = structuredClone(rule);
 
+  if (id) {
+    newRule.id = id;
+  }
+
   if (newRule.condition && newRule.condition.urlFilter) {
     if (newRule.condition.urlFilter.endsWith('*')) {
       newRule.condition.urlFilter = newRule.condition.urlFilter.slice(0, -1);
     }
-    if (newRule.condition.isUrlFilterCaseSensitive === undefined) {
-      newRule.condition.isUrlFilterCaseSensitive = false;
-    }
+  }
+
+  if (rule.condition && rule.condition.isUrlFilterCaseSensitive !== true) {
+    delete newRule.condition.isUrlFilterCaseSensitive;
   }
 
   if (

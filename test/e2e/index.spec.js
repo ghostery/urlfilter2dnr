@@ -37,7 +37,6 @@ test.describe('converts rules with postMessage', () => {
             },
             condition: {
               urlFilter: '||example.com',
-              isUrlFilterCaseSensitive: false,
             },
             priority: 1,
           },
@@ -51,7 +50,6 @@ test.describe('converts rules with postMessage', () => {
             },
             condition: {
               urlFilter: '||example.com^',
-              isUrlFilterCaseSensitive: false,
             },
             priority: 1001,
           },
@@ -77,7 +75,6 @@ test.describe('converts rules with postMessage', () => {
             id: 1,
             priority: 1000,
             condition: {
-              isUrlFilterCaseSensitive: false,
               urlFilter: '||example.com',
             },
             action: {

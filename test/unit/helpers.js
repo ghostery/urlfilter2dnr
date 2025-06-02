@@ -1,4 +1,4 @@
-import { expect } from 'bun:test';
+import assert from 'node:assert';
 
 import convertWithAbp from '../../src/converters/abp.js';
 import convertWithAdguard from '../../src/converters/adguard.js';
@@ -20,8 +20,8 @@ export async function testRule(rule) {
     const { rules: adguardRules } = await convertWithAdguard([rule]);
     const { rules: abpRules } = await convertWithAbp([rule]);
 
-    expect(adguardRules[0]).not.toBe(undefined);
-    expect(normalize(adguardRules[0])).toEqual(normalize(abpRules[0]));
+    assert.notStrictEqual(adguardRules[0], undefined);
+    assert.deepStrictEqual(normalize(adguardRules[0]), normalize(abpRules[0]));
   } catch (e) {
     e.message += `
 Input filter: ${rule}

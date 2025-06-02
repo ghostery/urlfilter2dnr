@@ -1,5 +1,4 @@
-import convertWithAdguard from './converters/adguard.js';
-import convertWithAbp from './converters/abp.js';
+import { convertWithAdguard, convertWithAbp } from '../index.js';
 
 const $input = document.querySelector('#input textarea');
 const $submitButton = document.querySelector('#input input[type=submit]');

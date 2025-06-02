@@ -1,4 +1,4 @@
-import { test } from 'bun:test';
+import { test } from 'node:test';
 
 import { readFileSync } from 'node:fs';
 import path from 'node:path';

@@ -13,19 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v1
-        with:
-          version: latest
+      - uses: jdx/mise-action@v2
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: npm ci       
       - name: Install Playwright
-        run: bun x playwright install --with-deps
+        run: npx playwright install --with-deps
       - name: Run unit tests
-        run: bun run test.unit
+        run: npm run test.unit
       - name: Run e2e tests
-        run: bun run test.e2e
+        run: npm run test.e2e
       - name: Run linting
-        run: bun run lint
+        run: npm run lint
 
   release:
     needs: test
@@ -35,11 +33,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: jdx/mise-action@v1
-        with:
-          version: latest
+      - uses: jdx/mise-action@v2
       - name: Install dependencies
-        run: bun install
+        run: npm ci
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.ADBLOCKERBOT_APP_ID }}
+          private-key: ${{ secrets.ADBLOCKERBOT_PRIVATE_KEY }}
       - name: Create Release PR or Publish to npm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,4 +51,4 @@ jobs:
             echo "Skipping release due to skip-release commit message"
             exit 0
           fi
-          bun run release 
+          npm run release 

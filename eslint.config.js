@@ -9,7 +9,6 @@ export default [
       globals: {
         ...globals.node,
         ...globals.browser,
-        Bun: 'readonly',
       },
       parserOptions: {
         ecmaVersion: 'latest',

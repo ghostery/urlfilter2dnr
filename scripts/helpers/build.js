@@ -1,27 +1,38 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import * as esbuild from 'esbuild';
 
-import { SOURCE_PATH, DIST_PATH } from './paths.js';
+import { SOURCE_PATH, PAGE_PATH, DIST_PATH } from './paths.js';
+
+function logBuildError(result) {
+  if (!result.errors.length) {
+    return;
+  }
+  console.error('Build failed');
+  for (const error of result.errors) {
+    console.error(error);
+  }
+  throw new Error(result.errors.map((e) => e.text).join('\n'));
+}
 
 export default async function build({ debug = false } = {}) {
   fs.rmSync(DIST_PATH, { recursive: true, force: true });
-  fs.mkdirSync(DIST_PATH);
-  fs.copyFileSync(path.join(SOURCE_PATH, 'index.html'), path.join(DIST_PATH, 'index.html'));
+  fs.mkdirSync(PAGE_PATH, { recursive: true });
+  fs.copyFileSync(
+    path.join(SOURCE_PATH, 'page', 'index.html'),
+    path.join(PAGE_PATH, 'index.html'),
+  );
 
-  const result = await Bun.build({
-    entrypoints: [path.join(SOURCE_PATH, 'index.js')],
-    outdir: DIST_PATH,
-    target: 'browser',
+  const result = await esbuild.build({
+    entryPoints: [path.join(SOURCE_PATH, 'page', 'index.js')],
+    outdir: PAGE_PATH,
+    bundle: true,
     minify: !debug,
     sourcemap: debug ? 'inline' : 'external',
+    format: 'esm',
+    target: ['es2020'],
+    platform: 'browser',
   });
 
-  if (!result.success) {
-    console.error('Build failed');
-    for (const message of result.logs) {
-      // Bun will pretty print the message object
-      console.error(message);
-    }
-    throw new Error(result.logs.join('\n'));
-  }
+  logBuildError(result);
 }

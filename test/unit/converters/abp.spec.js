@@ -1,31 +1,31 @@
-import { describe, it, expect } from 'bun:test';
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 import convertWithAbp from '../../../src/converters/abp.js';
 
 describe('abp converter', () => {
   it('handles 3p rules', async () => {
     const { rules: rules1 } = await convertWithAbp(['||sync.extend.tv^$3p']);
-    expect(rules1[0]).not.toEqual(undefined);
+    assert.notStrictEqual(rules1[0], undefined);
 
     const { rules: rules2 } = await convertWithAbp(['||d3pkntwtp2ukl5.cloudfront.net^$3p']);
-    expect(rules2[0]).not.toEqual(undefined);
+    assert.notStrictEqual(rules2[0], undefined);
   });
 
   it('handles trailing wildcard', async () => {
     const { rules } = await convertWithAbp(['/js/tealium/*']);
-    expect(rules[0]).not.toEqual(undefined);
+    assert.notStrictEqual(rules[0], undefined);
   });
 
   it('||tinypass.com^$3p,domain=~foreignpolicy.com', async () => {
     const { rules } = await convertWithAbp(['tinypass.com$3p,domain=x.z']);
-    expect(rules[0]).toEqual({
+    assert.deepStrictEqual(rules[0], {
       action: {
         type: 'block',
       },
       condition: {
         domainType: 'thirdParty',
         initiatorDomains: ['x.z'],
-        isUrlFilterCaseSensitive: false,
         urlFilter: 'tinypass.com',
       },
       priority: 2000,
@@ -35,6 +35,6 @@ describe('abp converter', () => {
 
   it('handles regexp rules', async () => {
     const { rules } = await convertWithAbp(['/js/']);
-    expect(rules[0]).not.toEqual(undefined);
+    assert.notStrictEqual(rules[0], undefined);
   });
 });
