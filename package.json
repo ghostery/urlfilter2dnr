@@ -5,13 +5,24 @@
   "description": "Converts urlfilters to DNR format",
   "license": "GPL-3.0",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghostery/urlfilter2dnr.git"
+  },
   "scripts": {
     "build": "bun ./scripts/build.js",
     "update-mappings": "bun ./scripts/update.js",
     "serve": "bun --watch scripts/serve.js",
     "test.unit": "bun test test/unit",
     "test.e2e": "playwright test test/e2e/index.spec.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "release": "auto shipit",
+    "prerelease": "npm run build"
   },
   "dependencies": {
     "@adguard/scriptlets": "^1.12.1",
@@ -24,10 +35,14 @@
     "@ghostery/trackerdb": "^1.0.208",
     "@playwright/test": "^1.45.3",
     "@types/bun": "^1.1.11",
+    "auto": "^11.0.0",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
     "prettier": "^3.3.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

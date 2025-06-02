@@ -1,0 +1,37 @@
+{
+  "plugins": [
+    "npm",
+    "conventional-commits"
+  ],
+  "onlyPublishWithReleaseLabel": true,
+  "labels": [
+    {
+      "name": "major",
+      "changelogTitle": "💥 Breaking Change",
+      "description": "Increment the major version when merged",
+      "releaseType": "major"
+    },
+    {
+      "name": "minor",
+      "changelogTitle": "🚀 Enhancement",
+      "description": "Increment the minor version when merged",
+      "releaseType": "minor"
+    },
+    {
+      "name": "patch",
+      "changelogTitle": "🐛 Bug Fix",
+      "description": "Increment the patch version when merged",
+      "releaseType": "patch"
+    },
+    {
+      "name": "skip-release",
+      "description": "Preserve the current version when merged",
+      "releaseType": "skip"
+    },
+    {
+      "name": "release",
+      "description": "Create a release when this PR is merged",
+      "releaseType": "release"
+    }
+  ]
+} 
