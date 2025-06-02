@@ -8,4 +8,4 @@ export default {
     target: 'es2020',
     platform: 'node',
   },
-}; 
+};
