@@ -35,6 +35,11 @@ jobs:
       - name: Bundle
         run: npm run bundle
 
+      - name: Fetch gh-pages branch
+        run: |
+          git fetch origin gh-pages:gh-pages || true
+          git checkout gh-pages || git checkout -b gh-pages
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
