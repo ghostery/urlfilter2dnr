@@ -49,7 +49,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/page
           destination_dir: ${{ github.event_name == 'pull_request' && format('preview/pr-{0}', github.event.pull_request.number) || '' }}
-          force_orphan: ${{ github.event_name != 'pull_request' }}
+          force_orphan: false
 
       - name: Comment PR with Preview URL
         if: github.event_name == 'pull_request'
