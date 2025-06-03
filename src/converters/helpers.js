@@ -1,3 +1,4 @@
+import { getResourceForMime } from '@remusao/small';
 import resourceMapping from '../mappings.json';
 
 export const DEFAULT_PARAM_MAPPING = {
@@ -7,13 +8,25 @@ export const DEFAULT_PARAM_MAPPING = {
 };
 
 /**
+ * Get fallback resource for requested name
+ * @param {string} name The resource name
+ */
+function getFallbackResource(name) {
+  const index = name.lastIndexOf('.');
+  if (index === -1) {
+    return getResourceForMime(name);
+  }
+  return getResourceForMime(name.slice(index));
+}
+
+/**
  * Translates resource name
  * @param {string} name The source resource name
  * @param {'ubo' | 'adg'} dialect The destination dialect
  * @returns Translated dialect or passes given name in case of not found
  */
 function convertName(name, dialect) {
-  return resourceMapping[name]?.[dialect] ?? name;
+  return resourceMapping[name]?.[dialect] || getFallbackResource(name);
 }
 
 /**
