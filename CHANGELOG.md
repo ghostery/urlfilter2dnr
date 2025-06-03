@@ -1,3 +1,15 @@
+# v1.0.2 (Tue Jun 03 2025)
+
+#### ⚠️ Pushed to `main`
+
+- CI: fix overwrting of gh pages ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.0.1 (Tue Jun 03 2025)
 
 #### 🐛 Bug Fix
