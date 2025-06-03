@@ -1,3 +1,15 @@
+# v1.0.3 (Tue Jun 03 2025)
+
+#### ⚠️ Pushed to `main`
+
+- CI: improve releases ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.0.2 (Tue Jun 03 2025)
 
 #### ⚠️ Pushed to `main`
