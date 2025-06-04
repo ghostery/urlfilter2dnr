@@ -9,7 +9,7 @@ try {
   const scriptletsPath = fileURLToPath(await import.meta.resolve('@adguard/scriptlets'));
   console.log('scriptletsPath', scriptletsPath);
   adGuardRedirects = parse(
-    readFileSync(resolve(scriptletsPath, '..', '..', 'redirects.yml'), {
+    readFileSync(resolve(scriptletsPath, '..', 'redirects.yml'), {
       encoding: 'utf-8',
     }),
   );

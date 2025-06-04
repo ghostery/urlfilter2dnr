@@ -40,7 +40,7 @@
     "prerelease": "npm run build"
   },
   "dependencies": {
-    "@adguard/scriptlets": "^1.12.1",
+    "@adguard/scriptlets": "^2.2.5",
     "@adguard/tsurlfilter": "^3.3.4",
     "@eyeo/webext-ad-filtering-solution": "^1.23.1"
   },
