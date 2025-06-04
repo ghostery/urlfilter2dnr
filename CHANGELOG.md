@@ -1,3 +1,15 @@
+# v1.0.4 (Wed Jun 04 2025)
+
+#### 🐛 Bug Fix
+
+- Update ag scriptlets [#40](https://github.com/ghostery/urlfilter2dnr/pull/40) ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.0.3 (Tue Jun 03 2025)
 
 #### ⚠️ Pushed to `main`
