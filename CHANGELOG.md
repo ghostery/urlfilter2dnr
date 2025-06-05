@@ -1,3 +1,15 @@
+# v1.0.5 (Thu Jun 05 2025)
+
+#### ⚠️ Pushed to `main`
+
+- Update ag scriptlets ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.0.4 (Wed Jun 04 2025)
 
 #### 🐛 Bug Fix
