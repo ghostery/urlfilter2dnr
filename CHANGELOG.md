@@ -1,3 +1,24 @@
+# v1.1.0 (Thu Jun 05 2025)
+
+#### 🚀 Enhancement
+
+- Chore(deps): bump @babel/runtime-corejs3 from 7.25.7 to 7.27.6 in the npm_and_yarn group across 1 directory [#41](https://github.com/ghostery/urlfilter2dnr/pull/41) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### 🐛 Bug Fix
+
+- Chore(deps-dev): bump @eslint/plugin-kit from 0.2.1 to 0.2.8 in the npm_and_yarn group across 1 directory [#42](https://github.com/ghostery/urlfilter2dnr/pull/42) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### ⚠️ Pushed to `main`
+
+- Create dependabot.yml ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.0.5 (Thu Jun 05 2025)
 
 #### ⚠️ Pushed to `main`
