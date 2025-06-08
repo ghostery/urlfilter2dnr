@@ -29,7 +29,7 @@
     "url": "https://github.com/ghostery/urlfilter2dnr.git"
   },
   "scripts": {
-    "build": "npm run bundle && tshy",
+    "build": "tshy",
     "bundle": "node ./scripts/build.js",
     "update-mappings": "node ./scripts/update.js",
     "serve": "node --watch scripts/serve.js",
