@@ -7,7 +7,6 @@
     "recursive": true,
     "node-option": [
       "import=tsx",
-      "experimental-specifier-resolution=node",
       "experimental-vm-modules"
     ]
 }

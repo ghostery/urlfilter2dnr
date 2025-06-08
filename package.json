@@ -30,9 +30,9 @@
   },
   "scripts": {
     "build": "npm run bundle && tshy",
-    "bundle": "node --experimental-specifier-resolution=node ./scripts/build.js",
-    "update-mappings": "node --experimental-specifier-resolution=node ./scripts/update.js",
-    "serve": "node --experimental-specifier-resolution=node --watch scripts/serve.js",
+    "bundle": "node ./scripts/build.js",
+    "update-mappings": "node ./scripts/update.js",
+    "serve": "node --watch scripts/serve.js",
     "test.unit": "mocha 'test/unit/**/*.spec.{ts,js}'",
     "test.e2e": "playwright test test/e2e/index.spec.js",
     "lint": "eslint",
