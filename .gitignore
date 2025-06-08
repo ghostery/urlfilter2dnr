@@ -3,3 +3,4 @@ dist
 test-results
 .tshy/
 .tshy-build
+.DS_Store
