@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "tshy",
-    "bundle": "node ./scripts/build.js",
+    "bundle": "node ./scripts/bundle.js",
     "update-mappings": "node ./scripts/update.js",
     "serve": "node --watch scripts/serve.js",
     "test.unit": "mocha 'test/unit/**/*.spec.{ts,js}'",
