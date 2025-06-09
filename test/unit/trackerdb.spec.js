@@ -5,7 +5,7 @@ import path from 'node:path';
 import loadTrackerDB from '@ghostery/trackerdb';
 import { detectFilterType } from '@cliqz/adblocker';
 
-import { ROOT_PATH } from '../../scripts/helpers/paths.js';
+import { ROOT_PATH } from '../../scripts/page/helpers/paths.js';
 import { testRule } from './helpers.js';
 
 const UNSUPPORTED_FILTERS = [
