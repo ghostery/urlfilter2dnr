@@ -26,7 +26,7 @@ npm ci
 Build static page:
 
 ```sh
-npm run build
+npm run build:page
 ```
 
 Start development server:

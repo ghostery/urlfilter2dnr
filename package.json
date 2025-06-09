@@ -30,9 +30,9 @@
   },
   "scripts": {
     "build": "tshy",
-    "bundle": "node ./scripts/bundle.js",
+    "build:page": "node ./scripts/page/build.js",
     "update-mappings": "node ./scripts/update.js",
-    "serve": "node --watch scripts/serve.js",
+    "serve": "node --watch ./scripts/page/serve.js",
     "test.unit": "mocha 'test/unit/**/*.spec.{ts,js}'",
     "test.e2e": "playwright test test/e2e/index.spec.js",
     "lint": "eslint",

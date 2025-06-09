@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as esbuild from 'esbuild';
 
-import { SOURCE_PATH, PAGE_PATH, DIST_PATH } from './paths.js';
+import { SOURCE_PATH, DIST_PATH } from './paths.js';
 
 function logBuildError(result) {
   if (!result.errors.length) {
@@ -17,15 +17,15 @@ function logBuildError(result) {
 
 export default async function build({ debug = false } = {}) {
   fs.rmSync(DIST_PATH, { recursive: true, force: true });
-  fs.mkdirSync(PAGE_PATH, { recursive: true });
+  fs.mkdirSync(DIST_PATH, { recursive: true });
   fs.copyFileSync(
     path.join(SOURCE_PATH, 'page', 'index.html'),
-    path.join(PAGE_PATH, 'index.html'),
+    path.join(DIST_PATH, 'index.html'),
   );
 
   const result = await esbuild.build({
     entryPoints: [path.join(SOURCE_PATH, 'page', 'index.js')],
-    outdir: PAGE_PATH,
+    outdir: DIST_PATH,
     bundle: true,
     minify: !debug,
     sourcemap: debug ? 'inline' : 'external',
