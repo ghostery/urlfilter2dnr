@@ -3,8 +3,8 @@ import path from 'node:path';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 
-import build from './helpers/build.js';
-import { SOURCE_PATH, PAGE_PATH } from './helpers/paths.js';
+import bundle from './helpers/build.js';
+import { SOURCE_PATH, DIST_PATH } from './helpers/paths.js';
 
 const PORT = 3000;
 
@@ -21,12 +21,12 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
 };
 
-await build();
+await bundle();
 
 const watcher = watch(SOURCE_PATH, { recursive: true }, async (event, filename) => {
   console.log(`Detected ${event} in ${filename}`);
   try {
-    await build({ debug: true });
+    await bundle({ debug: true });
     // eslint-disable-next-line no-unused-vars
   } catch (e) {
     // no need to do anything as build logs errors already
@@ -39,7 +39,7 @@ const server = createServer(async (req, res) => {
     filePath += 'index.html';
   }
   try {
-    const fullPath = path.join(PAGE_PATH, filePath);
+    const fullPath = path.join(DIST_PATH, filePath);
     const content = await readFile(fullPath);
     const ext = path.extname(filePath);
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';

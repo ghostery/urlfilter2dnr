@@ -1,5 +1,7 @@
 node_modules
 dist
+/page/
 test-results
 .tshy/
 .tshy-build
+.DS_Store

@@ -33,7 +33,7 @@ jobs:
         run: npm install
 
       - name: Bundle
-        run: npm run bundle
+        run: npm run build:page
 
       - name: Fetch gh-pages branch
         run: |
@@ -44,7 +44,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/page
+          publish_dir: ./page
           destination_dir: ${{ github.event_name == 'pull_request' && format('preview/pr-{0}', github.event.pull_request.number) || '' }}
           force_orphan: false
 

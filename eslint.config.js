@@ -3,8 +3,10 @@ import pluginJs from '@eslint/js';
 import pluginPrettier from 'eslint-plugin-prettier/recommended';
 
 export default [
+  pluginJs.configs.recommended,
+  pluginPrettier,
   {
-    files: ['**/*.js'],
+    files: ['./{scripts,src,test}/**/*.js', './*.js'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -14,10 +16,5 @@ export default [
         ecmaVersion: 'latest',
       },
     },
-  },
-  pluginJs.configs.recommended,
-  pluginPrettier,
-  {
-    ignores: ['node_modules/*', 'dist/*'],
   },
 ];
