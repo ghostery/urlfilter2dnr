@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import loadTrackerDB from '@ghostery/trackerdb';
-import { detectFilterType } from '@cliqz/adblocker';
+import { detectFilterType } from '@ghostery/adblocker';
 
 import { ROOT_PATH } from '../../scripts/page/helpers/paths.js';
 import { testRule } from './helpers.js';
