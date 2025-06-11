@@ -48,7 +48,6 @@ async function initializeRE2() {
   }
 }
 
-// Initialize RE2
 initializeRE2();
 
 /**
