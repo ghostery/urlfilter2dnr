@@ -1,4 +1,3 @@
-/* global window, document */
 import { convertWithAdguard, convertWithAbp } from '../index.js';
 import { isReadyPromise } from './re2-loader.js';
 

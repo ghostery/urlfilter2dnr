@@ -17,4 +17,15 @@ export default [
       },
     },
   },
+  {
+    files: ['./src/page/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+      parserOptions: {
+        ecmaVersion: 'latest',
+      },
+    },
+  },
 ];

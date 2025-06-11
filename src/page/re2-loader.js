@@ -1,5 +1,3 @@
-/* global window, document, fetch, console */
-
 let readyResolver;
 const isReadyPromise = new Promise((resolve) => {
   readyResolver = resolve;
