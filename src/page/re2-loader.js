@@ -51,6 +51,10 @@ async function initializeRE2() {
 // Initialize RE2
 initializeRE2();
 
+/**
+ * Copied from https://github.com/AdguardTeam/re2-wasm/blob/main/src/re2.ts
+ */
+
 function escapeRegExp(pattern) {
   return pattern.replace(/(^|[^\\])((?:\\\\)*)\//g, '$1$2\\/');
 }
