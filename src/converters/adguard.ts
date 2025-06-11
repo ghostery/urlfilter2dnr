@@ -67,7 +67,6 @@ const createFilter = (rules: string[], filterId = 0) => {
 export default async function convert(rules: string[], { resourcesPath = '/prefix' }: { resourcesPath?: string } = {}) {
   const filter = createFilter(rules.map((rule) => normalizeFilter(rule) ?? ''));
   const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
-
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
   return {
