@@ -1,6 +1,5 @@
 import { RE2 } from './re2-class.js';
 
-// Make RE2 available via global
 window.RE2 = RE2;
 
 let readyResolver;
