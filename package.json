@@ -40,6 +40,7 @@
     "prerelease": "npm run build"
   },
   "dependencies": {
+    "@adguard/re2-wasm": "^1.2.0",
     "@adguard/scriptlets": "^2.2.7",
     "@adguard/tsurlfilter": "^3.4.0",
     "@eyeo/webext-ad-filtering-solution": "^1.23.1"
