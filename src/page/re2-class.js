@@ -3,10 +3,6 @@
  * Before calling new RE2, ensure that window.Module.WrappedRE2 is present
  */
 
-function escapeRegExp(pattern) {
-  return pattern.replace(/(^|[^\\])((?:\\\\)*)\//g, '$1$2\\/');
-}
-
 const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const HEX = '0123456789ABCDEF';
 
@@ -14,6 +10,13 @@ function isHexadecimal(char) {
   return HEX.indexOf(char.toUpperCase()) !== -1;
 }
 
+/**
+ * Translate a string from Node RegExp syntax RE2 syntax. The algorithm is
+ * translated from
+ * https://github.com/uhop/node-re2/blob/master/lib/new.cc#L21-L142
+ * @param pattern
+ * @param multiline
+ */
 function translateRegExp(pattern, multiline) {
   const result = [];
   if (pattern === '') {
@@ -103,17 +106,28 @@ function translateRegExp(pattern, multiline) {
   return result.join('');
 }
 
+/**
+ * Escape a RegExp pattern by ensuring that any instance of "/" in the string
+ * is preceded by an odd number of backslashes.
+ * @param pattern
+ */
+function escapeRegExp(pattern) {
+  return pattern.replace(/(^|[^\\])((?:\\\\)*)\//g, '$1$2\\/');
+}
+
 export class RE2 {
+  _global = false;
+  _ignoreCase = false;
+  _multiline = false;
+  _dotAll = false;
+  _unicode = false;
+  _sticky = false;
+
+  pattern = '(?:)';
+
   constructor(pattern, flags, maxMem) {
-    this._global = false;
-    this._ignoreCase = false;
-    this._multiline = false;
-    this._dotAll = false;
-    this._unicode = false;
-    this._sticky = false;
-    this.pattern = '(?:)';
     if (typeof pattern !== 'string') {
-      if (pattern instanceof RegExp) {
+      if (pattern instanceof RegExp || pattern instanceof RE2) {
         flags = flags ?? pattern.flags;
         pattern = pattern.source;
       } else {
