@@ -1,3 +1,21 @@
+# v1.2.0 (Thu Jun 12 2025)
+
+#### 🚀 Enhancement
+
+- Support regexps [#44](https://github.com/ghostery/urlfilter2dnr/pull/44) ([@chrmod](https://github.com/chrmod))
+
+#### 🐛 Bug Fix
+
+- Fix build [#45](https://github.com/ghostery/urlfilter2dnr/pull/45) ([@chrmod](https://github.com/chrmod))
+- refactor: remove deprecated options and cleanup [#43](https://github.com/ghostery/urlfilter2dnr/pull/43) ([@seia-soto](https://github.com/seia-soto))
+
+#### Authors: 2
+
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.1.0 (Thu Jun 05 2025)
 
 #### 🚀 Enhancement
