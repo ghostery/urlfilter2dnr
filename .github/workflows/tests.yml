@@ -31,3 +31,7 @@ jobs:
         run: npm run test.e2e
       - name: Run linting
         run: npm run lint
+      - name: Build page
+        run: npm run build:page
+      - name: Build node package
+        run: npm run build

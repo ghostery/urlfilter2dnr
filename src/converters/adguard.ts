@@ -1,13 +1,18 @@
-// Add type declaration for globalThis.chrome
 declare global {
   var chrome: {
-    runtime: {
+    runtime?: {
       lastError: null;
     };
-    declarativeNetRequest: {
+    declarativeNetRequest?: {
       isRegexSupported: (regexOptions: { regex: string; flags: string }, callback: (result: { isSupported: boolean }) => void) => void;
     };
   };
+}
+
+declare global {
+  interface Window {
+    RE2: any;
+  }
 }
 
 import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
