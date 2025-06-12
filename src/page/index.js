@@ -1,4 +1,5 @@
 import { convertWithAdguard, convertWithAbp } from '../index.js';
+import { isReadyPromise } from './re2-loader.js';
 
 const $input = document.querySelector('#input textarea');
 const $submitButton = document.querySelector('#input input[type=submit]');
@@ -35,6 +36,8 @@ window.addEventListener('message', async (event) => {
   const { converter, filters } = event.data;
 
   let rules, errors;
+
+  await isReadyPromise;
 
   try {
     if (converter === 'adguard') {
