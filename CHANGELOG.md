@@ -1,3 +1,15 @@
+# v1.3.0 (Fri Jun 13 2025)
+
+#### 🚀 Enhancement
+
+- Support removeparam [#47](https://github.com/ghostery/urlfilter2dnr/pull/47) ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.2.2 (Fri Jun 13 2025)
 
 #### 🐛 Bug Fix
