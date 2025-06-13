@@ -10,6 +10,12 @@ describe('adguard converter', () => {
     assert.equal(errors.length, 1);
   });
 
+  it('should not crash with no rules', async () => {
+    const { rules, errors } = await convertWithAdguard([]);
+    assert.deepStrictEqual(rules, []);
+    assert.equal(errors.length, 0);
+  });
+
   it('||t.a3cloud.net/AM-141112/tag.js', async () => {
     const { rules } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
     assert.deepStrictEqual(rules[0], {
