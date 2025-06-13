@@ -89,6 +89,30 @@ describe('normalizeFilter', () => {
 });
 
 describe('normalizeRule', () => {
+  it('handles removeparam rules', () => {
+    const rule = {
+      action: {
+        redirect: {
+          transform: {
+            query: '',
+          },
+        },
+        type: 'redirect',
+      },
+      condition: {
+        initiatorDomains: ['aternos.org'],
+        resourceTypes: ['main_frame', 'sub_frame'],
+        urlFilter: '||fastlane.rubiconproject.com^',
+      },
+      id: 130097215,
+      priority: 201,
+    };
+
+    const normalizedRule = normalizeRule(rule);
+
+    assert.deepStrictEqual(normalizedRule, rule);
+  });
+
   it('does nothing for empty rules', () => {
     assert.strictEqual(normalizeRule(undefined), undefined);
   });

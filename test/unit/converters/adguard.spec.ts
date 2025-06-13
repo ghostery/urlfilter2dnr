@@ -16,6 +16,28 @@ describe('adguard converter', () => {
     assert.equal(errors.length, 0);
   });
 
+  it('||fastlane.rubiconproject.com^$removeparam,domain=aternos.org', async () => {
+    const { rules, errors } = await convertWithAdguard(['||fastlane.rubiconproject.com^$removeparam,domain=aternos.org']);
+    assert.deepStrictEqual(errors, []);
+    assert.deepStrictEqual(rules[0], {
+      action: {
+        redirect: {
+          transform: {
+            query: '',
+          },
+        },
+        type: 'redirect',
+      },
+      condition: {
+        initiatorDomains: ['aternos.org'],
+        resourceTypes: ['main_frame', 'sub_frame'],
+        urlFilter: '||fastlane.rubiconproject.com^',
+      },
+      id: 1,
+      priority: 201,
+    });
+  });
+
   it('||t.a3cloud.net/AM-141112/tag.js', async () => {
     const { rules } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
     assert.deepStrictEqual(rules[0], {

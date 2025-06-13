@@ -135,10 +135,12 @@ export function normalizeRule(rule: any, { resourcesPath = '', id }: { resources
   }
 
   if (newRule.action && newRule.action.type === 'redirect') {
-    const resourceName = newRule.action.redirect.extensionPath.slice(
-      resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
-    );
-    newRule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
+    if (newRule.action.redirect.extensionPath) {
+      const resourceName = newRule.action.redirect.extensionPath.slice(
+        resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
+      );
+      newRule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
+    }
   }
 
   return newRule;
