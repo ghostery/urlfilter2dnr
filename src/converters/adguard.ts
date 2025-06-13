@@ -81,9 +81,20 @@ export default async function convert(rules: string[], { resourcesPath = '/prefi
   const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
+  const normalizeRules = [];
+  const errors = conversionResult.errors.map(e => e.toString());
+
+  for (const [index, rule] of declarativeRules.entries()) {
+    try {
+      normalizeRules.push(normalizeRule(rule, { resourcesPath, id: index + 1 }))
+    } catch (e) {
+      errors.push(`Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`);
+    }
+  }
+
   return {
-    rules: declarativeRules.map((rule, index) => normalizeRule(rule, { resourcesPath, id: index + 1 })),
-    errors: conversionResult.errors,
+    rules: normalizeRules,
+    errors,
     limitations: conversionResult.limitations,
   };
 }
