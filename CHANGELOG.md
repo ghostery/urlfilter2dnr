@@ -1,3 +1,15 @@
+# v1.2.1 (Fri Jun 13 2025)
+
+#### ⚠️ Pushed to `main`
+
+- Tests: ensure adguard converter does not crash ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.2.0 (Thu Jun 12 2025)
 
 #### 🚀 Enhancement
