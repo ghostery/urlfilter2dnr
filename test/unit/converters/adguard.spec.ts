@@ -3,16 +3,13 @@ import assert from 'node:assert';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
 
-globalThis.chrome = {
-  runtime: {
-    lastError: null,
-  },
-  declarativeNetRequest: {
-    isRegexSupported: (_, callback) => callback({ isSupported: true }),
-  },
-};
-
 describe('adguard converter', () => {
+  it('should not crash on unsupported rules', async () => {
+    const { rules, errors } = await convertWithAdguard(['/(?>ab)c/']);
+    assert.deepStrictEqual(rules, []);
+    assert.equal(errors.length, 1);
+  });
+
   it('||t.a3cloud.net/AM-141112/tag.js', async () => {
     const { rules } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
     assert.deepStrictEqual(rules[0], {
