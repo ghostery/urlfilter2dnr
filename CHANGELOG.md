@@ -1,3 +1,15 @@
+# v1.2.2 (Fri Jun 13 2025)
+
+#### 🐛 Bug Fix
+
+- Adguard converter: handle empty rule list [#46](https://github.com/ghostery/urlfilter2dnr/pull/46) ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.2.1 (Fri Jun 13 2025)
 
 #### ⚠️ Pushed to `main`
