@@ -1,3 +1,17 @@
+# v1.4.0 (Mon Jun 16 2025)
+
+#### 🚀 Enhancement
+
+- Chore(deps-dev): bump @playwright/test from 1.52.0 to 1.53.0 [#50](https://github.com/ghostery/urlfilter2dnr/pull/50) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump tsx from 4.19.4 to 4.20.3 [#49](https://github.com/ghostery/urlfilter2dnr/pull/49) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 9.28.0 to 9.29.0 [#48](https://github.com/ghostery/urlfilter2dnr/pull/48) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 1
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+
+---
+
 # v1.3.0 (Fri Jun 13 2025)
 
 #### 🚀 Enhancement
