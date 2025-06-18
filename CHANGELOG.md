@@ -1,3 +1,16 @@
+# v1.6.0 (Wed Jun 18 2025)
+
+#### 🚀 Enhancement
+
+- Chore(deps-dev): bump mocha from 11.6.0 to 11.7.0 [#54](https://github.com/ghostery/urlfilter2dnr/pull/54) ([@dependabot[bot]](https://github.com/dependabot[bot]) [@seia-soto](https://github.com/seia-soto))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+
+---
+
 # v1.5.0 (Wed Jun 18 2025)
 
 #### 🚀 Enhancement
