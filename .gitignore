@@ -3,5 +3,6 @@ dist
 /page/
 test-results
 .tshy/
+.tsimp/
 .tshy-build
 .DS_Store
