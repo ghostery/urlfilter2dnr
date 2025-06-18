@@ -1,3 +1,20 @@
+# v1.5.0 (Wed Jun 18 2025)
+
+#### 🚀 Enhancement
+
+- Chore(deps-dev): bump eslint-plugin-prettier from 5.4.1 to 5.5.0 [#53](https://github.com/ghostery/urlfilter2dnr/pull/53) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### 🐛 Bug Fix
+
+- fix(ci): dependabot pulls with a label [#52](https://github.com/ghostery/urlfilter2dnr/pull/52) ([@seia-soto](https://github.com/seia-soto))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+
+---
+
 # v1.4.0 (Mon Jun 16 2025)
 
 #### 🚀 Enhancement
