@@ -6,7 +6,7 @@
     "extension": ["ts"],
     "recursive": true,
     "node-option": [
-      "import=tsx",
+      "import=tsimp",
       "experimental-vm-modules"
     ]
 }
