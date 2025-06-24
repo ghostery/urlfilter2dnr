@@ -108,13 +108,16 @@ export function normalizeRule(rule: any, { resourcesPath = '', id }: { resources
   if (
     newRule.condition &&
     newRule.condition.urlFilter &&
-    newRule.condition.urlFilter.endsWith('*') &&
+    newRule.condition.urlFilter.endsWith('*')
+  ) {
     // Empty `RuleCondition.urlFilter` is not allowed
     // > *$xhr,removeparam=ad_config_id,domain=telequebec.tv
     // refs https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/RuleCondition#urlfilter
-    newRule.condition.urlFilter.length !== 1
-  ) {
-    newRule.condition.urlFilter = newRule.condition.urlFilter.slice(0, -1);
+    if (newRule.condition.urlFilter.length === 1) {
+      delete newRule.condition.urlFilter;
+    } else {
+      newRule.condition.urlFilter = newRule.condition.urlFilter.slice(0, -1);
+    }
   }
 
   if (rule.condition && rule.condition.isUrlFilterCaseSensitive !== true) {
