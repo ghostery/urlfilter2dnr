@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import convertWithAbp from '../../src/converters/abp.js';
 import convertWithAdguard from '../../src/converters/adguard.js';
 
-function normalize(rule) {
+export function normalize(rule: any) {
   if (!rule) {
     return undefined;
   }
@@ -15,17 +15,19 @@ function normalize(rule) {
   return rule;
 }
 
-export async function testRule(rule) {
+export async function testRule(rule: any) {
   try {
     const { rules: adguardRules } = await convertWithAdguard([rule]);
     const { rules: abpRules } = await convertWithAbp([rule]);
 
     assert.notStrictEqual(adguardRules[0], undefined);
     assert.deepStrictEqual(normalize(adguardRules[0]), normalize(abpRules[0]));
-  } catch (e) {
-    e.message += `
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      e.message += `
 Input filter: ${rule}
     `;
+    }
     throw e;
   }
 }

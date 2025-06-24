@@ -2,24 +2,27 @@ import { describe, it } from 'mocha';
 import assert from 'node:assert';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
+import { normalize } from '../helpers.js';
 
 describe('adguard converter', () => {
   it('should not crash on unsupported rules', async () => {
     const { rules, errors } = await convertWithAdguard(['/(?>ab)c/']);
-    assert.deepStrictEqual(rules, []);
     assert.equal(errors.length, 1);
+    assert.deepStrictEqual(rules, []);
   });
 
   it('should not crash with no rules', async () => {
     const { rules, errors } = await convertWithAdguard([]);
-    assert.deepStrictEqual(rules, []);
     assert.equal(errors.length, 0);
+    assert.deepStrictEqual(rules, []);
   });
 
   it('||fastlane.rubiconproject.com^$removeparam,domain=aternos.org', async () => {
-    const { rules, errors } = await convertWithAdguard(['||fastlane.rubiconproject.com^$removeparam,domain=aternos.org']);
-    assert.deepStrictEqual(errors, []);
-    assert.deepStrictEqual(rules[0], {
+    const { rules, errors } = await convertWithAdguard([
+      '||fastlane.rubiconproject.com^$removeparam,domain=aternos.org',
+    ]);
+    assert.equal(errors.length, 0);
+    assert.deepStrictEqual(normalize(rules[0]), {
       action: {
         redirect: {
           transform: {
@@ -33,19 +36,16 @@ describe('adguard converter', () => {
         resourceTypes: ['main_frame', 'sub_frame'],
         urlFilter: '||fastlane.rubiconproject.com^',
       },
-      id: 1,
-      priority: 201,
     });
   });
 
   it('||t.a3cloud.net/AM-141112/tag.js', async () => {
-    const { rules } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
-    assert.deepStrictEqual(rules[0], {
+    const { rules, errors } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
+    assert.equal(errors.length, 0);
+    assert.deepStrictEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
-      id: 1,
-      priority: 1,
       condition: {
         urlFilter: '||t.a3cloud.net/am-141112/tag.js',
       },
@@ -54,36 +54,35 @@ describe('adguard converter', () => {
 
   // to be fixed with https://github.com/AdguardTeam/tsurlfilter/pull/109
   it('/baynote(-observer)?([0-9]+).js/', async () => {
-    const { rules } = await convertWithAdguard([String.raw`/baynote(-observer)?([0-9]+)\.js/`]);
-    assert.deepStrictEqual(rules[0], {
+    const { rules, errors } = await convertWithAdguard([String.raw`/baynote(-observer)?([0-9]+)\.js/`]);
+    assert.equal(errors.length, 0);
+    assert.deepStrictEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
       condition: {
         regexFilter: String.raw`baynote(-observer)?([0-9]+)\.js`,
       },
-      id: 1,
-      priority: 1,
     });
   });
 
   it('handles regexp with ?', async () => {
-    const { rules } = await convertWithAdguard(['/a?/']);
-    assert.deepStrictEqual(rules[0], {
+    const { rules, errors } = await convertWithAdguard(['/a?/']);
+    assert.equal(errors.length, 0);
+    assert.deepStrictEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
       condition: {
         regexFilter: 'a?',
       },
-      id: 1,
-      priority: 1,
     });
   });
 
   it('handles regexp escaping', async () => {
-    const { rules } = await convertWithAdguard([String.raw`/\\d/$doc`]);
-    assert.deepStrictEqual(rules[0], {
+    const { rules, errors } = await convertWithAdguard([String.raw`/\\d/$doc`]);
+    assert.equal(errors.length, 0);
+    assert.deepStrictEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
@@ -91,8 +90,30 @@ describe('adguard converter', () => {
         regexFilter: String.raw`\\d`,
         resourceTypes: ['main_frame'],
       },
-      id: 1,
-      priority: 101,
+    });
+  });
+
+  it('always populates urlFilter', async () => {
+    const { rules, errors } = await convertWithAdguard([
+      `*$xhr,removeparam=ad_config_id,domain=telequebec.tv`,
+    ]);
+    assert.equal(errors.length, 0);
+    assert.deepStrictEqual(normalize(rules[0]), {
+      action: {
+        type: 'redirect',
+        redirect: {
+          transform: {
+            queryTransform: {
+              removeParams: ['ad_config_id'],
+            },
+          },
+        },
+      },
+      condition: {
+        urlFilter: '*',
+        initiatorDomains: ['telequebec.tv'],
+        resourceTypes: ['xmlhttprequest'],
+      },
     });
   });
 });
