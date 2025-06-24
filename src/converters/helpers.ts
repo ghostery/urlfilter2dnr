@@ -105,43 +105,40 @@ export function normalizeRule(rule: any, { resourcesPath = '', id }: { resources
     newRule.id = id;
   }
 
-  if (
-    newRule.condition &&
-    newRule.condition.urlFilter &&
-    newRule.condition.urlFilter.endsWith('*') &&
-    // Empty `RuleCondition.urlFilter` is not allowed
-    // > *$xhr,removeparam=ad_config_id,domain=telequebec.tv
-    // refs https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/RuleCondition#urlfilter
-    newRule.condition.urlFilter.length !== 1
-  ) {
+  if (newRule.condition.urlFilter?.endsWith('*')) {
     newRule.condition.urlFilter = newRule.condition.urlFilter.slice(0, -1);
   }
 
-  if (rule.condition && rule.condition.isUrlFilterCaseSensitive !== true) {
+  // Empty `RuleCondition.urlFilter` is not allowed
+  // > *$xhr,removeparam=ad_config_id,domain=telequebec.tv
+  // refs https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/RuleCondition#urlfilter
+  if (!newRule.condition.urlFilter) {
+    delete newRule.condition.urlFilter;
+  }
+
+  if (rule.condition.isUrlFilterCaseSensitive !== true) {
     delete newRule.condition.isUrlFilterCaseSensitive;
   }
 
   if (
-    newRule.condition &&
-    newRule.condition.regexFilter &&
-    newRule.condition.regexFilter.startsWith('/') &&
-    newRule.condition.regexFilter.endsWith('/')
+    newRule.condition.regexFilter?.startsWith('/') &&
+    newRule.condition.regexFilter?.endsWith('/')
   ) {
     newRule.condition.regexFilter = newRule.condition.regexFilter.slice(1, -1);
   }
 
-  if (newRule.condition && newRule.condition.excludedDomains) {
+  if (newRule.condition.excludedDomains) {
     newRule.condition.excludedInitiatorDomains = newRule.condition.excludedDomains;
     delete newRule.condition.excludedDomains;
   }
 
-  if (newRule.condition && newRule.condition.domains) {
+  if (newRule.condition.domains) {
     newRule.condition.initiatorDomains = newRule.condition.domains;
     delete newRule.condition.domains;
   }
 
-  if (newRule.action && newRule.action.type === 'redirect') {
-    if (newRule.action.redirect.extensionPath) {
+  if (newRule.action.type === 'redirect') {
+    if (newRule.action.redirect?.extensionPath) {
       const resourceName = newRule.action.redirect.extensionPath.slice(
         resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
       );
