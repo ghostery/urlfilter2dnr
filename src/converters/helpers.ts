@@ -112,7 +112,7 @@ export function normalizeRule(rule: any, { resourcesPath = '', id }: { resources
   // Empty `RuleCondition.urlFilter` is not allowed
   // > *$xhr,removeparam=ad_config_id,domain=telequebec.tv
   // refs https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/RuleCondition#urlfilter
-  if (newRule.condition.urlFilter?.length === 0) {
+  if (!newRule.condition.urlFilter) {
     delete newRule.condition.urlFilter;
   }
 
