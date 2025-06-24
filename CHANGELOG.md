@@ -1,3 +1,15 @@
+# v1.6.1 (Tue Jun 24 2025)
+
+#### 🐛 Bug Fix
+
+- fix: always populate `RuleCondition.urlFilter` [#57](https://github.com/ghostery/urlfilter2dnr/pull/57) ([@seia-soto](https://github.com/seia-soto))
+
+#### Authors: 1
+
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+
+---
+
 # v1.6.0 (Wed Jun 18 2025)
 
 #### 🚀 Enhancement
