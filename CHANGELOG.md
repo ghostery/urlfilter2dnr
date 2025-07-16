@@ -1,3 +1,15 @@
+# v1.6.2 (Wed Jul 16 2025)
+
+#### 🐛 Bug Fix
+
+- CI: remove dependabot version labels [#68](https://github.com/ghostery/urlfilter2dnr/pull/68) ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.6.1 (Tue Jun 24 2025)
 
 #### 🐛 Bug Fix
