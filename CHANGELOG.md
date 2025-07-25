@@ -1,3 +1,35 @@
+# v1.6.3 (Fri Jul 25 2025)
+
+#### :bug: Bug Fix
+
+- Fix CI: use adblocker bot credentials [#75](https://github.com/ghostery/urlfilter2dnr/pull/75) ([@chrmod](https://github.com/chrmod))
+- Update dependencies [#74](https://github.com/ghostery/urlfilter2dnr/pull/74) ([@chrmod](https://github.com/chrmod))
+- ci(internal): follow label scheme per adblocker [#69](https://github.com/ghostery/urlfilter2dnr/pull/69) ([@seia-soto](https://github.com/seia-soto))
+- refactor: omit `urlFilter` property in case of empty [#58](https://github.com/ghostery/urlfilter2dnr/pull/58) ([@seia-soto](https://github.com/seia-soto))
+- feat: add direct adguard export for better tree-shaking [#72](https://github.com/ghostery/urlfilter2dnr/pull/72) ([@smalluban](https://github.com/smalluban))
+
+#### ⚠️ Pushed to `main`
+
+- Fix CI: tshy should not edit package.json ([@chrmod](https://github.com/chrmod))
+- Fix CI: another attempt ([@chrmod](https://github.com/chrmod))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps-dev): bump @eslint/plugin-kit from 0.3.1 to 0.3.3 [#70](https://github.com/ghostery/urlfilter2dnr/pull/70) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @ghostery/trackerdb from 1.0.573 to 1.0.581 [#67](https://github.com/ghostery/urlfilter2dnr/pull/67) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @playwright/test from 1.53.0 to 1.54.1 [#65](https://github.com/ghostery/urlfilter2dnr/pull/65) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump mocha from 11.7.0 to 11.7.1 [#61](https://github.com/ghostery/urlfilter2dnr/pull/61) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump prettier from 3.5.3 to 3.6.2 [#59](https://github.com/ghostery/urlfilter2dnr/pull/59) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 4
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.6.2 (Wed Jul 16 2025)
 
 #### 🐛 Bug Fix
