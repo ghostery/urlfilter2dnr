@@ -79,7 +79,8 @@
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./adguard": "./src/converters/adguard.ts"
     }
   }
 }
