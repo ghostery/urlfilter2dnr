@@ -9,12 +9,6 @@ declare global {
   };
 }
 
-declare global {
-  interface Window {
-    RE2: any;
-  }
-}
-
 import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
 import { FilterListPreprocessor } from '@adguard/tsurlfilter';
 import { normalizeFilter, normalizeRule } from './helpers.js';
@@ -45,7 +39,7 @@ if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
           const mod = await import('@adguard/re2-wasm');
           RE2Class = mod.RE2;
         } else {
-          RE2Class = window.RE2;
+          RE2Class = (globalThis as any).RE2;
         }
         new RE2Class(regexOptions.regex, `u${regexOptions.flags}`, MAX_MEMORY_BYTES);
         callback({ isSupported: true });
