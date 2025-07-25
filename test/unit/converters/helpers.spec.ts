@@ -124,9 +124,15 @@ describe('normalizeRule', () => {
           condition: {
             isUrlFilterCaseSensitive: false,
           },
+          action: {
+            type: 'block',
+          },
         }),
         {
           condition: {},
+          action: {
+            type: 'block',
+          },
         },
       );
       assert.deepStrictEqual(
@@ -135,11 +141,17 @@ describe('normalizeRule', () => {
             urlFilter: 'test',
             isUrlFilterCaseSensitive: true,
           },
+          action: {
+            type: 'block',
+          },
         }),
         {
           condition: {
             urlFilter: 'test',
             isUrlFilterCaseSensitive: true,
+          },
+          action: {
+            type: 'block',
           },
         },
       );
@@ -151,10 +163,16 @@ describe('normalizeRule', () => {
           condition: {
             urlFilter: 'test*',
           },
+          action: {
+            type: 'block',
+          },
         }),
         {
           condition: {
             urlFilter: 'test',
+          },
+          action: {
+            type: 'block',
           },
         },
       );
@@ -167,10 +185,16 @@ describe('normalizeRule', () => {
         condition: {
           regexFilter: 'test',
         },
+        action: {
+          type: 'block',
+        },
       }),
       {
         condition: {
           regexFilter: 'test',
+        },
+        action: {
+          type: 'block',
         },
       },
     );
@@ -182,10 +206,16 @@ describe('normalizeRule', () => {
         condition: {
           domains: ['test'],
         },
+        action: {
+          type: 'block',
+        },
       }),
       {
         condition: {
           initiatorDomains: ['test'],
+        },
+        action: {
+          type: 'block',
         },
       },
     );
@@ -197,10 +227,16 @@ describe('normalizeRule', () => {
         condition: {
           excludedDomains: ['test'],
         },
+        action: {
+          type: 'block',
+        },
       }),
       {
         condition: {
           excludedInitiatorDomains: ['test'],
+        },
+        action: {
+          type: 'block',
         },
       },
     );
