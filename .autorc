@@ -1,7 +1,6 @@
 {
   "plugins": [
-    "npm",
-    "conventional-commits"
+    "npm"
   ],
   "name": "Ghostery Adblocker Bot",
   "email": "ghostery-adblocker-bot@users.noreply.github.com",

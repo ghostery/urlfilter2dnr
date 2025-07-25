@@ -24,10 +24,10 @@ jobs:
         with:
           app-id: ${{ secrets.ADBLOCKERBOT_APP_ID }}
           private-key: ${{ secrets.ADBLOCKERBOT_PRIVATE_KEY }}
-
+ 
       - name: Create Release
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
