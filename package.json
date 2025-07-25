@@ -19,6 +19,16 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./adguard": {
+      "import": {
+        "types": "./dist/esm/converters/adguard.d.ts",
+        "default": "./dist/esm/converters/adguard.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/converters/adguard.d.ts",
+        "default": "./dist/commonjs/converters/adguard.js"
+      }
     }
   },
   "files": [
