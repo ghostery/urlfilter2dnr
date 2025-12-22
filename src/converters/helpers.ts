@@ -17,11 +17,17 @@ export const DEFAULT_PARAM_MAPPING = {
   from: 'domain',
 };
 
+/**
+ * Finds the index of first filter option
+ * @param filter The filter line
+ * @returns The index after of '$' sign
+ */
 function findOptionIndex(filter: string) {
   const match = FIRST_OPTION_PATTERN.exec(filter);
   if (match === null) {
     return -1;
   }
+  // returns the index after '$'
   return match.index + 1;
 }
 
