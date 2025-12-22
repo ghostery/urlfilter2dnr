@@ -30,6 +30,15 @@ describe('normalizeFilter', () => {
     );
   });
 
+  it('finds modifier start index', () => {
+    assert.strictEqual(
+      normalizeFilter(
+        String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,3p,match-case,from=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`,
+      ),
+      String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,third-party,match-case,domain=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`,
+    );
+  })
+
   describe('with case-sesitive filters', () => {
     it('is casesensitive by default', () => {
       assert.strictEqual(normalizeFilter('TEST'), 'test');

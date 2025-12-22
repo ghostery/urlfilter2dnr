@@ -9,11 +9,21 @@ type ResourceMapping = {
 
 const typedResourceMapping = resourceMapping as ResourceMapping;
 
+const FIRST_OPTION_PATTERN = /\$[a-z0-9-]+[,=$]/;
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
+  from: 'domain',
 };
+
+function findOptionIndex(filter: string) {
+  const match = FIRST_OPTION_PATTERN.exec(filter);
+  if (match === null) {
+    return -1;
+  }
+  return match.index + 1;
+}
 
 /**
  * Translates resource name
@@ -68,8 +78,13 @@ function convertRedirectFilterOptions(line: string, dialect: 'ubo' | 'adg') {
 export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPING }: { mapping?: Record<string, string> } = {}) {
   filter = convertRedirectFilterOptions(filter, 'adg');
 
-  let [front, ...back] = filter.split('$');
-  let params = back.join(',').split(',');
+  const index = findOptionIndex(filter);
+  if (index === -1) {
+    return filter;
+  }
+
+  let params = filter.slice(index).split(',');
+  let isCaseSensitive = false;
 
   params.forEach((param, index) => {
     const [key, value] = param.split('=');
@@ -85,14 +100,14 @@ export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPIN
 
   // by default easylist syntax is case-insensitve
   if (!params.find((p) => p === 'match-case')) {
-    front = front?.toLowerCase();
+    isCaseSensitive = true;
   }
 
-  if (back.length === 0) {
-    return front;
-  }
-
-  return `${front}$${params.join(',')}`;
+  return (
+    isCaseSensitive
+      ? filter.slice(0, index)
+      : filter.slice(0, index).toLowerCase()
+  ) + params.join(',');
 }
 
 export function normalizeRule(rule: any, { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {}) {
