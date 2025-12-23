@@ -9,7 +9,7 @@ type ResourceMapping = {
 
 const typedResourceMapping = resourceMapping as ResourceMapping;
 
-const FIRST_OPTION_PATTERN = /\$[a-z0-9-]+[,=$]/;
+const FIRST_OPTION_PATTERN = /\$[a-z0-9-]+(?:[,=]|$)/;
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
@@ -20,15 +20,14 @@ export const DEFAULT_PARAM_MAPPING = {
 /**
  * Finds the index of first filter option
  * @param filter The filter line
- * @returns The index after of '$' sign
+ * @returns The index of '$' sign followed by options
  */
 function findOptionIndex(filter: string) {
   const match = FIRST_OPTION_PATTERN.exec(filter);
   if (match === null) {
     return -1;
   }
-  // returns the index after '$'
-  return match.index + 1;
+  return match.index;
 }
 
 /**
@@ -81,16 +80,24 @@ function convertRedirectFilterOptions(line: string, dialect: 'ubo' | 'adg') {
   return line;
 }
 
-export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPING }: { mapping?: Record<string, string> } = {}) {
+export function normalizeFilter(
+  filter: string,
+  { mapping = DEFAULT_PARAM_MAPPING }: { mapping?: Record<string, string> } = {},
+) {
   filter = convertRedirectFilterOptions(filter, 'adg');
 
   const index = findOptionIndex(filter);
   if (index === -1) {
+    if (!(filter.startsWith('/') && filter.endsWith('/'))) {
+      return filter.toLowerCase();
+    }
+
     return filter;
   }
 
-  let params = filter.slice(index).split(',');
-  let isCaseSensitive = false;
+  let front = filter.slice(0, index);
+  let back = filter.slice(index + 1).split(',');
+  let params = back.join(',').split(',');
 
   params.forEach((param, index) => {
     const [key, value] = param.split('=');
@@ -105,15 +112,14 @@ export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPIN
   });
 
   // by default easylist syntax is case-insensitve
-  if (!params.find((p) => p === 'match-case')) {
-    isCaseSensitive = true;
+  if (
+    !(front.startsWith('/') && front.endsWith('/')) &&
+    !params.find((p) => p === 'match-case')
+  ) {
+    front = front?.toLowerCase();
   }
 
-  return (
-    isCaseSensitive
-      ? filter.slice(0, index)
-      : filter.slice(0, index).toLowerCase()
-  ) + params.join(',');
+  return `${front}$${params.join(',')}`;
 }
 
 export function normalizeRule(rule: any, { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {}) {
