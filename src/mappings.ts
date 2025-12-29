@@ -307,6 +307,9 @@ export default {
   "scorecardresearch.com/beacon.js": {
     "ubo": "scorecardresearch_beacon.js"
   },
+  "sensors-analytics.js": {
+    "ubo": "sensors-analytics.js"
+  },
   "MIME_TYPE_STUB.flv": {
     "ubo": "MIME_TYPE_STUB.flv"
   },
