@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@ghostery/adblocker": "2.12.5",
+    "@ghostery/adblocker": "~2.12.5",
     "@ghostery/trackerdb": "^1.0.692",
     "@playwright/test": "^1.57.0",
     "@types/mocha": "^10.0.10",
