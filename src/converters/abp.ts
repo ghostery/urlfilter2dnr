@@ -19,7 +19,7 @@ export default async function convert(filters: string[]) {
   for (const filter of filters) {
     try {
       const normalizedFilter = normalizeFilter(normalize(filter), { mapping: PARAM_MAPPING });
-      
+
       if (!normalizedFilter) {
         throw new Error('Failed to normalize filter');
       }
