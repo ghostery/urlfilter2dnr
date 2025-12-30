@@ -11,11 +11,41 @@ describe('normalizeFilter', () => {
     );
   });
 
-  it('replaces 3p with third-party', () => {
-    assert.strictEqual(
-      normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com'),
-      '||tinypass.com^$third-party,domain=~foreignpolicy.com',
-    );
+  context('rewrites modifier options', () => {
+    it('replaces 3p with third-party', () => {
+      assert.strictEqual(
+        normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com'),
+        '||tinypass.com^$third-party,domain=~foreignpolicy.com',
+      );
+    });
+
+    it('replaces xhr with xmlhttprequest', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$xhr'),
+        '||bar.com^$domain=foo.com',
+      );
+    });
+
+    it('replaces frame with subdocument', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$frame'),
+        '||bar.com^$subdocument',
+      );
+    });
+
+    it('replaces from with domains', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$from=foo.com'),
+        '||bar.com^$domain=foo.com',
+      );
+    });
+
+    it('replaces from with domains', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$from=foo.com'),
+        '||bar.com^$domain=foo.com',
+      );
+    });
   });
 
   it('removes duplicate params', () => {
