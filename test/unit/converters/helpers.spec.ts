@@ -22,7 +22,7 @@ describe('normalizeFilter', () => {
     it('replaces xhr with xmlhttprequest', () => {
       assert.strictEqual(
         normalizeFilter('||bar.com^$xhr'),
-        '||bar.com^$domain=foo.com',
+        '||bar.com^$xmlhttprequest',
       );
     });
 
