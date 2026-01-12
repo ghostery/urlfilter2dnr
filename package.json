@@ -74,7 +74,8 @@
     "yaml": "^2.8.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "tshy": {
     "exports": {
