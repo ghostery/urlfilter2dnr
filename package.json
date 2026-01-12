@@ -61,7 +61,7 @@
     "@ghostery/trackerdb": "^1.0.585",
     "@playwright/test": "^1.52.0",
     "@types/mocha": "^10.0.10",
-    "auto": "^11.3.0",
+    "auto": "^11.3.6",
     "esbuild": "^0.25.5",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",

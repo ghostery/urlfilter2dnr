@@ -13,13 +13,13 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v3
 
       - name: Setup npm registry for OIDC
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: 'https://registry.npmjs.org'
 
@@ -28,7 +28,7 @@ jobs:
         
       - name: Generate a token
         id: generate-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.ADBLOCKERBOT_APP_ID }}
           private-key: ${{ secrets.ADBLOCKERBOT_PRIVATE_KEY }}
