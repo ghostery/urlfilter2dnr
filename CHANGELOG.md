@@ -1,3 +1,16 @@
+# v1.6.5 (Tue Jan 13 2026)
+
+#### :bug: Bug Fix
+
+- Fix finding modifier index start [#110](https://github.com/ghostery/urlfilter2dnr/pull/110) ([@seia-soto](https://github.com/seia-soto) [@chrmod](https://github.com/chrmod))
+
+#### Authors: 2
+
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.6.4 (Mon Jan 12 2026)
 
 #### :bug: Bug Fix
