@@ -1,3 +1,39 @@
+# v1.6.4 (Mon Jan 12 2026)
+
+#### :bug: Bug Fix
+
+- fix publishing [#122](https://github.com/ghostery/urlfilter2dnr/pull/122) ([@chrmod](https://github.com/chrmod))
+- fix publishing [#121](https://github.com/ghostery/urlfilter2dnr/pull/121) ([@chrmod](https://github.com/chrmod))
+- fix publishing [#120](https://github.com/ghostery/urlfilter2dnr/pull/120) ([@chrmod](https://github.com/chrmod))
+- fix publishing [#119](https://github.com/ghostery/urlfilter2dnr/pull/119) ([@chrmod](https://github.com/chrmod))
+- fix publishing [#118](https://github.com/ghostery/urlfilter2dnr/pull/118) ([@chrmod](https://github.com/chrmod))
+- Publish with OIDC [#117](https://github.com/ghostery/urlfilter2dnr/pull/117) ([@chrmod](https://github.com/chrmod))
+
+#### :house: Internal
+
+- Update local assets [#87](https://github.com/ghostery/urlfilter2dnr/pull/87) (ghostery-adblocker-bot@users.noreply.github.com [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot]))
+- fix(ci): prefer `npm ci` [#111](https://github.com/ghostery/urlfilter2dnr/pull/111) ([@seia-soto](https://github.com/seia-soto))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps-dev): bump @eslint/js from 9.32.0 to 9.33.0 [#85](https://github.com/ghostery/urlfilter2dnr/pull/85) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 9.32.0 to 9.33.0 [#84](https://github.com/ghostery/urlfilter2dnr/pull/84) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @playwright/test from 1.54.1 to 1.54.2 [#83](https://github.com/ghostery/urlfilter2dnr/pull/83) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 9.29.0 to 9.32.0 [#79](https://github.com/ghostery/urlfilter2dnr/pull/79) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint-config-prettier from 10.1.5 to 10.1.8 [#77](https://github.com/ghostery/urlfilter2dnr/pull/77) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint-plugin-prettier from 5.5.0 to 5.5.3 [#76](https://github.com/ghostery/urlfilter2dnr/pull/76) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump the adguard group with 2 updates [#80](https://github.com/ghostery/urlfilter2dnr/pull/80) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 5
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot])
+- Ghostery Adblocker Bot (ghostery-adblocker-bot@users.noreply.github.com)
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.6.3 (Fri Jul 25 2025)
 
 #### :bug: Bug Fix

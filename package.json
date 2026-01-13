@@ -1,6 +1,6 @@
 {
   "name": "@ghostery/urlfilter2dnr",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "author": "Ghostery GmbH",
   "description": "Converts urlfilters to DNR format",
   "license": "GPL-3.0",
@@ -51,30 +51,31 @@
   },
   "dependencies": {
     "@adguard/re2-wasm": "^1.2.0",
-    "@adguard/scriptlets": "^2.2.14",
-    "@adguard/tsurlfilter": "^3.5.2",
-    "@eyeo/webext-ad-filtering-solution": "^3.0.1"
+    "@adguard/scriptlets": "^2.2.7",
+    "@adguard/tsurlfilter": "^3.4.0",
+    "@eyeo/webext-ad-filtering-solution": "^1.23.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
-    "@ghostery/adblocker": "~2.12.5",
-    "@ghostery/trackerdb": "^1.0.692",
-    "@playwright/test": "^1.57.0",
+    "@eslint/js": "^9.28.0",
+    "@ghostery/adblocker": "^2.11.3",
+    "@ghostery/trackerdb": "^1.0.585",
+    "@playwright/test": "^1.52.0",
     "@types/mocha": "^10.0.10",
     "auto": "^11.3.6",
-    "esbuild": "^0.27.2",
-    "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.5.0",
-    "mocha": "^11.7.5",
-    "prettier": "^3.7.4",
-    "tshy": "^3.1.0",
+    "esbuild": "^0.25.5",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "globals": "^16.2.0",
+    "mocha": "^11.7.1",
+    "prettier": "^3.5.3",
+    "tshy": "^3.0.2",
     "tsimp": "^2.0.12",
-    "yaml": "^2.8.2"
+    "yaml": "^2.8.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "tshy": {
     "exports": {
