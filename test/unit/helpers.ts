@@ -12,10 +12,6 @@ export function normalize(rule: any) {
   }
   if (rule.condition?.regexFilter !== undefined) {
     rule.condition.regexFilter = rule.condition.regexFilter
-      // @eyeo/webext-ad-filtering-solution is lowercasing the regex metacharacters;
-      // the condition below makes the tests pass by lowecasing the full regex from AdGuard
-      // refs https://gitlab.com/eyeo/browser-extensions-and-premium/extensions/extensions/-/issues/12
-      .toLowerCase()
       // @eyeo/webext-ad-filtering-solution is adding unnecessary escaping to slash
       .replace(/\\\//g, '/');
   }

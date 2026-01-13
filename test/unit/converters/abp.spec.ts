@@ -37,11 +37,4 @@ describe('abp converter', () => {
     const { rules } = await convertWithAbp(['/js/']);
     assert.notStrictEqual(rules[0], undefined);
   });
-
-  context.skip('bugs', () => {
-    it('does not modify regex metacharacter', async () => {
-      const { rules } = await convertWithAbp(['/foo\\D.com/']);
-      assert.strictEqual(rules[0].condition.regexFilter, 'foo\\D.com');
-    })
-  });
 });
