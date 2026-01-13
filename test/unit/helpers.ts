@@ -10,6 +10,11 @@ export function normalize(rule: any) {
   if (rule.condition?.resourceTypes !== undefined) {
     rule.condition.resourceTypes = rule.condition.resourceTypes.sort();
   }
+  if (rule.condition?.regexFilter !== undefined) {
+    rule.condition.regexFilter = rule.condition.regexFilter
+      // @eyeo/webext-ad-filtering-solution is adding unnecessary escaping to slash
+      .replace(/\\\//g, '/');
+  }
   delete rule.priority;
   delete rule.id;
   return rule;

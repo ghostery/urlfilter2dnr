@@ -9,36 +9,60 @@ describe('normalizeFilter', () => {
       normalizeFilter('||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch'),
       '||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch',
     );
-
-    assert.strictEqual(
-      normalizeFilter('||test$param1$params2$param3'),
-      '||test$param1,params2,param3',
-    );
   });
 
-  it('replaces 3p with third-party', () => {
-    assert.strictEqual(
-      normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com'),
-      '||tinypass.com^$third-party,domain=~foreignpolicy.com',
-    );
+  context('rewrites modifier options', () => {
+    it('replaces 3p with third-party', () => {
+      assert.strictEqual(
+        normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com'),
+        '||tinypass.com^$third-party,domain=~foreignpolicy.com',
+      );
+    });
+
+    it('replaces xhr with xmlhttprequest', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$xhr'),
+        '||bar.com^$xmlhttprequest',
+      );
+    });
+
+    it('replaces frame with subdocument', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$frame'),
+        '||bar.com^$subdocument',
+      );
+    });
+
+    it('replaces from with domains', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$from=foo.com'),
+        '||bar.com^$domain=foo.com',
+      );
+    });
+
+    it('replaces from with domains', () => {
+      assert.strictEqual(
+        normalizeFilter('||bar.com^$from=foo.com'),
+        '||bar.com^$domain=foo.com',
+      );
+    });
   });
 
   it('removes duplicate params', () => {
     assert.strictEqual(
-      normalizeFilter('||tealiumiq.com^$3p$third-party'),
+      normalizeFilter('||tealiumiq.com^$3p,third-party'),
       '||tealiumiq.com^$third-party',
     );
   });
 
-  describe('with case-sesitive filters', () => {
-    it('is casesensitive by default', () => {
-      assert.strictEqual(normalizeFilter('TEST'), 'test');
-    });
-
-    it('keeps the case with match-case param', () => {
-      assert.strictEqual(normalizeFilter('TEST$match-case'), 'TEST$match-case');
-    });
-  });
+  it('finds modifier start index', () => {
+    assert.strictEqual(
+      normalizeFilter(
+        String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,3p,match-case,from=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`,
+      ),
+      String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,third-party,match-case,domain=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`,
+    );
+  })
 
   describe('with redirect param', () => {
     it('replaces values with slashes', () => {

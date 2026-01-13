@@ -9,11 +9,26 @@ type ResourceMapping = {
 
 const typedResourceMapping = resourceMapping as ResourceMapping;
 
+const FIRST_OPTION_PATTERN = /\$[a-z0-9-]+(?:[,=]|$)/;
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
   frame: 'subdocument',
+  from: 'domain',
 };
+
+/**
+ * Finds the index of first filter option
+ * @param filter The filter line
+ * @returns The index of '$' sign followed by options
+ */
+function findOptionIndex(filter: string) {
+  const match = FIRST_OPTION_PATTERN.exec(filter);
+  if (match === null) {
+    return -1;
+  }
+  return match.index;
+}
 
 /**
  * Translates resource name
@@ -65,10 +80,23 @@ function convertRedirectFilterOptions(line: string, dialect: 'ubo' | 'adg') {
   return line;
 }
 
-export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPING }: { mapping?: Record<string, string> } = {}) {
+export function normalizeFilter(
+  filter: string,
+  { mapping = DEFAULT_PARAM_MAPPING }: { mapping?: Record<string, string> } = {},
+) {
   filter = convertRedirectFilterOptions(filter, 'adg');
 
-  let [front, ...back] = filter.split('$');
+  const index = findOptionIndex(filter);
+  if (index === -1) {
+    if (!(filter.startsWith('/') && filter.endsWith('/'))) {
+      return filter.toLowerCase();
+    }
+
+    return filter;
+  }
+
+  let front = filter.slice(0, index);
+  let back = filter.slice(index + 1).split(',');
   let params = back.join(',').split(',');
 
   params.forEach((param, index) => {
@@ -84,12 +112,11 @@ export function normalizeFilter(filter: string, { mapping = DEFAULT_PARAM_MAPPIN
   });
 
   // by default easylist syntax is case-insensitve
-  if (!params.find((p) => p === 'match-case')) {
+  if (
+    !(front.startsWith('/') && front.endsWith('/')) &&
+    !params.find((p) => p === 'match-case')
+  ) {
     front = front?.toLowerCase();
-  }
-
-  if (back.length === 0) {
-    return front;
   }
 
   return `${front}$${params.join(',')}`;
