@@ -53,7 +53,8 @@
     "@adguard/re2-wasm": "^1.2.0",
     "@adguard/scriptlets": "^2.2.14",
     "@adguard/tsurlfilter": "^3.5.2",
-    "@eyeo/webext-ad-filtering-solution": "^3.0.2"
+    "@eyeo/webext-ad-filtering-solution": "^3.0.2",
+    "puppeteer": "^24.35.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

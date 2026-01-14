@@ -176,7 +176,7 @@ export class RE2 {
       this._ignoreCase,
       this._multiline,
       this._dotAll,
-      maxMem ?? 0,
+      window.bypassRE2maxMem?.checked || maxMem < 0 ? 0 : maxMem,
     );
     if (!this.wrapper.ok()) {
       throw new SyntaxError(

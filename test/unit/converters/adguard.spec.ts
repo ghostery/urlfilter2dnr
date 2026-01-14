@@ -5,6 +5,12 @@ import convertWithAdguard from '../../../src/converters/adguard.js';
 import { normalize } from '../helpers.js';
 
 describe('adguard converter', () => {
+  after(async () => {
+    if (globalThis.terminateAlternativeDnrApi) {
+      await globalThis.terminateAlternativeDnrApi();
+    }
+  })
+
   it('should not crash on unsupported rules', async () => {
     const { rules, errors } = await convertWithAdguard(['/(?>ab)c/']);
     assert.equal(errors.length, 1);
@@ -115,4 +121,30 @@ describe('adguard converter', () => {
       },
     });
   });
+
+  it.only('bypasses re2 maxMem constraint', async () => {
+    const filter = String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,3p,match-case,from=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`;
+    const { rules } = await convertWithAdguard([filter]);
+    assert.deepEqual(normalize(rules[0]), {
+      'action': {
+        'type': 'block',
+      },
+      'condition': {
+        'regexFilter': '\\.[a-z]{2,6}/[0-9a-zA-Z]{5,7}\\.js$',
+        'domainType': 'thirdParty',
+        'initiatorDomains': [
+          'analdin.com',
+          'bestjavporn.com',
+          'ero-anime.website',
+          'hdpornflix.com',
+          'javdock.com',
+          'javtiful.com',
+          'onscreens.me',
+          'supjav.com',
+        ],
+        'resourceTypes': ['script'],
+        'isUrlFilterCaseSensitive': true,
+      },
+    });
+  })
 });

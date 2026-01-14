@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "DNR Validator",
+  "version": "0.1",
+  "permissions": [
+    "declarativeNetRequest"
+  ],
+  "background": {
+    "service_worker": "service_worker.js",
+    "type": "module"
+  }
+}

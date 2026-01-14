@@ -7,48 +7,128 @@ declare global {
       isRegexSupported: (regexOptions: { regex: string; flags: string }, callback: (result: { isSupported: boolean }) => void) => void;
     };
   };
+  var terminateAlternativeDnrApi: undefined | (() => Promise<void>);
 }
 
 import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
 import { FilterListPreprocessor } from '@adguard/tsurlfilter';
 import { normalizeFilter, normalizeRule } from './helpers.js';
 
-/**
- * Maximum memory in bytes for the regex.
- * This value is lower than 2MB as required by chrome, but it was determined empirically.
- */
-const MAX_MEMORY_BYTES = 1990;
+import type { Browser, WebWorker } from 'puppeteer';
+import type { RE2 as RE2Class } from '@adguard/re2-wasm';
 
-if (typeof globalThis.chrome === 'undefined') {
-  globalThis.chrome = {};
+// Bytes
+const DEFAULT_RE2_MAXMEM = 1990;
+
+export function createRE2Validator(maxMem: number = DEFAULT_RE2_MAXMEM) {
+  let RE2: typeof RE2Class | null = null;
+
+  function setMaxMem(newMaxMem: number) {
+    if (newMaxMem > 0) {
+      maxMem = newMaxMem;
+    }
+  }
+
+  async function bootstrap() {
+    const dep = await import('@adguard/re2-wasm');
+    return dep.RE2;
+  }
+
+  async function validate(regex: string, flags: string) {
+    if (RE2 === null) {
+      RE2 = await bootstrap();
+    }
+
+    try {
+      new RE2(regex, 'u' + flags, maxMem);
+    } catch (e) {
+      console.error('failed to validate regex:', e);
+      return false;
+    }
+    return true;
+  }
+
+  return {
+    setMaxMem,
+    validate,
+  };
 }
 
-if (typeof globalThis.chrome.runtime === 'undefined') {
-  globalThis.chrome.runtime = {
-    lastError: null,
+export function createChromiumValidator() {
+  let browser: Browser | null = null;
+  let serviceWorker: WebWorker | null = null;
+
+  async function bootstrap(): Promise<{ browser: Browser, worker: WebWorker }> {
+    const puppeteer = await import('puppeteer');
+    const path = await import('node:path');
+
+    const pathToExtension = path.join(import.meta.dirname, 'dnr-validator-extension');
+    const browser = await puppeteer.launch({
+      pipe: true,
+      enableExtensions: [pathToExtension],
+    });
+
+    const workerTarget = await browser.waitForTarget(
+      (target) => target.type() === 'service_worker',
+    );
+    const worker = await workerTarget.worker();
+
+    if (worker === null) {
+      throw new Error('Failed to retrieve the extension service worker context!');
+    }
+
+    return {browser, worker};
+  }
+
+  async function validate(regex: string, flags: string) {
+    if (serviceWorker === null) {
+      const deps = await bootstrap();
+      browser = deps.browser;
+      serviceWorker = deps.worker;
+    }
+
+    return await serviceWorker.evaluate(function (opts) {
+      return new Promise<boolean>(function (resolve) {
+        chrome.declarativeNetRequest?.isRegexSupported(opts, function (result) {
+          resolve(result.isSupported);
+        });
+      })
+    }, { regex, flags });
+  }
+
+  async function terminate() {
+    await browser?.close();
+  }
+
+  return {
+    validate,
+    terminate,
+  }
+}
+
+if (typeof globalThis.chrome === 'undefined') {
+  globalThis.chrome = {
+    runtime: {
+      lastError: null,
+    }
   };
 }
 
 if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
+  const validator =
+    typeof process !== 'undefined' ? createChromiumValidator() : createRE2Validator();
+
   globalThis.chrome.declarativeNetRequest = {
-    isRegexSupported: async (regexOptions: { regex: string, flags: string }, callback: (result: { isSupported: boolean }) => void) => {
-      try {
-        let RE2Class;
-        if (typeof process !== 'undefined' && process.versions && process.versions.node) {
-          // Node.js: dynamic import
-          const mod = await import('@adguard/re2-wasm');
-          RE2Class = mod.RE2;
-        } else {
-          RE2Class = (globalThis as any).RE2;
-        }
-        new RE2Class(regexOptions.regex, `u${regexOptions.flags}`, MAX_MEMORY_BYTES);
-        callback({ isSupported: true });
-      } catch (e) {
-        console.error(e);
-        callback({ isSupported: false });
-      }
-    },
+    async isRegexSupported({ regex, flags }, callback) {
+      callback({
+        isSupported: await validator.validate(regex, flags),
+      });
+    }
   };
+
+  if ('terminate' in validator) {
+    globalThis.terminateAlternativeDnrApi = validator.terminate;
+  }
 }
 
 const converter = new DeclarativeFilterConverter();
