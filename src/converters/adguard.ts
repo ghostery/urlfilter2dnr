@@ -1,17 +1,24 @@
+import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
+import { FilterListPreprocessor } from '@adguard/tsurlfilter';
+import { normalizeFilter, normalizeRule } from './helpers.js';
+
+import type { RE2 as RE2Class } from '@adguard/re2-wasm';
+
 declare global {
   var chrome: {
     runtime?: {
       lastError: null;
     };
     declarativeNetRequest?: {
-      isRegexSupported: (regexOptions: { regex: string; flags: string }, callback: (result: { isSupported: boolean }) => void) => void;
+      isRegexSupported: (
+        regexOptions: { regex: string; flags: string },
+        callback: (result: { isSupported: boolean }) => void,
+      ) => void;
     };
   };
+  // `globalThis.RE2` is only available on the browser.
+  var RE2: typeof RE2Class | undefined;
 }
-
-import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
-import { FilterListPreprocessor } from '@adguard/tsurlfilter';
-import { normalizeFilter, normalizeRule } from './helpers.js';
 
 /**
  * Maximum memory in bytes for the regex.
@@ -19,34 +26,54 @@ import { normalizeFilter, normalizeRule } from './helpers.js';
  */
 const MAX_MEMORY_BYTES = 1990;
 
-if (typeof globalThis.chrome === 'undefined') {
-  globalThis.chrome = {};
-}
+function createRe2Validator(maxMem = MAX_MEMORY_BYTES) {
+  // Try `window.RE2`
+  let RE2 = globalThis.RE2;
 
-if (typeof globalThis.chrome.runtime === 'undefined') {
-  globalThis.chrome.runtime = {
-    lastError: null,
+  function setMaxMem(newMaxMem = MAX_MEMORY_BYTES) {
+    maxMem = newMaxMem;
+  }
+
+  async function validate(regex = '', flags = '') {
+    if (!RE2) {
+      const dep = await import('@adguard/re2-wasm');
+      RE2 = dep.RE2;
+    }
+
+    try {
+      new RE2(regex, `u${flags}`, maxMem);
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  }
+
+  return {
+    setMaxMem,
+    validate,
   };
 }
 
+if (typeof globalThis.chrome === 'undefined') {
+  globalThis.chrome = {
+    runtime: {
+      lastError: null,
+    },
+  };
+}
+
+const validator = createRe2Validator();
+
 if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
   globalThis.chrome.declarativeNetRequest = {
-    isRegexSupported: async (regexOptions: { regex: string, flags: string }, callback: (result: { isSupported: boolean }) => void) => {
-      try {
-        let RE2Class;
-        if (typeof process !== 'undefined' && process.versions && process.versions.node) {
-          // Node.js: dynamic import
-          const mod = await import('@adguard/re2-wasm');
-          RE2Class = mod.RE2;
-        } else {
-          RE2Class = (globalThis as any).RE2;
-        }
-        new RE2Class(regexOptions.regex, `u${regexOptions.flags}`, MAX_MEMORY_BYTES);
-        callback({ isSupported: true });
-      } catch (e) {
-        console.error(e);
-        callback({ isSupported: false });
-      }
+    isRegexSupported: async (
+      regexOptions: { regex: string; flags: string },
+      callback: (result: { isSupported: boolean }) => void,
+    ) => {
+      callback({
+        isSupported: await validator.validate(regexOptions.regex, regexOptions.flags),
+      });
     },
   };
 }
@@ -63,7 +90,13 @@ const createFilter = (rules: string[], filterId = 0) => {
   );
 };
 
-export default async function convert(rules: string[], { resourcesPath = '/prefix' }: { resourcesPath?: string } = {}) {
+export default async function convert(
+  rules: string[],
+  {
+    resourcesPath = '/prefix',
+    re2MaxMem = MAX_MEMORY_BYTES,
+  }: { resourcesPath?: string; re2MaxMem?: number; } = {},
+) {
   if (rules.length === 0) {
     return {
       rules: [],
@@ -71,18 +104,25 @@ export default async function convert(rules: string[], { resourcesPath = '/prefi
       limitations: [],
     };
   }
+
+  if (re2MaxMem > 0) {
+    validator.setMaxMem(re2MaxMem);
+  }
+
   const filter = createFilter(rules.map((rule) => normalizeFilter(rule) ?? ''));
   const conversionResult = await converter.convertStaticRuleSet(filter, { resourcesPath });
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
   const normalizeRules = [];
-  const errors = conversionResult.errors.map(e => e.toString());
+  const errors = conversionResult.errors.map((e) => e.toString());
 
   for (const [index, rule] of declarativeRules.entries()) {
     try {
-      normalizeRules.push(normalizeRule(rule, { resourcesPath, id: index + 1 }))
+      normalizeRules.push(normalizeRule(rule, { resourcesPath, id: index + 1 }));
     } catch (e) {
-      errors.push(`Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`);
+      errors.push(
+        `Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`,
+      );
     }
   }
 
