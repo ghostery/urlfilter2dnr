@@ -36,8 +36,14 @@ function createRe2Validator(maxMem = MAX_MEMORY_BYTES) {
 
   async function validate(regex = '', flags = '') {
     if (!RE2) {
-      const dep = await import('@adguard/re2-wasm');
-      RE2 = dep.RE2;
+      if (globalThis.RE2) {
+        RE2 = globalThis.RE2;
+      } else if (typeof process !== 'undefined') {
+        const dep = await import('@adguard/re2-wasm');
+        RE2 = dep.RE2;
+      } else {
+        throw new Error('RE2 instance is not initialised yet!');
+      }
     }
 
     try {
@@ -105,7 +111,7 @@ export default async function convert(
     };
   }
 
-  if (re2MaxMem > 0) {
+  if (re2MaxMem > -1) {
     validator.setMaxMem(re2MaxMem);
   }
 
