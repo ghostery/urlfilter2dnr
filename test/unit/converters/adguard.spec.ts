@@ -115,4 +115,16 @@ describe('adguard converter', () => {
       },
     });
   });
+
+  it('bypasses re2 "maxMem" limit', async () => {
+    const filter = String.raw`/test[0-9]$/`;
+    const resultWithLimit = await convertWithAdguard([filter], {
+      re2MaxMem: 100,
+    });
+    assert.equal(resultWithLimit.errors.length, 1);
+    const resultWithNoLimit = await convertWithAdguard([filter], {
+      re2MaxMem: 0,
+    });
+    assert.equal(resultWithNoLimit.errors.length, 0);
+  });
 });

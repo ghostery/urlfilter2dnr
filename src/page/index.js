@@ -16,10 +16,10 @@ $submitButton.addEventListener('click', async (ev) => {
   ev.preventDefault();
   const rules = $input.value.split('\n').filter(Boolean);
 
-  const { rules: convertedRulesAdguard, errors: errorsAdguard } = await convertWithAdguard(
-    rules,
-    ADGUARD_CONVERTER_OPTIONS,
-  );
+  const { rules: convertedRulesAdguard, errors: errorsAdguard } = await convertWithAdguard(rules, {
+    ...ADGUARD_CONVERTER_OPTIONS,
+    re2MaxMem: window.bypassRE2maxMem?.checked ? 0 : undefined,
+  });
   const { rules: convertedRulesAbp, errors: errorsAbp } = await convertWithAbp(rules);
 
   $outputAdguard.innerHTML = JSON.stringify(convertedRulesAdguard, null, 2);
