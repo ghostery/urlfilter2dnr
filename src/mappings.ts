@@ -47,6 +47,9 @@ export default {
   "ampproject.org/v0.js": {
     "ubo": "ampproject_v0.js"
   },
+  "adthrive_abd.js": {
+    "ubo": "adthrive_abd.js"
+  },
   "chartbeat.js": {
     "ubo": "chartbeat.js"
   },
@@ -140,6 +143,9 @@ export default {
   },
   "hd-main.js": {
     "ubo": "hd-main.js"
+  },
+  "nitropay_ads.js": {
+    "ubo": "nitropay_ads.js"
   },
   "nobab.js": {
     "adg": "prevent-bab",
