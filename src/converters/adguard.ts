@@ -4,7 +4,10 @@ declare global {
       lastError: null;
     };
     declarativeNetRequest?: {
-      isRegexSupported: (regexOptions: { regex: string; flags: string }, callback: (result: { isSupported: boolean }) => void) => void;
+      isRegexSupported: (
+        regexOptions: { regex: string; isCaseSensitive?: boolean; requireCapturing?: boolean },
+        callback: (result: { isSupported: boolean }) => void,
+      ) => void;
     };
   };
 }
@@ -31,7 +34,7 @@ if (typeof globalThis.chrome.runtime === 'undefined') {
 
 if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
   globalThis.chrome.declarativeNetRequest = {
-    isRegexSupported: async (regexOptions: { regex: string, flags: string }, callback: (result: { isSupported: boolean }) => void) => {
+    isRegexSupported: async (regexOptions, callback) => {
       try {
         let RE2Class;
         if (typeof process !== 'undefined' && process.versions && process.versions.node) {
@@ -41,7 +44,11 @@ if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
         } else {
           RE2Class = (globalThis as any).RE2;
         }
-        new RE2Class(regexOptions.regex, `u${regexOptions.flags}`, MAX_MEMORY_BYTES);
+        new RE2Class(
+          regexOptions.regex,
+          regexOptions.isCaseSensitive ? 'u' : 'ui',
+          MAX_MEMORY_BYTES,
+        );
         callback({ isSupported: true });
       } catch (e) {
         console.error(e);
