@@ -5,7 +5,7 @@ declare global {
     };
     declarativeNetRequest?: {
       isRegexSupported: (
-        regexOptions: { regex: string; isCaseSensitive?: boolean },
+        regexOptions: { regex: string; isCaseSensitive?: boolean; requireCapturing?: boolean },
         callback: (result: { isSupported: boolean }) => void,
       ) => void;
     };
@@ -34,10 +34,7 @@ if (typeof globalThis.chrome.runtime === 'undefined') {
 
 if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
   globalThis.chrome.declarativeNetRequest = {
-    isRegexSupported: async (
-      regexOptions: { regex: string; isCaseSensitive?: boolean },
-      callback: (result: { isSupported: boolean }) => void,
-    ) => {
+    isRegexSupported: async (regexOptions, callback) => {
       try {
         let RE2Class;
         if (typeof process !== 'undefined' && process.versions && process.versions.node) {
