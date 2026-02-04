@@ -1,3 +1,21 @@
+# v1.6.6 (Wed Feb 04 2026)
+
+#### :bug: Bug Fix
+
+- fix(type): invalid re2wasm param injection [#132](https://github.com/ghostery/urlfilter2dnr/pull/132) ([@seia-soto](https://github.com/seia-soto))
+
+#### :house: Internal
+
+- Update local assets [#131](https://github.com/ghostery/urlfilter2dnr/pull/131) (ghostery-adblocker-bot@users.noreply.github.com [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot]))
+
+#### Authors: 3
+
+- [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot])
+- Ghostery Adblocker Bot (ghostery-adblocker-bot@users.noreply.github.com)
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+
+---
+
 # v1.6.5 (Tue Jan 13 2026)
 
 #### :bug: Bug Fix
