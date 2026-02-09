@@ -56,7 +56,7 @@
     "@eyeo/webext-ad-filtering-solution": "^3.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@ghostery/adblocker": "^2.13.4",
     "@ghostery/trackerdb": "^1.0.713",
     "@playwright/test": "^1.58.1",
