@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "@adguard/re2-wasm": "^1.2.0",
-    "@adguard/scriptlets": "^2.2.15",
-    "@adguard/tsurlfilter": "^3.5.2",
+    "@adguard/scriptlets": "^2.2.16",
+    "@adguard/tsurlfilter": "^4.0.2",
     "@eyeo/webext-ad-filtering-solution": "^3.1.0"
   },
   "devDependencies": {
