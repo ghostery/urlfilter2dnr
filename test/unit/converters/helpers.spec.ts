@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha';
-import assert from 'node:assert';
+import assert from 'node:assert/strict';
 
 import { normalizeFilter, normalizeRule } from '../../../src/converters/helpers.js';
 
 describe('normalizeFilter', () => {
   it('format params', () => {
-    assert.strictEqual(
+    assert.equal(
       normalizeFilter('||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch'),
       '||tags.tiqcdn.com^$script,domain=firstdirect.com|santander.pl|swisscom.ch',
     );
@@ -13,35 +13,35 @@ describe('normalizeFilter', () => {
 
   context('rewrites modifier options', () => {
     it('replaces 3p with third-party', () => {
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('||tinypass.com^$3p,domain=~foreignpolicy.com'),
         '||tinypass.com^$third-party,domain=~foreignpolicy.com',
       );
     });
 
     it('replaces xhr with xmlhttprequest', () => {
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('||bar.com^$xhr'),
         '||bar.com^$xmlhttprequest',
       );
     });
 
     it('replaces frame with subdocument', () => {
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('||bar.com^$frame'),
         '||bar.com^$subdocument',
       );
     });
 
     it('replaces from with domains', () => {
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('||bar.com^$from=foo.com'),
         '||bar.com^$domain=foo.com',
       );
     });
 
     it('replaces from with domains', () => {
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('||bar.com^$from=foo.com'),
         '||bar.com^$domain=foo.com',
       );
@@ -49,14 +49,14 @@ describe('normalizeFilter', () => {
   });
 
   it('removes duplicate params', () => {
-    assert.strictEqual(
+    assert.equal(
       normalizeFilter('||tealiumiq.com^$3p,third-party'),
       '||tealiumiq.com^$third-party',
     );
   });
 
   it('finds modifier start index', () => {
-    assert.strictEqual(
+    assert.equal(
       normalizeFilter(
         String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,3p,match-case,from=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`,
       ),
@@ -66,18 +66,18 @@ describe('normalizeFilter', () => {
 
   describe('with redirect param', () => {
     it('replaces values with slashes', () => {
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('test$redirect=scorecardresearch_beacon.js'),
         'test$redirect=scorecardresearch-beacon',
       );
-      assert.strictEqual(
+      assert.equal(
         normalizeFilter('test$redirect-rule=3x2.png'),
         'test$redirect-rule=3x2-transparent.png',
       );
     });
 
     it('replaces resulting extension path', () => {
-      assert.deepStrictEqual(
+      assert.deepEqual(
         normalizeRule(
           {
             'id': 1,
@@ -134,16 +134,16 @@ describe('normalizeRule', () => {
 
     const normalizedRule = normalizeRule(rule);
 
-    assert.deepStrictEqual(normalizedRule, rule);
+    assert.deepEqual(normalizedRule, rule);
   });
 
   it('does nothing for empty rules', () => {
-    assert.strictEqual(normalizeRule(undefined), undefined);
+    assert.equal(normalizeRule(undefined), undefined);
   });
 
   describe('with urlFilter', () => {
     it('sets isUrlFilterCaseSensitive default value', () => {
-      assert.deepStrictEqual(
+      assert.deepEqual(
         normalizeRule({
           condition: {
             isUrlFilterCaseSensitive: false,
@@ -159,7 +159,7 @@ describe('normalizeRule', () => {
           },
         },
       );
-      assert.deepStrictEqual(
+      assert.deepEqual(
         normalizeRule({
           condition: {
             urlFilter: 'test',
@@ -182,7 +182,7 @@ describe('normalizeRule', () => {
     });
 
     it('removes trailing *', () => {
-      assert.deepStrictEqual(
+      assert.deepEqual(
         normalizeRule({
           condition: {
             urlFilter: 'test*',
@@ -204,7 +204,7 @@ describe('normalizeRule', () => {
   });
 
   it('does not wraps regex rules in //', () => {
-    assert.deepStrictEqual(
+    assert.deepEqual(
       normalizeRule({
         condition: {
           regexFilter: 'test',
@@ -225,7 +225,7 @@ describe('normalizeRule', () => {
   });
 
   it('replaces domains with initiatorDomains', () => {
-    assert.deepStrictEqual(
+    assert.deepEqual(
       normalizeRule({
         condition: {
           domains: ['test'],
@@ -246,7 +246,7 @@ describe('normalizeRule', () => {
   });
 
   it('replaces excludedDomains with excludedInitiatorDomains', () => {
-    assert.deepStrictEqual(
+    assert.deepEqual(
       normalizeRule({
         condition: {
           excludedDomains: ['test'],

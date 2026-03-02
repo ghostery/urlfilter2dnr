@@ -9,6 +9,7 @@ const PARAM_MAPPING = {
   ...DEFAULT_PARAM_MAPPING,
   'redirect': 'rewrite',
   'redirect-rule': 'rewrite',
+  '1p': '~third-party',
 };
 
 export default async function convert(filters: string[]) {

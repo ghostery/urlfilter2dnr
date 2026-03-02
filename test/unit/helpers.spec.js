@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import assert from 'node:assert';
+import assert from 'node:assert/strict';
 
 import { testRule } from './helpers.js';
 

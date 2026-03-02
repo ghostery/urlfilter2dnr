@@ -1,25 +1,55 @@
-import assert from 'node:assert';
+import assert from 'node:assert/strict';
 import { describe, it } from 'mocha';
 
 import convertWithAbp from '../../../src/converters/abp.js';
+import { normalizeRule } from '../../../src/converters/helpers.js';
 
 describe('abp converter', () => {
   it('handles 3p rules', async () => {
     const { rules: rules1 } = await convertWithAbp(['||sync.extend.tv^$3p']);
-    assert.notStrictEqual(rules1[0], undefined);
+    assert.deepEqual(rules1[0], {
+      action: {
+        type: 'block',
+      },
+      condition: {
+        domainType: 'thirdParty',
+        urlFilter: '||sync.extend.tv^',
+      },
+      id: 1,
+      priority: 1000,
+    });
 
     const { rules: rules2 } = await convertWithAbp(['||d3pkntwtp2ukl5.cloudfront.net^$3p']);
-    assert.notStrictEqual(rules2[0], undefined);
+    assert.deepEqual(rules2[0], {
+      action: {
+        type: 'block',
+      },
+      condition: {
+        domainType: 'thirdParty',
+        urlFilter: '||d3pkntwtp2ukl5.cloudfront.net^',
+      },
+      id: 1,
+      priority: 1000,
+    });
   });
 
   it('handles trailing wildcard', async () => {
     const { rules } = await convertWithAbp(['/js/tealium/*']);
-    assert.notStrictEqual(rules[0], undefined);
+    assert.deepEqual(rules[0], {
+      action: {
+        type: 'block',
+      },
+      condition: {
+        urlFilter: '/js/tealium/',
+      },
+      id: 1,
+      priority: 1000,
+    });
   });
 
   it('||tinypass.com^$3p,domain=~foreignpolicy.com', async () => {
     const { rules } = await convertWithAbp(['tinypass.com$3p,domain=x.z']);
-    assert.deepStrictEqual(rules[0], {
+    assert.deepEqual(rules[0], {
       action: {
         type: 'block',
       },
@@ -35,6 +65,15 @@ describe('abp converter', () => {
 
   it('handles regexp rules', async () => {
     const { rules } = await convertWithAbp(['/js/']);
-    assert.notStrictEqual(rules[0], undefined);
+    assert.deepEqual(rules[0], {
+      action: {
+        type: 'block',
+      },
+      condition: {
+        regexFilter: 'js',
+      },
+      id: 1,
+      priority: 1000,
+    });
   });
 });
