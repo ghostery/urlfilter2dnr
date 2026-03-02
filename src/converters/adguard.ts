@@ -13,7 +13,7 @@ declare global {
 }
 
 import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
-import { FilterListPreprocessor } from '@adguard/tsurlfilter';
+import { FilterList } from '@adguard/tsurlfilter';
 import { normalizeFilter, normalizeRule } from './helpers.js';
 
 /**
@@ -64,7 +64,7 @@ const createFilter = (rules: string[], filterId = 0) => {
   return new Filter(
     filterId,
     {
-      getContent: async () => Promise.resolve(FilterListPreprocessor.preprocess(rules.join('\n'))),
+      getContent: async () => Promise.resolve(new FilterList(rules.join('\n'))),
     },
     true,
   );
