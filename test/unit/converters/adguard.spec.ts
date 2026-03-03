@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import assert from 'node:assert';
+import assert from 'node:assert/strict';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
 import { normalize } from '../helpers.js';
@@ -8,13 +8,13 @@ describe('adguard converter', () => {
   it('should not crash on unsupported rules', async () => {
     const { rules, errors } = await convertWithAdguard(['/(?>ab)c/']);
     assert.equal(errors.length, 1);
-    assert.deepStrictEqual(rules, []);
+    assert.deepEqual(rules, []);
   });
 
   it('should not crash with no rules', async () => {
     const { rules, errors } = await convertWithAdguard([]);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(rules, []);
+    assert.deepEqual(rules, []);
   });
 
   it('||fastlane.rubiconproject.com^$removeparam,domain=aternos.org', async () => {
@@ -22,7 +22,7 @@ describe('adguard converter', () => {
       '||fastlane.rubiconproject.com^$removeparam,domain=aternos.org',
     ]);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(normalize(rules[0]), {
+    assert.deepEqual(normalize(rules[0]), {
       action: {
         redirect: {
           transform: {
@@ -42,7 +42,7 @@ describe('adguard converter', () => {
   it('||t.a3cloud.net/AM-141112/tag.js', async () => {
     const { rules, errors } = await convertWithAdguard(['||t.a3cloud.net/AM-141112/tag.js']);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(normalize(rules[0]), {
+    assert.deepEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
@@ -56,7 +56,7 @@ describe('adguard converter', () => {
   it('/baynote(-observer)?([0-9]+).js/', async () => {
     const { rules, errors } = await convertWithAdguard([String.raw`/baynote(-observer)?([0-9]+)\.js/`]);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(normalize(rules[0]), {
+    assert.deepEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
@@ -69,7 +69,7 @@ describe('adguard converter', () => {
   it('handles regexp with ?', async () => {
     const { rules, errors } = await convertWithAdguard(['/a?/']);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(normalize(rules[0]), {
+    assert.deepEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
@@ -82,7 +82,7 @@ describe('adguard converter', () => {
   it('handles regexp escaping', async () => {
     const { rules, errors } = await convertWithAdguard([String.raw`/\\d/$doc`]);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(normalize(rules[0]), {
+    assert.deepEqual(normalize(rules[0]), {
       action: {
         type: 'block',
       },
@@ -98,7 +98,7 @@ describe('adguard converter', () => {
       `*$xhr,removeparam=ad_config_id,domain=telequebec.tv`,
     ]);
     assert.equal(errors.length, 0);
-    assert.deepStrictEqual(normalize(rules[0]), {
+    assert.deepEqual(normalize(rules[0]), {
       action: {
         type: 'redirect',
         redirect: {
