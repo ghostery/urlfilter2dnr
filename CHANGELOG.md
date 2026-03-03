@@ -1,3 +1,19 @@
+# v1.7.0 (Tue Mar 03 2026)
+
+#### :rocket: New Feature
+
+- Update dependencies and improve tests [#144](https://github.com/ghostery/urlfilter2dnr/pull/144) ([@seia-soto](https://github.com/seia-soto))
+
+#### :nut_and_bolt: Dependencies
+
+- chore: update dependencies [#134](https://github.com/ghostery/urlfilter2dnr/pull/134) ([@seia-soto](https://github.com/seia-soto))
+
+#### Authors: 1
+
+- HoJeong Go ([@seia-soto](https://github.com/seia-soto))
+
+---
+
 # v1.6.6 (Wed Feb 04 2026)
 
 #### :bug: Bug Fix
