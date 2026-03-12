@@ -1,5 +1,8 @@
 import { convertWithAdguard, convertWithAbp } from '../index.js';
+import { mockChromeApi } from '../converters/helpers.js';
 import { isReadyPromise } from './re2-loader.js';
+
+mockChromeApi();
 
 const $input = document.querySelector('#input textarea');
 const $submitButton = document.querySelector('#input input[type=submit]');

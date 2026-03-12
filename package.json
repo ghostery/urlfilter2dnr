@@ -8,6 +8,7 @@
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "sideEffects": false,
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -18,16 +19,6 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
-      }
-    },
-    "./adguard": {
-      "import": {
-        "types": "./dist/esm/converters/adguard.d.ts",
-        "default": "./dist/esm/converters/adguard.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/converters/adguard.d.ts",
-        "default": "./dist/commonjs/converters/adguard.js"
       }
     }
   },
