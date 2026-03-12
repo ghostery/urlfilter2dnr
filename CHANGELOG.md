@@ -1,3 +1,24 @@
+# v1.7.1 (Thu Mar 12 2026)
+
+#### :nail_care: Polish
+
+- chore: clean up gitignore [#149](https://github.com/ghostery/urlfilter2dnr/pull/149) ([@smalluban](https://github.com/smalluban))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps-dev): bump @ghostery/trackerdb from 1.0.743 to 1.0.745 [#147](https://github.com/ghostery/urlfilter2dnr/pull/147) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 10.0.2 to 10.0.3 [#148](https://github.com/ghostery/urlfilter2dnr/pull/148) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump @eyeo/webext-ad-filtering-solution from 3.1.0 to 4.0.0 [#146](https://github.com/ghostery/urlfilter2dnr/pull/146) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump minimatch from 3.1.2 to 3.1.5 [#145](https://github.com/ghostery/urlfilter2dnr/pull/145) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump glob from 10.4.5 to 10.5.0 [#135](https://github.com/ghostery/urlfilter2dnr/pull/135) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v1.7.0 (Tue Mar 03 2026)
 
 #### :rocket: New Feature
