@@ -12,8 +12,7 @@ declare global {
   };
 }
 
-import { DeclarativeFilterConverter, Filter } from '@adguard/tsurlfilter/es/declarative-converter';
-import { FilterList } from '@adguard/tsurlfilter';
+import { DeclarativeFilterConverter, type IFilter } from '@adguard/tsurlfilter/es/declarative-converter';
 import { normalizeFilter, normalizeRule } from './helpers.js';
 
 /**
@@ -60,14 +59,52 @@ if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
 
 const converter = new DeclarativeFilterConverter();
 
-const createFilter = (rules: string[], filterId = 0) => {
-  return new Filter(
-    filterId,
-    {
-      getContent: async () => Promise.resolve(new FilterList(rules.join('\n'))),
-    },
-    true,
-  );
+class SimpleFilterList {
+  private content: string;
+
+  constructor(content: string) {
+    this.content = content;
+  }
+
+  getContent(): string {
+    return this.content;
+  }
+
+  getConversionData() {
+    return { originals: [] as string[], conversions: {} as Record<number, number> };
+  }
+
+  getRuleText(offset: number): string | null {
+    if (offset >= this.content.length) return null;
+    const nlIndex = this.content.indexOf('\n', offset);
+    const endIndex = nlIndex === -1 ? this.content.length : nlIndex;
+    const line = this.content.slice(offset, endIndex);
+    return line.endsWith('\r') ? line.slice(0, -1) : line;
+  }
+
+  getOriginalRuleText(offset: number): string | null {
+    if (offset < 0 || offset >= this.content.length) return null;
+    return this.getRuleText(offset);
+  }
+
+  getConvertedRuleOriginal(): string | null {
+    return null;
+  }
+
+  getOriginalContent(): string {
+    return this.content;
+  }
+}
+
+const createFilter = (rules: string[], filterId = 0): IFilter => {
+  const filterList = new SimpleFilterList(rules.join('\n'));
+  return {
+    getId: () => filterId,
+    getContent: async () => filterList as any,
+    getRuleByIndex: async (index: number) => filterList.getOriginalRuleText(index) ?? '',
+    isTrusted: () => true,
+    unloadContent: () => {},
+  };
 };
 
 export default async function convert(rules: string[], { resourcesPath = '/prefix' }: { resourcesPath?: string } = {}) {
