@@ -1,3 +1,15 @@
+# v1.7.2 (Fri Mar 13 2026)
+
+#### :bug: Bug Fix
+
+- Remove FilterList and Filter dependencies from adguard converter [#152](https://github.com/ghostery/urlfilter2dnr/pull/152) ([@chrmod](https://github.com/chrmod))
+
+#### Authors: 1
+
+- Krzysztof Modras ([@chrmod](https://github.com/chrmod))
+
+---
+
 # v1.7.1 (Thu Mar 12 2026)
 
 #### :nail_care: Polish
