@@ -112,17 +112,17 @@ export function normalizeFilter(
   });
 
   // by default easylist syntax is case-insensitve
-  if (
-    !(front.startsWith('/') && front.endsWith('/')) &&
-    !params.find((p) => p === 'match-case')
-  ) {
+  if (!(front.startsWith('/') && front.endsWith('/')) && !params.find((p) => p === 'match-case')) {
     front = front?.toLowerCase();
   }
 
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule: any, { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {}) {
+export function normalizeRule(
+  rule: any,
+  { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {},
+) {
   if (!rule) {
     return;
   }
@@ -174,4 +174,57 @@ export function normalizeRule(rule: any, { resourcesPath = '', id }: { resources
   }
 
   return newRule;
+}
+
+/**
+ * Maximum memory in bytes for the regex.
+ * This value is lower than 2MB as required by chrome, but it was determined empirically.
+ */
+const MAX_MEMORY_BYTES = 1990;
+
+declare global {
+  var chrome: {
+    runtime?: {
+      lastError: null;
+    };
+    declarativeNetRequest?: {
+      isRegexSupported: (
+        regexOptions: { regex: string; isCaseSensitive?: boolean; requireCapturing?: boolean },
+        callback: (result: { isSupported: boolean }) => void,
+      ) => void;
+    };
+  };
+}
+
+// Chrome API mocks required by AdGuard converter
+export function mockChromeApi() {
+  globalThis.chrome = {
+    runtime: {
+      lastError: null,
+    },
+    declarativeNetRequest: {
+      isRegexSupported: async (regexOptions, callback) => {
+        try {
+          let RE2Class;
+          if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+            // Node.js: dynamic import
+            const mod = await import('@adguard/re2-wasm');
+            RE2Class = mod.RE2;
+          } else {
+            RE2Class = (globalThis as any).RE2;
+          }
+          new RE2Class(
+            regexOptions.regex,
+            // @ts-ignore
+            regexOptions.isCaseSensitive ? 'u' : 'ui',
+            MAX_MEMORY_BYTES,
+          );
+          callback({ isSupported: true });
+        } catch (e) {
+          console.error(e);
+          callback({ isSupported: false });
+        }
+      },
+    },
+  };
 }
