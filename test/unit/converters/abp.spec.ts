@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'mocha';
 
 import convertWithAbp from '../../../src/converters/abp.js';
-import { normalizeRule } from '../../../src/converters/helpers.js';
 
 describe('abp converter', () => {
   it('handles 3p rules', async () => {

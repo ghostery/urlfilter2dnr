@@ -12,7 +12,10 @@ declare global {
   };
 }
 
-import { DeclarativeFilterConverter, type IFilter } from '@adguard/tsurlfilter/es/declarative-converter';
+import {
+  DeclarativeFilterConverter,
+  type IFilter,
+} from '@adguard/tsurlfilter/es/declarative-converter';
 import { normalizeFilter, normalizeRule } from './helpers.js';
 
 /**
@@ -41,6 +44,7 @@ if (typeof globalThis.chrome.declarativeNetRequest === 'undefined') {
           const mod = await import('@adguard/re2-wasm');
           RE2Class = mod.RE2;
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           RE2Class = (globalThis as any).RE2;
         }
         new RE2Class(
@@ -100,6 +104,7 @@ const createFilter = (rules: string[], filterId = 0): IFilter => {
   const filterList = new SimpleFilterList(rules.join('\n'));
   return {
     getId: () => filterId,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getContent: async () => filterList as any,
     getRuleByIndex: async (index: number) => filterList.getOriginalRuleText(index) ?? '',
     isTrusted: () => true,
@@ -107,7 +112,10 @@ const createFilter = (rules: string[], filterId = 0): IFilter => {
   };
 };
 
-export default async function convert(rules: string[], { resourcesPath = '/prefix' }: { resourcesPath?: string } = {}) {
+export default async function convert(
+  rules: string[],
+  { resourcesPath = '/prefix' }: { resourcesPath?: string } = {},
+) {
   if (rules.length === 0) {
     return {
       rules: [],
@@ -120,13 +128,15 @@ export default async function convert(rules: string[], { resourcesPath = '/prefi
   const declarativeRules = await conversionResult.ruleSet.getDeclarativeRules();
 
   const normalizeRules = [];
-  const errors = conversionResult.errors.map(e => e.toString());
+  const errors = conversionResult.errors.map((e) => e.toString());
 
   for (const [index, rule] of declarativeRules.entries()) {
     try {
-      normalizeRules.push(normalizeRule(rule, { resourcesPath, id: index + 1 }))
+      normalizeRules.push(normalizeRule(rule, { resourcesPath, id: index + 1 }));
     } catch (e) {
-      errors.push(`Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`);
+      errors.push(
+        `Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`,
+      );
     }
   }
 

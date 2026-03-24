@@ -96,7 +96,7 @@ export function normalizeFilter(
   }
 
   let front = filter.slice(0, index);
-  let back = filter.slice(index + 1).split(',');
+  const back = filter.slice(index + 1).split(',');
   let params = back.join(',').split(',');
 
   params.forEach((param, index) => {
@@ -112,17 +112,18 @@ export function normalizeFilter(
   });
 
   // by default easylist syntax is case-insensitve
-  if (
-    !(front.startsWith('/') && front.endsWith('/')) &&
-    !params.find((p) => p === 'match-case')
-  ) {
+  if (!(front.startsWith('/') && front.endsWith('/')) && !params.find((p) => p === 'match-case')) {
     front = front?.toLowerCase();
   }
 
   return `${front}$${params.join(',')}`;
 }
 
-export function normalizeRule(rule: any, { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {}) {
+export function normalizeRule(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rule: any,
+  { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {},
+) {
   if (!rule) {
     return;
   }

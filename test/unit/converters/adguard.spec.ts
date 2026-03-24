@@ -54,7 +54,9 @@ describe('adguard converter', () => {
 
   // to be fixed with https://github.com/AdguardTeam/tsurlfilter/pull/109
   it('/baynote(-observer)?([0-9]+).js/', async () => {
-    const { rules, errors } = await convertWithAdguard([String.raw`/baynote(-observer)?([0-9]+)\.js/`]);
+    const { rules, errors } = await convertWithAdguard([
+      String.raw`/baynote(-observer)?([0-9]+)\.js/`,
+    ]);
     assert.equal(errors.length, 0);
     assert.deepEqual(normalize(rules[0]), {
       action: {

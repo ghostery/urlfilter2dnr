@@ -37,6 +37,7 @@ export default async function convert(filters: string[]) {
       } else {
         throw new Error('Unknown problem');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       errors.push(`Error: "${e.message}" in rule: "${filter}"`);
     }
