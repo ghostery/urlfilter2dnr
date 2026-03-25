@@ -1,6 +1,6 @@
 {
   "name": "@ghostery/urlfilter2dnr",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Ghostery GmbH",
   "description": "Converts urlfilters to DNR format",
   "license": "GPL-3.0",
