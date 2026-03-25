@@ -20,31 +20,19 @@ describe('normalizeFilter', () => {
     });
 
     it('replaces xhr with xmlhttprequest', () => {
-      assert.equal(
-        normalizeFilter('||bar.com^$xhr'),
-        '||bar.com^$xmlhttprequest',
-      );
+      assert.equal(normalizeFilter('||bar.com^$xhr'), '||bar.com^$xmlhttprequest');
     });
 
     it('replaces frame with subdocument', () => {
-      assert.equal(
-        normalizeFilter('||bar.com^$frame'),
-        '||bar.com^$subdocument',
-      );
+      assert.equal(normalizeFilter('||bar.com^$frame'), '||bar.com^$subdocument');
     });
 
     it('replaces from with domains', () => {
-      assert.equal(
-        normalizeFilter('||bar.com^$from=foo.com'),
-        '||bar.com^$domain=foo.com',
-      );
+      assert.equal(normalizeFilter('||bar.com^$from=foo.com'), '||bar.com^$domain=foo.com');
     });
 
     it('replaces from with domains', () => {
-      assert.equal(
-        normalizeFilter('||bar.com^$from=foo.com'),
-        '||bar.com^$domain=foo.com',
-      );
+      assert.equal(normalizeFilter('||bar.com^$from=foo.com'), '||bar.com^$domain=foo.com');
     });
   });
 
@@ -62,7 +50,7 @@ describe('normalizeFilter', () => {
       ),
       String.raw`/\.[a-z]{2,6}\/[0-9a-zA-Z]{5,7}\.js$/$script,third-party,match-case,domain=analdin.com|bestjavporn.com|ero-anime.website|hdpornflix.com|javdock.com|javtiful.com|onscreens.me|supjav.com`,
     );
-  })
+  });
 
   describe('with redirect param', () => {
     it('replaces values with slashes', () => {

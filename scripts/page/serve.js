@@ -28,8 +28,7 @@ const watcher = watch(SOURCE_PATH, { recursive: true }, async (event, filename) 
   console.log(`Detected ${event} in ${filename}`);
   try {
     await bundle({ debug: true });
-    // eslint-disable-next-line no-unused-vars
-  } catch (e) {
+  } catch {
     // no need to do anything as build logs errors already
   }
 });
