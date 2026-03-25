@@ -2,9 +2,13 @@ import { describe, it } from 'mocha';
 import assert from 'node:assert/strict';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
+import { mockChromeApi } from '../../../src/converters/helpers.js';
+
 import { normalize } from '../helpers.js';
 
 describe('adguard converter', () => {
+  before(mockChromeApi);
+
   it('should not crash on unsupported rules', async () => {
     const { rules, errors } = await convertWithAdguard(['/(?>ab)c/']);
     assert.equal(errors.length, 1);
