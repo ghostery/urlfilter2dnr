@@ -1,3 +1,16 @@
+# v2.0.0 (Wed Mar 25 2026)
+
+#### :boom: Breaking Change
+
+- fix(build): update tshy configuration [#161](https://github.com/ghostery/urlfilter2dnr/pull/161) ([@smalluban](https://github.com/smalluban))
+- fix: clean up exports & remove side effects [#150](https://github.com/ghostery/urlfilter2dnr/pull/150) ([@smalluban](https://github.com/smalluban))
+
+#### Authors: 1
+
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v1.7.3 (Wed Mar 25 2026)
 
 #### :bug: Bug Fix
