@@ -47,6 +47,7 @@ const createFilter = (rules: string[], filterId = 0): IFilter => {
   const filterList = new SimpleFilterList(rules.join('\n'));
   return {
     getId: () => filterId,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getContent: async () => filterList as any,
     getRuleByIndex: async (index: number) => filterList.getOriginalRuleText(index) ?? '',
     isTrusted: () => true,

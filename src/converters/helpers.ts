@@ -96,7 +96,7 @@ export function normalizeFilter(
   }
 
   let front = filter.slice(0, index);
-  let back = filter.slice(index + 1).split(',');
+  const back = filter.slice(index + 1).split(',');
   let params = back.join(',').split(',');
 
   params.forEach((param, index) => {
@@ -120,6 +120,7 @@ export function normalizeFilter(
 }
 
 export function normalizeRule(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rule: any,
   { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {},
 ) {
@@ -211,11 +212,11 @@ export function mockChromeApi() {
             const mod = await import('@adguard/re2-wasm');
             RE2Class = mod.RE2;
           } else {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             RE2Class = (globalThis as any).RE2;
           }
           new RE2Class(
             regexOptions.regex,
-            // @ts-ignore
             regexOptions.isCaseSensitive ? 'u' : 'ui',
             MAX_MEMORY_BYTES,
           );

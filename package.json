@@ -1,6 +1,6 @@
 {
   "name": "@ghostery/urlfilter2dnr",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "author": "Ghostery GmbH",
   "description": "Converts urlfilters to DNR format",
   "license": "GPL-3.0",
@@ -36,7 +36,7 @@
     "serve": "node --watch ./scripts/page/serve.js",
     "test.unit": "mocha 'test/unit/**/*.spec.{ts,js}'",
     "test.e2e": "playwright test test/e2e/index.spec.js",
-    "lint": "eslint './{scripts,src,test}/**/*.js' './*.js'",
+    "lint": "eslint",
     "release": "auto shipit -v",
     "prerelease": "npm run build"
   },
@@ -62,6 +62,7 @@
     "prettier": "^3.8.1",
     "tshy": "^3.3.2",
     "tsimp": "^2.0.12",
+    "typescript-eslint": "^8.57.2",
     "yaml": "^2.8.2"
   },
   "publishConfig": {

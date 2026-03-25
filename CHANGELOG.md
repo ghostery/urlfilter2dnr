@@ -1,3 +1,24 @@
+# v1.7.3 (Wed Mar 25 2026)
+
+#### :bug: Bug Fix
+
+- fix(eslint): add linter for `.ts` files [#160](https://github.com/ghostery/urlfilter2dnr/pull/160) ([@smalluban](https://github.com/smalluban))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps-dev): bump esbuild from 0.27.3 to 0.27.4 [#155](https://github.com/ghostery/urlfilter2dnr/pull/155) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump flatted from 3.3.1 to 3.4.2 [#156](https://github.com/ghostery/urlfilter2dnr/pull/156) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump the adguard group with 2 updates [#157](https://github.com/ghostery/urlfilter2dnr/pull/157) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 10.0.3 to 10.1.0 [#158](https://github.com/ghostery/urlfilter2dnr/pull/158) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @ghostery/trackerdb from 1.0.745 to 1.0.761 [#159](https://github.com/ghostery/urlfilter2dnr/pull/159) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v1.7.2 (Fri Mar 13 2026)
 
 #### :bug: Bug Fix
