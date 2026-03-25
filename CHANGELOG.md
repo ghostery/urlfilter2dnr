@@ -1,3 +1,15 @@
+# v2.0.1 (Wed Mar 25 2026)
+
+#### :bug: Bug Fix
+
+- fix(exports): use export pattern for better tree-shaking [#162](https://github.com/ghostery/urlfilter2dnr/pull/162) ([@smalluban](https://github.com/smalluban))
+
+#### Authors: 1
+
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v2.0.0 (Wed Mar 25 2026)
 
 #### :boom: Breaking Change
