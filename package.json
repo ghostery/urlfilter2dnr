@@ -59,7 +59,7 @@
     "globals": "^17.4.0",
     "mocha": "^11.7.5",
     "prettier": "^3.8.1",
-    "tshy": "^3.3.2",
+    "tshy": "^4.0.0",
     "tsimp": "^2.0.12",
     "typescript-eslint": "^8.57.2",
     "yaml": "^2.8.2"
