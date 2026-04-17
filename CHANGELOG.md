@@ -1,3 +1,20 @@
+# v2.0.3 (Fri Apr 17 2026)
+
+#### :bug: Bug Fix
+
+- fix(sciprts): add prettier formating to the update mappings output [#169](https://github.com/ghostery/urlfilter2dnr/pull/169) ([@smalluban](https://github.com/smalluban))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps-dev): bump tshy from 3.3.2 to 4.0.0 [#168](https://github.com/ghostery/urlfilter2dnr/pull/168) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v2.0.2 (Fri Apr 17 2026)
 
 #### ⚠️ Pushed to `main`
