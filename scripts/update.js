@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { parse } from 'yaml';
 import { fileURLToPath } from 'node:url';
+import prettier from 'prettier';
 
 // Read AdGuard dialects from yml as they emit the `file` property after the conversion.
 let adGuardRedirects;
@@ -94,8 +95,11 @@ function generateMapping(data) {
   return `export default ${JSON.stringify(mappings, null, 2)}`;
 }
 
-writeFileSync(
-  join(import.meta.dirname, '..', 'src', 'mappings.ts'),
-  generateMapping(await downloadResource('ublock-resources-json')),
-  'utf-8',
-);
+const outputPath = join(import.meta.dirname, '..', 'src', 'mappings.ts');
+const content = generateMapping(await downloadResource('ublock-resources-json'));
+const formatted = await prettier.format(content, {
+  filepath: outputPath,
+  ...(await prettier.resolveConfig(outputPath)),
+});
+
+writeFileSync(outputPath, formatted, 'utf-8');
