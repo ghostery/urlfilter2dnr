@@ -1,3 +1,15 @@
+# v2.0.4 (Fri Apr 17 2026)
+
+#### :nail_care: Polish
+
+- chore(deps): npm dedupe & audit [#170](https://github.com/ghostery/urlfilter2dnr/pull/170) ([@smalluban](https://github.com/smalluban))
+
+#### Authors: 1
+
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v2.0.3 (Fri Apr 17 2026)
 
 #### :bug: Bug Fix
