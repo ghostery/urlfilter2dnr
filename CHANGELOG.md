@@ -1,3 +1,23 @@
+# v2.0.2 (Fri Apr 17 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore(env): bump nodejs version to 25.9.0 ([@smalluban](https://github.com/smalluban))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps): bump the adguard group with 2 updates [#167](https://github.com/ghostery/urlfilter2dnr/pull/167) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump picomatch from 2.3.1 to 2.3.2 [#166](https://github.com/ghostery/urlfilter2dnr/pull/166) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump yaml [#164](https://github.com/ghostery/urlfilter2dnr/pull/164) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump brace-expansion [#165](https://github.com/ghostery/urlfilter2dnr/pull/165) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+
+---
+
 # v2.0.1 (Wed Mar 25 2026)
 
 #### :bug: Bug Fix
