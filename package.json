@@ -41,28 +41,28 @@
   },
   "dependencies": {
     "@adguard/re2-wasm": "^1.2.0",
-    "@adguard/scriptlets": "^2.2.16",
-    "@adguard/tsurlfilter": "^4.0.2",
+    "@adguard/scriptlets": "^2.3.1",
+    "@adguard/tsurlfilter": "^4.0.5",
     "@eyeo/webext-ad-filtering-solution": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@ghostery/adblocker": "^2.14.1",
-    "@ghostery/trackerdb": "^1.0.743",
-    "@playwright/test": "^1.58.2",
+    "@ghostery/trackerdb": "^1.0.766",
+    "@playwright/test": "^1.59.1",
     "@types/mocha": "^10.0.10",
     "auto": "^11.3.6",
-    "esbuild": "^0.27.3",
-    "eslint": "^10.0.2",
+    "esbuild": "^0.28.0",
+    "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
-    "globals": "^17.4.0",
+    "globals": "^17.5.0",
     "mocha": "^11.7.5",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "tshy": "^4.1.1",
     "tsimp": "^2.0.12",
-    "typescript-eslint": "^8.57.2",
-    "yaml": "^2.8.2"
+    "typescript-eslint": "^8.59.0",
+    "yaml": "^2.8.3"
   },
   "publishConfig": {
     "access": "public",
