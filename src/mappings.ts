@@ -147,18 +147,6 @@ export default {
   'nitropay_ads.js': {
     'ubo': 'nitropay_ads.js',
   },
-  'nobab.js': {
-    'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
-  },
-  'bab-defuser.js': {
-    'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
-  },
-  'prevent-bab.js': {
-    'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
-  },
   'nobab2.js': {
     'adg': 'prevent-bab2',
     'ubo': 'nobab2.js',
@@ -286,6 +274,9 @@ export default {
   },
   'widgets.outbrain.com/outbrain.js': {
     'ubo': 'outbrain-widget.js',
+  },
+  'piano-analytics.js': {
+    'ubo': 'piano-analytics.js',
   },
   'popads.js': {
     'ubo': 'popads.js',
@@ -581,23 +572,27 @@ export default {
   },
   'prevent-bab': {
     'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
+  },
+  'nobab.js': {
+    'adg': 'prevent-bab',
   },
   'ubo-nobab.js': {
     'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
+  },
+  'bab-defuser.js': {
+    'adg': 'prevent-bab',
   },
   'ubo-bab-defuser.js': {
     'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
   },
   'ubo-nobab': {
     'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
   },
   'ubo-bab-defuser': {
     'adg': 'prevent-bab',
-    'ubo': 'nobab.js',
+  },
+  'prevent-bab.js': {
+    'adg': 'prevent-bab',
   },
   'prevent-bab2': {
     'adg': 'prevent-bab2',
