@@ -118,6 +118,7 @@ describe('adguard converter', () => {
       condition: {
         initiatorDomains: ['telequebec.tv'],
         resourceTypes: ['xmlhttprequest'],
+        urlFilter: '**^ad_config_id=',
       },
     });
   });
