@@ -576,30 +576,6 @@ export default {
     'adg': 'prebid-ads',
     'ubo': 'prebid-ads.js',
   },
-  'prevent-bab': {
-    'adg': 'prevent-bab',
-  },
-  'nobab.js': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-nobab.js': {
-    'adg': 'prevent-bab',
-  },
-  'bab-defuser.js': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-bab-defuser.js': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-nobab': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-bab-defuser': {
-    'adg': 'prevent-bab',
-  },
-  'prevent-bab.js': {
-    'adg': 'prevent-bab',
-  },
   'prevent-bab2': {
     'adg': 'prevent-bab2',
     'ubo': 'nobab2.js',
