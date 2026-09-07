@@ -1,3 +1,34 @@
+# v2.0.5 (Mon Sep 07 2026)
+
+#### :bug: Bug Fix
+
+- chore(deps): replace @adguard/tsurlfilter with @adguard/dnr-converter [#182](https://github.com/ghostery/urlfilter2dnr/pull/182) ([@smalluban](https://github.com/smalluban))
+
+#### :house: Internal
+
+- Update local assets [#179](https://github.com/ghostery/urlfilter2dnr/pull/179) (ghostery-adblocker-bot@users.noreply.github.com [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot]))
+- Update local assets [#178](https://github.com/ghostery/urlfilter2dnr/pull/178) (ghostery-adblocker-bot@users.noreply.github.com [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot]))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps): bump brace-expansion [#181](https://github.com/ghostery/urlfilter2dnr/pull/181) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @humanfs/node from 0.16.6 to 0.16.8 [#180](https://github.com/ghostery/urlfilter2dnr/pull/180) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump esbuild from 0.27.4 to 0.28.1 [#177](https://github.com/ghostery/urlfilter2dnr/pull/177) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 10.1.0 to 10.2.1 [#175](https://github.com/ghostery/urlfilter2dnr/pull/175) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @playwright/test from 1.58.2 to 1.59.1 [#174](https://github.com/ghostery/urlfilter2dnr/pull/174) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump globals from 17.4.0 to 17.5.0 [#173](https://github.com/ghostery/urlfilter2dnr/pull/173) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @ghostery/trackerdb from 1.0.761 to 1.0.766 [#172](https://github.com/ghostery/urlfilter2dnr/pull/172) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump prettier from 3.8.1 to 3.8.3 [#171](https://github.com/ghostery/urlfilter2dnr/pull/171) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 4
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+- Ghostery Adblocker Bot (ghostery-adblocker-bot@users.noreply.github.com)
+
+---
+
 # v2.0.4 (Fri Apr 17 2026)
 
 #### :nail_care: Polish
