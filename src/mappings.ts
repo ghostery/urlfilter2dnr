@@ -122,6 +122,9 @@ export default {
   'google-ima-dai.js': {
     'ubo': 'google-ima-dai.js',
   },
+  'google-ima3-dai': {
+    'ubo': 'google-ima-dai.js',
+  },
   'googlesyndication_adsbygoogle.js': {
     'adg': 'googlesyndication-adsbygoogle',
     'ubo': 'googlesyndication_adsbygoogle.js',
