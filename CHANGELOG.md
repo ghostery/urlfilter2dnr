@@ -1,3 +1,26 @@
+# v2.1.0 (Mon Sep 07 2026)
+
+#### :running_woman: Performance
+
+- Update local assets [#183](https://github.com/ghostery/urlfilter2dnr/pull/183) (ghostery-adblocker-bot@users.noreply.github.com [@smalluban](https://github.com/smalluban) [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot]))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps-dev): bump @playwright/test from 1.59.1 to 1.62.1 [#188](https://github.com/ghostery/urlfilter2dnr/pull/188) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump esbuild from 0.28.1 to 0.28.2 [#187](https://github.com/ghostery/urlfilter2dnr/pull/187) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump yaml from 2.8.3 to 2.9.0 [#186](https://github.com/ghostery/urlfilter2dnr/pull/186) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump tshy from 4.1.1 to 4.1.3 [#185](https://github.com/ghostery/urlfilter2dnr/pull/185) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): fix @adguard/re2-wasm version to 1.2.0 [#189](https://github.com/ghostery/urlfilter2dnr/pull/189) ([@dependabot[bot]](https://github.com/dependabot[bot]) [@smalluban](https://github.com/smalluban))
+
+#### Authors: 4
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+- Ghostery Adblocker Bot (ghostery-adblocker-bot@users.noreply.github.com)
+
+---
+
 # v2.0.5 (Mon Sep 07 2026)
 
 #### :bug: Bug Fix
