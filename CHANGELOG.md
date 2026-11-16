@@ -1,3 +1,30 @@
+# v2.1.1 (Mon Nov 16 2026)
+
+#### :bug: Bug Fix
+
+- chore(deps): update dependencies, dnr-converter to v2 and eyeo to v5 [#201](https://github.com/ghostery/urlfilter2dnr/pull/201) ([@smalluban](https://github.com/smalluban))
+
+#### :house: Internal
+
+- Update local assets [#190](https://github.com/ghostery/urlfilter2dnr/pull/190) (ghostery-adblocker-bot@users.noreply.github.com [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot]))
+
+#### :nut_and_bolt: Dependencies
+
+- Chore(deps): bump serialize-javascript and mocha [#199](https://github.com/ghostery/urlfilter2dnr/pull/199) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @ghostery/adblocker from 2.17.3 to 2.20.3 [#193](https://github.com/ghostery/urlfilter2dnr/pull/193) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps): bump brace-expansion [#197](https://github.com/ghostery/urlfilter2dnr/pull/197) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump eslint from 10.2.1 to 10.10.0 [#195](https://github.com/ghostery/urlfilter2dnr/pull/195) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Chore(deps-dev): bump @ghostery/trackerdb from 1.0.766 to 1.0.945 [#194](https://github.com/ghostery/urlfilter2dnr/pull/194) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 4
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- [@ghostery-adblocker-bot[bot]](https://github.com/ghostery-adblocker-bot[bot])
+- Dominik Lubański ([@smalluban](https://github.com/smalluban))
+- Ghostery Adblocker Bot (ghostery-adblocker-bot@users.noreply.github.com)
+
+---
+
 # v2.1.0 (Mon Sep 07 2026)
 
 #### :running_woman: Performance
