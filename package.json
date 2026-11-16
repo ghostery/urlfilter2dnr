@@ -43,7 +43,7 @@
     "@adguard/dnr-converter": "^1.1.2",
     "@adguard/re2-wasm": "^1.2.0",
     "@adguard/scriptlets": "^2.2.16",
-    "@eyeo/webext-ad-filtering-solution": "^4.0.0"
+    "@eyeo/webext-ad-filtering-solution": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
