@@ -40,7 +40,7 @@
     "prerelease": "npm run build"
   },
   "dependencies": {
-    "@adguard/dnr-converter": "^1.1.2",
+    "@adguard/dnr-converter": "^2.0.0",
     "@adguard/re2-wasm": "^1.2.0",
     "@adguard/scriptlets": "^2.2.16",
     "@eyeo/webext-ad-filtering-solution": "^4.0.0"
