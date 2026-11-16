@@ -78,6 +78,9 @@ export default {
     'adg': 'fingerprintjs3',
     'ubo': 'fingerprint3.js',
   },
+  'freestar_pubfig.js': {
+    'ubo': 'freestar_pubfig.js',
+  },
   'google-analytics_analytics.js': {
     'adg': 'google-analytics',
     'ubo': 'google-analytics_analytics.js',
@@ -575,30 +578,6 @@ export default {
   'ubo-prebid-ads.js': {
     'adg': 'prebid-ads',
     'ubo': 'prebid-ads.js',
-  },
-  'prevent-bab': {
-    'adg': 'prevent-bab',
-  },
-  'nobab.js': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-nobab.js': {
-    'adg': 'prevent-bab',
-  },
-  'bab-defuser.js': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-bab-defuser.js': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-nobab': {
-    'adg': 'prevent-bab',
-  },
-  'ubo-bab-defuser': {
-    'adg': 'prevent-bab',
-  },
-  'prevent-bab.js': {
-    'adg': 'prevent-bab',
   },
   'prevent-bab2': {
     'adg': 'prevent-bab2',
