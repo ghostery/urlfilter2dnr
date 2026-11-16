@@ -24,7 +24,7 @@ function translateRegExp(pattern, multiline) {
   } else if (multiline) {
     result.push('(?m)');
   }
-  for (let i = 0; i < pattern.length; ) {
+  for (let i = 0; i < pattern.length;) {
     if (pattern[i] === '\\') {
       if (i + 1 < pattern.length) {
         switch (pattern[i + 1]) {
