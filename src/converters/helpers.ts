@@ -10,6 +10,10 @@ type ResourceMapping = {
 const typedResourceMapping = resourceMapping as ResourceMapping;
 
 const FIRST_OPTION_PATTERN = /\$[a-z0-9-]+(?:[,=]|$)/;
+// Options follow the last `$` of a filter
+const REDIRECT_OPTION_PATTERN = /(\$(?:[^$]*,)?redirect(?:-rule)?=)([^,$]+)[^$]*$/;
+// uBO syntax allows a priority after the resource name: `$redirect=noop.js:10`
+const REDIRECT_PRIORITY_PATTERN = /:-?\d+$/;
 export const DEFAULT_PARAM_MAPPING = {
   '3p': 'third-party',
   xhr: 'xmlhttprequest',
@@ -41,43 +45,36 @@ function convertName(name: string, dialect: 'ubo' | 'adg') {
 }
 
 /**
+ * Finds the resource of `$redirect` or `$redirect-rule` option
+ * @param filter The filter line
+ * @returns The resource name, its position in the filter and its known dialects
+ */
+export function findRedirectResource(filter: string) {
+  const match = REDIRECT_OPTION_PATTERN.exec(filter);
+  const [, prefix, value] = match ?? [];
+  if (!match || !prefix || !value) {
+    return undefined;
+  }
+
+  const name = value.replace(REDIRECT_PRIORITY_PATTERN, '');
+  const start = match.index + prefix.length;
+
+  return { name, start, end: start + name.length, ...typedResourceMapping[name] };
+}
+
+/**
  * Replaces `$redirect` and `$redirect-rule` option value with preferred dialect
  * @param {string} line line The filter line
  * @param {'ubo' | 'adg'} dialect The destination dialect
  * @returns A filter line after resource translation
  */
 function convertRedirectFilterOptions(line: string, dialect: 'ubo' | 'adg') {
-  const normalizeFilterProperty = (line: string, property: string) => {
-    const redirectStartsAt = line.indexOf(`${property}=`);
-    if (redirectStartsAt === -1) {
-      return line;
-    }
-
-    let redirectEndsAt = line.indexOf(',', redirectStartsAt);
-    if (redirectEndsAt === -1) {
-      redirectEndsAt = line.length;
-    }
-
-    return `${line.slice(0, redirectStartsAt)}${property}=${convertName(
-      line.slice(
-        redirectStartsAt + property.length + 1 /* `${property}=`.length */,
-        redirectEndsAt,
-      ),
-      dialect,
-    )}${line.slice(redirectEndsAt)}`;
-  };
-
-  if (
-    // This covers both redirect= and redirect-rule=:
-    !line.includes('redirect')
-  ) {
+  const redirect = findRedirectResource(line);
+  if (!redirect) {
     return line;
   }
 
-  line = normalizeFilterProperty(line, 'redirect');
-  line = normalizeFilterProperty(line, 'redirect-rule');
-
-  return line;
+  return `${line.slice(0, redirect.start)}${convertName(redirect.name, dialect)}${line.slice(redirect.end)}`;
 }
 
 export function normalizeFilter(
@@ -122,7 +119,11 @@ export function normalizeFilter(
 export function normalizeRule(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rule: any,
-  { resourcesPath = '', id }: { resourcesPath?: string; id?: number } = {},
+  {
+    resourcesPath = '',
+    id,
+    redirectResource,
+  }: { resourcesPath?: string; id?: number; redirectResource?: string } = {},
 ) {
   if (!rule) {
     return;
@@ -170,7 +171,7 @@ export function normalizeRule(
       const resourceName = newRule.action.redirect.extensionPath.slice(
         resourcesPath.length + 1 /* Adguard always adds slash after the resourcesPath */,
       );
-      newRule.action.redirect.extensionPath = `${resourcesPath}/${convertName(resourceName, 'ubo')}`;
+      newRule.action.redirect.extensionPath = `${resourcesPath}/${redirectResource ?? convertName(resourceName, 'ubo')}`;
     }
   }
 
