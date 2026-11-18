@@ -278,6 +278,9 @@ export default {
     'adg': 'noopvmap-1.0',
     'ubo': 'noop-vmap1.xml',
   },
+  'optimizely.js': {
+    'ubo': 'optimizely.js',
+  },
   'outbrain-widget.js': {
     'ubo': 'outbrain-widget.js',
   },
