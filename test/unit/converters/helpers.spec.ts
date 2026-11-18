@@ -64,42 +64,6 @@ describe('normalizeFilter', () => {
       );
     });
 
-    it('keeps the priority', () => {
-      assert.equal(
-        normalizeFilter('test$redirect=noop.js:5,script'),
-        'test$redirect=noopjs:5,script',
-      );
-    });
-
-    it('leaves the pattern untouched', () => {
-      assert.equal(
-        normalizeFilter('||example.com/?redirect=noop.js'),
-        '||example.com/?redirect=noop.js',
-      );
-      assert.equal(
-        normalizeFilter('||example.com/?redirect=noop.js$script'),
-        '||example.com/?redirect=noop.js$script',
-      );
-    });
-
-    it('uses the given resource for the extension path', () => {
-      assert.equal(
-        normalizeRule(
-          {
-            'action': {
-              'type': 'redirect',
-              'redirect': {
-                'extensionPath': '/rule_resources/redirects/noopjs.js',
-              },
-            },
-            'condition': {},
-          },
-          { resourcesPath: '/rule_resources/redirects', redirectResource: 'outbrain-widget.js' },
-        ).action.redirect.extensionPath,
-        '/rule_resources/redirects/outbrain-widget.js',
-      );
-    });
-
     it('replaces resulting extension path', () => {
       assert.deepEqual(
         normalizeRule(

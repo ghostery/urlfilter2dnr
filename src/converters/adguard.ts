@@ -1,102 +1,63 @@
 import { Filter, FilterConverter } from '@adguard/dnr-converter';
-import { findRedirectResource, normalizeFilter, normalizeRule } from './helpers.js';
+import resourceMapping from '../mappings.js';
+import { normalizeFilter, normalizeRule } from './helpers.js';
 
 const converter = new FilterConverter();
 
-// Stands in for a resource AdGuard does not have while its filter goes through the converter
-const PLACEHOLDER_RESOURCE = 'noopjs';
-
-type Batch = {
-  lines: string[];
-  // The converter output cannot be traced back to a filter, so filters redirecting to
-  // a resource without an AdGuard name are converted separately, one batch per resource
-  redirect?: { name: string; resource?: string; filters: string[] };
-};
-
-function createBatches(filters: string[]) {
-  const main: Batch = { lines: [] };
-  const redirects = new Map<string, Required<Batch>>();
-
-  for (const filter of filters) {
-    const redirect = findRedirectResource(filter);
-    if (!redirect || redirect.adg) {
-      main.lines.push(normalizeFilter(filter));
-      continue;
-    }
-
-    let batch = redirects.get(redirect.name);
-    if (!batch) {
-      batch = {
-        lines: [],
-        redirect: { name: redirect.name, resource: redirect.ubo, filters: [] },
-      };
-      redirects.set(redirect.name, batch);
-    }
-    batch.redirect.filters.push(filter);
-    batch.lines.push(
-      normalizeFilter(
-        redirect.ubo
-          ? `${filter.slice(0, redirect.start)}${PLACEHOLDER_RESOURCE}${filter.slice(redirect.end)}`
-          : filter,
-      ),
-    );
-  }
-
-  return [main, ...redirects.values()].filter((batch) => batch.lines.length > 0);
-}
-
-async function convertBatch({ lines, redirect }: Batch, resourcesPath: string) {
-  const results = await converter.convert([new Filter(0, lines.join('\n'))], { resourcesPath });
-  const errors = results.flatMap((result) => result.errors.map((e) => e.toString()));
-  let rules = results.flatMap((result) => result.ruleset.getDeclarativeRules());
-
-  // The converter does not report a resource it cannot resolve
-  const unresolvedPath = `${resourcesPath}/undefined`;
-  if (redirect && rules.some((rule) => rule.action.redirect?.extensionPath === unresolvedPath)) {
-    rules = [];
-    errors.push(
-      ...redirect.filters.map(
-        (filter) => `Error: Unknown redirect resource "${redirect.name}" in the rule: "${filter}"`,
-      ),
-    );
-  }
-
-  return {
-    rules,
-    errors,
-    limitations: results.flatMap((result) => result.limitations),
-    redirectResource: redirect?.resource,
-  };
-}
+const resources: Record<string, { ubo?: string }> = resourceMapping;
+// The last `redirect=` of a filter is the option. uBO allows a priority after the resource name
+const REDIRECT_RESOURCE_PATTERN = /.*[$,]redirect=([^,]+?)(?::-?\d+)?(?:,|$)/;
 
 export default async function convert(
   rules: string[],
   { resourcesPath = '/prefix' }: { resourcesPath?: string } = {},
 ) {
-  const batches = await Promise.all(
-    createBatches(rules).map((batch) => convertBatch(batch, resourcesPath)),
-  );
+  if (rules.length === 0) {
+    return {
+      rules: [],
+      errors: [],
+      limitations: [],
+    };
+  }
 
+  const filter = new Filter(0, rules.map((rule) => normalizeFilter(rule) ?? '').join('\n'));
+  const results = await converter.convert([filter], { resourcesPath, withSourceMap: true });
+
+  const declarativeRules = [];
   const normalizeRules = [];
-  const errors = batches.flatMap((batch) => batch.errors);
-  let id = 0;
+  const errors = results.flatMap((result) => result.errors.map((e) => e.toString()));
 
-  for (const { rules: declarativeRules, redirectResource } of batches) {
-    for (const rule of declarativeRules) {
-      id += 1;
-      try {
-        normalizeRules.push(normalizeRule(rule, { resourcesPath, id, redirectResource }));
-      } catch (e) {
-        errors.push(
-          `Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`,
-        );
+  for (const { ruleset } of results) {
+    for (const rule of await ruleset.getDeclarativeRules()) {
+      const file = rule.action.redirect?.extensionPath?.slice(resourcesPath.length + 1);
+      // AdGuard does not have every uBO resource and does not report one it cannot resolve
+      if (rule.action.redirect && file && !resources[file]) {
+        const [{ sourceRule = '' } = {}] = await ruleset.getRulesById(rule.id);
+        const [, name = ''] = REDIRECT_RESOURCE_PATTERN.exec(sourceRule) ?? [];
+        const resource = resources[name]?.ubo;
+        if (!resource) {
+          errors.push(`Error: Unknown redirect resource "${name}" in the rule: "${sourceRule}"`);
+          continue;
+        }
+        rule.action.redirect.extensionPath = `${resourcesPath}/${resource}`;
       }
+      declarativeRules.push(rule);
+    }
+  }
+
+  for (const [index, rule] of declarativeRules.entries()) {
+    try {
+      normalizeRules.push(normalizeRule(rule, { resourcesPath, id: index + 1 }));
+    } catch (e) {
+      errors.push(
+        `Could not normalize rule: ${JSON.stringify(rule)} - ${e instanceof Error ? e.message : e}`,
+      );
     }
   }
 
   return {
     rules: normalizeRules,
     errors,
-    limitations: batches.flatMap((batch) => batch.limitations),
+    limitations: results.flatMap((result) => result.limitations),
   };
 }
