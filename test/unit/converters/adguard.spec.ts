@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import convertWithAdguard from '../../../src/converters/adguard.js';
 import { mockChromeApi } from '../../../src/converters/helpers.js';
+import resourceMapping from '../../../src/mappings.js';
 
 import { normalize } from '../helpers.js';
 
@@ -120,6 +121,63 @@ describe('adguard converter', () => {
         resourceTypes: ['xmlhttprequest'],
         urlFilter: '**^ad_config_id=',
       },
+    });
+  });
+
+  describe('with redirect param', () => {
+    const resourcesPath = '/rule_resources/redirects';
+
+    it('redirects to resources only uBO has', async () => {
+      const { rules, errors } = await convertWithAdguard(
+        [
+          '||example.com/a.js$redirect=outbrain-widget.js',
+          '||example.com/b.js$script,redirect=chartbeat.js:5,domain=foo.com',
+          '||example.com/c.js?d,redirect=noop.js$redirect=hd-main.js',
+        ],
+        { resourcesPath },
+      );
+      assert.deepEqual(errors, []);
+      assert.deepEqual(
+        rules.map((rule) => rule.action.redirect.extensionPath),
+        [
+          '/rule_resources/redirects/outbrain-widget.js',
+          '/rule_resources/redirects/chartbeat.js',
+          '/rule_resources/redirects/hd-main.js',
+        ],
+      );
+    });
+
+    it('reports an unknown resource', async () => {
+      const { rules, errors } = await convertWithAdguard([
+        '||example.com/a.js$redirect=typo.js',
+        '||example.com/b.js',
+      ]);
+      assert.deepEqual(errors, [
+        'Error: Unknown redirect resource "typo.js" in the rule: "||example.com/a.js$redirect=typo.js"',
+      ]);
+      assert.deepEqual(
+        rules.map((rule) => rule.condition.urlFilter),
+        ['||example.com/b.js'],
+      );
+    });
+
+    it('redirects every known resource to a file uBO has', async () => {
+      const mapping: Record<string, { adg?: string; ubo?: string }> = resourceMapping;
+      const names = Object.keys(mapping);
+      const files = new Set(Object.values(mapping).map(({ ubo }) => ubo));
+
+      const { rules, errors } = await convertWithAdguard(
+        names.map((name, index) => `||example.com/${index}$redirect=${name}`),
+        { resourcesPath },
+      );
+
+      assert.deepEqual(errors, []);
+      assert.equal(rules.length, names.length);
+      for (const [index, name] of names.entries()) {
+        const file = rules[index].action.redirect.extensionPath.slice(resourcesPath.length + 1);
+        const { adg, ubo } = mapping[name] ?? {};
+        assert.ok(adg ? files.has(file) : file === ubo, `"${name}" redirects to "${file}"`);
+      }
     });
   });
 });
